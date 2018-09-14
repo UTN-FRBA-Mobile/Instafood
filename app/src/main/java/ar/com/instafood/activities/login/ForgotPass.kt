@@ -1,4 +1,4 @@
-package ar.com.instafood.instafood
+package ar.com.instafood.activities.login
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import ar.com.instafood.activities.R
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPass : AppCompatActivity() {
@@ -33,7 +34,7 @@ class ForgotPass : AppCompatActivity() {
                         task ->
                         if (task.isSuccessful){
                             progressBar.visibility = View.VISIBLE
-                            startActivity(Intent(this,LoginActivity::class.java))
+                            startActivity(Intent(this, LoginActivity::class.java))
                         }
                         else{
                             Toast.makeText(this,"Error al enviar email",Toast.LENGTH_LONG).show()

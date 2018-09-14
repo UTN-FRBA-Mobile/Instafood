@@ -1,4 +1,4 @@
-package ar.com.instafood.Models;
+package ar.com.instafood.models;
 
 public class User {
 

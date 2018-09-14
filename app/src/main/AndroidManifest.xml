@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ar.com.instafood.instafood">
+    package="ar.com.instafood.activities">
 
     <application
         android:allowBackup="true"
@@ -9,16 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name="ar.com.instafood.activities.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ForgotPass"></activity>
+        <activity android:name="ar.com.instafood.activities.login.RegisterActivity" />
+        <activity android:name="ar.com.instafood.activities.MainActivity" />
+        <activity android:name="ar.com.instafood.activities.login.ForgotPass"></activity>
     </application>
 
 </manifest>

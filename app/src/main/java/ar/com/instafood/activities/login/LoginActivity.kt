@@ -1,4 +1,4 @@
-package ar.com.instafood.instafood
+package ar.com.instafood.activities.login
 
 import android.content.Intent
 import android.graphics.Color
@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import ar.com.instafood.activities.MainActivity
+import ar.com.instafood.activities.R
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
@@ -29,11 +31,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun forgotPassword(view: View){
-        startActivity(Intent(this,ForgotPass::class.java))
+        startActivity(Intent(this, ForgotPass::class.java))
     }
 
     fun register(view: View){
-        startActivity(Intent(this,RegisterActivity::class.java))
+        startActivity(Intent(this, RegisterActivity::class.java))
     }
 
     fun login(view: View){
@@ -62,6 +64,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun action(){
-        startActivity(Intent(this,MainActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
     }
 }

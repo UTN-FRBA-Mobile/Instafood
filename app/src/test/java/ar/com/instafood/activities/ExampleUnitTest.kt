@@ -1,4 +1,4 @@
-package ar.com.instafood.instafood
+package ar.com.instafood.activities
 
 import org.junit.Test
 
