@@ -9,16 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="ar.com.instafood.activities.login.LoginActivity">
+        <activity android:name=".login.LoginActivity">
+
+        </activity>
+        <activity android:name=".login.RegisterActivity" />
+        <activity android:name=".MainActivity">
+            //Mover filtros para indicar donde comienza la App
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ar.com.instafood.activities.login.RegisterActivity" />
-        <activity android:name="ar.com.instafood.activities.MainActivity" />
-        <activity android:name="ar.com.instafood.activities.login.ForgotPass"></activity>
+        <activity android:name=".login.ForgotPass" />
+        <activity
+            android:name=".MenuActivity"
+            android:label="@string/title_activity_menu">
+        </activity>
     </application>
 
 </manifest>
