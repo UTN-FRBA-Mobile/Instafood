@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ar.com.instafood.activities.MenuActivity">
+    tools:context="ar.com.instafood.activities.MainActivity">
     <include layout="@layout/toolbar"/>
 
 <FrameLayout
