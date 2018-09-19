@@ -1,14 +1,12 @@
-package ar.com.instafood.fragments
+package ar.com.instafood.fragments.menuFragments
 
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ar.com.instafood.activities.R
-import kotlinx.android.synthetic.main.toolbar.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,18 +18,12 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class MainFragment : Fragment() {
+class DishFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        initialise()
-
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
-
-    private fun initialise() {
-        activity?.toolbar?.setTitle("InstaFood")
+        return inflater.inflate(R.layout.fragment_dish, container, false)
     }
 
 

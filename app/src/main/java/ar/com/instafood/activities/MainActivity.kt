@@ -5,6 +5,8 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.toolbar.*
 import android.content.Intent
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.View
 import ar.com.instafood.fragments.CheckFragment
@@ -48,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         SetActionBar()
+        initialise()
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
@@ -56,6 +59,11 @@ class MainActivity : AppCompatActivity() {
         transaction.add(R.id.fragment_container, mainFragment)
 
         transaction.commit()
+    }
+
+    private fun initialise() {
+        //menuFragment.menuViewPager = findViewById(R.id.menuViewPager)
+
     }
 
     private fun SetActionBar() {
