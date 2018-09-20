@@ -4,9 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ar.com.instafood.Models.Restaurant
 import ar.com.instafood.activities.R
 import kotlinx.android.synthetic.main.single_restaurant_card.view.*
-import ar.com.instafood.Models.Restaurant
 
 class RestaurantAdapter(val restaurants : List<Restaurant>) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>(){
 

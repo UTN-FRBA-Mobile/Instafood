@@ -1,7 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintBottom_toTopOf="@+id/navigation"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar"
     android:background="@android:color/holo_blue_light"
     tools:context="ar.com.instafood.fragments.menuFragments.SnackFragment">
 
@@ -9,6 +13,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:gravity="center_vertical|center"
+        android:text="SNACK"
+        android:textSize="50dp" />
 
-</FrameLayout>
+</LinearLayout>

@@ -1,25 +1,14 @@
 package ar.com.instafood.activities
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.toolbar.*
-import android.content.Intent
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
-import android.view.Menu
-import android.view.View
-import android.widget.Button
+import android.support.v7.app.AppCompatActivity
 import ar.com.instafood.fragments.CheckFragment
+import ar.com.instafood.fragments.MainFragment
 import ar.com.instafood.fragments.MenuFragment
 import ar.com.instafood.fragments.OrderFragment
-import ar.com.instafood.fragments.MainFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_menu.*
-import android.R.id.button1
-
-
-
+import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : AppCompatActivity() {
 

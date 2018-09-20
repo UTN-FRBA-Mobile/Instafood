@@ -1,7 +1,7 @@
 package ar.com.instafood.activities
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import ar.com.instafood.Models.getSampleRestaurants
 import ar.com.instafood.adapters.RestaurantAdapter
