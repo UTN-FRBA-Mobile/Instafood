@@ -1,13 +1,15 @@
 package ar.com.instafood.fragments
 
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import ar.com.instafood.activities.R
+import ar.com.instafood.activities.SearchRestaurantsActivity
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -34,5 +36,16 @@ class MainFragment : Fragment() {
         activity?.toolbar?.setTitle("InstaFood")
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        switchSearchRestaurants()
+    }
+
+    private fun switchSearchRestaurants() {
+        val restSearch = getView()?.findViewById<Button>(R.id.restaurantSearch)
+        restSearch?.setOnClickListener { _ ->
+            startActivity(Intent(activity, SearchRestaurantsActivity::class.java));
+        }
+    }
 
 }

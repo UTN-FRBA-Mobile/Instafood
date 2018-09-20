@@ -9,12 +9,16 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.View
+import android.widget.Button
 import ar.com.instafood.fragments.CheckFragment
 import ar.com.instafood.fragments.MenuFragment
 import ar.com.instafood.fragments.OrderFragment
 import ar.com.instafood.fragments.MainFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_menu.*
+import android.R.id.button1
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         initialise()
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container, mainFragment)

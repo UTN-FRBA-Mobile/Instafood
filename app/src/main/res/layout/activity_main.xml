@@ -25,5 +25,4 @@
         android:layout_gravity="center"
         android:text="Escanear Codigo QR" />
 
-
 </LinearLayout>
