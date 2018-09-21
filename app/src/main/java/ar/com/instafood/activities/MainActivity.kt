@@ -9,11 +9,14 @@ import ar.com.instafood.fragments.MenuFragment
 import ar.com.instafood.fragments.OrderFragment
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.toolbar.*
+import android.R.attr.fragment
+
+
 
 class MainActivity : AppCompatActivity() {
 
     private val mainFragment : MainFragment
-    private val menuFragment : MenuFragment
+    private var menuFragment : MenuFragment
     private val checkFragment : CheckFragment
     private val orderFragment : OrderFragment
 
@@ -25,13 +28,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-
         val transaction = supportFragmentManager.beginTransaction()
+
+        if (item.itemId == R.id.navigation_menu) {
+            menuFragment = MenuFragment()
+        }
         transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
 
         when (item.itemId){
             R.id.navigation_home -> transaction.replace(R.id.fragment_container, mainFragment)
-            R.id.navigation_menu -> transaction.replace(R.id.fragment_container, menuFragment)
+            R.id.navigation_menu -> transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
             R.id.navigation_check -> transaction.replace(R.id.fragment_container, checkFragment)
             R.id.navigation_order -> transaction.replace(R.id.fragment_container, orderFragment)
         }
@@ -62,10 +68,4 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setTitle("Menu")
     }
-
-/*    private fun scanQR() {
-        scanQR.setOnClickListener { _ ->
-            startActivity(Intent(this, MenuActivity::class.java))
-        }
-    }*/
 }

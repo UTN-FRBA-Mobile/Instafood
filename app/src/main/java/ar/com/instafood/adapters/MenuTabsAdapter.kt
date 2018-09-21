@@ -26,4 +26,8 @@ open class MenuTabsAdapter(fm : FragmentManager, fragmentlist : ArrayList<Fragme
         return listTitle.get(position)
     }
 
+    open fun addfrag(fragment: Fragment, title: String){
+        listFragment.add(fragment)
+        listTitle.add(title)
+    }
 }

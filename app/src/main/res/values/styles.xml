@@ -13,4 +13,5 @@
         <item name="android:textColorPrimary">@android:color/white</item><!-- Color del texto de la barra -->
 
     </style>
+
 </resources>

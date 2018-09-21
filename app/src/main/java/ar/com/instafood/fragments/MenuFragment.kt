@@ -4,6 +4,7 @@ package ar.com.instafood.fragments
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,13 +15,15 @@ import ar.com.instafood.adapters.MenuTabsAdapter
 import ar.com.instafood.fragments.menuFragments.DishFragment
 import ar.com.instafood.fragments.menuFragments.DrinkFragment
 import ar.com.instafood.fragments.menuFragments.SnackFragment
+import kotlinx.android.synthetic.main.fragment_menu.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class MenuFragment : Fragment() {
     var listFragment = arrayListOf<Fragment>()
     var listTitle = arrayListOf<String>()
-    open lateinit var menuViewPager: ViewPager
-    open lateinit var menuTabLayout: TabLayout
+    var menuViewPager: ViewPager? = null
+    var menuTabLayout: TabLayout? = null
+    var menuAdapter : MenuTabsAdapter? = null
 
     init {
         listFragment?.clear()
@@ -29,38 +32,36 @@ class MenuFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         // Inflate the layout for this fragment
         initialise()
         prepareDataResource()
 
-        val result = inflater.inflate(R.layout.fragment_menu, container, false)
-        menuViewPager = result.findViewById(R.id.menuViewPager)
-        menuTabLayout = result.findViewById(R.id.menuTabs)
+        var view = inflater.inflate(R.layout.fragment_menu, container, false)
+        menuViewPager = view.findViewById(R.id.menuViewPager)
+        menuTabLayout = view.findViewById(R.id.menuTabs)
 
-        menuTabLayout.setupWithViewPager(menuViewPager)
-        var adapter = MenuTabsAdapter(fragmentManager!!, listFragment, listTitle)
-        menuViewPager.adapter = adapter
+        if(menuAdapter == null) {
+            menuAdapter = MenuTabsAdapter(fragmentManager!!, listFragment, listTitle)
+        }
+        menuViewPager!!.adapter = menuAdapter
 
-        return result
+        menuTabLayout!!.setupWithViewPager(menuViewPager)
+
+
+
+        return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        menuTabLayout.setupWithViewPager(menuViewPager)
-        var adapter = MenuTabsAdapter(fragmentManager!!, listFragment, listTitle)
-        menuViewPager.adapter = adapter
-    }
-
-
-    override fun onResume() {
-        Log.e("DEBUG", "onResume of LoginFragment")
-        super.onResume()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        this.onDestroy()
     }
 
     private fun initialise() {
         activity?.toolbar?.setTitle("InstaFood - Menu")
-        listTitle?.clear()
-        listFragment?.clear()
+        listTitle.clear()
+        listFragment.clear()
     }
 
     private fun prepareDataResource() {
@@ -75,4 +76,8 @@ class MenuFragment : Fragment() {
 
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putAll(outState)
+    }
 }
