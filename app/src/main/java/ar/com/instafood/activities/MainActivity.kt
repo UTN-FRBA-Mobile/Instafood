@@ -27,6 +27,20 @@ class MainActivity : AppCompatActivity() {
         orderFragment = OrderFragment()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_menu)
+        SetActionBar()
+        initialise()
+
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.add(R.id.fragment_container, mainFragment)
+
+        transaction.commit()
+    }
+
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         val transaction = supportFragmentManager.beginTransaction()
 
@@ -45,23 +59,8 @@ class MainActivity : AppCompatActivity() {
         true
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu)
-        SetActionBar()
-        initialise()
-
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container, mainFragment)
-
-        transaction.commit()
-    }
-
     private fun initialise() {
-        //menuFragment.menuViewPager = findViewById(R.id.menuViewPager)
-
+        //Todo en algun momento :D
     }
 
     private fun SetActionBar() {
