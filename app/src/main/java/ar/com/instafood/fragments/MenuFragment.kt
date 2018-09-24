@@ -32,7 +32,6 @@ class MenuFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         // Inflate the layout for this fragment
         initialise()
         prepareDataResource()
@@ -53,11 +52,6 @@ class MenuFragment : Fragment() {
         return view
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        this.onDestroy()
-    }
-
     private fun initialise() {
         activity?.toolbar?.setTitle("InstaFood - Menu")
         listTitle.clear()
@@ -74,10 +68,5 @@ class MenuFragment : Fragment() {
         listFragment.add(fragment)
         listTitle.add(title)
 
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putAll(outState)
     }
 }
