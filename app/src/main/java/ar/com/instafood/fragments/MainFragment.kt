@@ -38,6 +38,16 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // get reference to button
+        val btn_QRScan = getView()?.findViewById<Button>(R.id.QRScan)
+        val btn_restaurantSearch = getView()?.findViewById<Button>(R.id.restaurantSearch)
+        // set on-click listener
+        btn_QRScan?.setOnClickListener { _ ->
+
+        }
+        btn_restaurantSearch?.setOnClickListener { _ ->
+
+        }
         switchSearchRestaurants()
     }
 
