@@ -3,20 +3,21 @@ package ar.com.instafood.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import ar.com.instafood.activities.R
 import ar.com.instafood.activities.SearchRestaurantsActivity
+import ar.com.instafood.adapters.MenuTabsAdapter
+import ar.com.instafood.adapters.RestaurantAdapter
+import ar.com.instafood.models.getSampleRestaurants
 import kotlinx.android.synthetic.main.toolbar.*
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -26,21 +27,21 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        initialise()
 
-        return inflater.inflate(R.layout.fragment_main, container, false)
+
+        var view = inflater.inflate(R.layout.fragment_main, container, false)
+        return view
     }
 
-    private fun initialise() {
-        activity?.toolbar?.setTitle("InstaFood")
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // get reference to button
         val btn_QRScan = getView()?.findViewById<Button>(R.id.QRScan)
         val btn_restaurantSearch = getView()?.findViewById<Button>(R.id.restaurantSearch)
+        val recyclerViewSearchRestaurant = getView()?.findViewById<RecyclerView>(R.id.recyclerViewSearchRestaurant)
+
+
         // set on-click listener
         btn_QRScan?.setOnClickListener { _ ->
 
@@ -49,6 +50,11 @@ class MainFragment : Fragment() {
 
         }
         switchSearchRestaurants()
+
+        var restaurants = getSampleRestaurants()
+        recyclerViewSearchRestaurant?.setHasFixedSize(true)
+        recyclerViewSearchRestaurant?.layoutManager = LinearLayoutManager(context)
+        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(restaurants)
     }
 
     private fun switchSearchRestaurants() {
