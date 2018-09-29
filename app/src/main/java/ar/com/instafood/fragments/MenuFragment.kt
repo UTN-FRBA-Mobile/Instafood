@@ -12,9 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import ar.com.instafood.activities.R
 import ar.com.instafood.adapters.MenuTabsAdapter
-import ar.com.instafood.fragments.menuFragments.DishFragment
-import ar.com.instafood.fragments.menuFragments.DrinkFragment
-import ar.com.instafood.fragments.menuFragments.SnackFragment
+import ar.com.instafood.fragments.menuFragments.ProductFragment
 import kotlinx.android.synthetic.main.fragment_menu.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -59,9 +57,9 @@ class MenuFragment : Fragment() {
     }
 
     private fun prepareDataResource() {
-        addData(DishFragment(),"Platos Principales")
-        addData(SnackFragment(),"Platos Secundarios")
-        addData(DrinkFragment(),"Postres y Bebidas")
+        addData(ProductFragment.newInstance("platosPrincipales"),"Platos Principales")
+        addData(ProductFragment.newInstance("platosSecundarios"),"Entradas")
+        addData(ProductFragment.newInstance("postreBebidas"),"Bebidas y Postres Especiales")
     }
 
     private fun addData(fragment : Fragment, title : String ){

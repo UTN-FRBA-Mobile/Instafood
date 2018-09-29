@@ -6,8 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_constraintBottom_toTopOf="@+id/navigation"
     app:layout_constraintTop_toBottomOf="@+id/toolbar"
-    android:background="@android:color/darker_gray"
-    tools:context="ar.com.instafood.fragments.menuFragments.DrinkFragment">
+    android:background="@android:color/white"
+    tools:context="ar.com.instafood.fragments.menuFragments.ProductFragment">
 
     <ScrollView
         android:id="@+id/scrollViewSearchProducts"

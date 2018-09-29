@@ -8,7 +8,7 @@ import ar.com.instafood.activities.R
 import ar.com.instafood.models.Product
 import kotlinx.android.synthetic.main.single_product_card.view.*
 
-class MenuProductAdapter(val products : List<Product>) : RecyclerView.Adapter<MenuProductAdapter.ProductViewHolder>(){
+class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapter<MenuProductAdapter.ProductViewHolder>(){
 
     class ProductViewHolder(val card: View) : RecyclerView.ViewHolder(card)
 
