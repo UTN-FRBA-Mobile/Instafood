@@ -10,7 +10,7 @@ import ar.com.instafood.fragments.OrderFragment
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.toolbar.*
 import android.R.attr.fragment
-
+import android.content.Intent
 
 
 class MainActivity : AppCompatActivity() {
@@ -61,6 +61,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun initialise() {
         //Todo en algun momento :D
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+                transaction.commit()
+            }
+        }
     }
 
     private fun SetActionBar() {

@@ -1,6 +1,7 @@
 package ar.com.instafood.fragments
 
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -60,7 +61,7 @@ class MainFragment : Fragment() {
     private fun switchSearchRestaurants() {
         val restSearch = getView()?.findViewById<Button>(R.id.restaurantSearch)
         restSearch?.setOnClickListener { _ ->
-            startActivity(Intent(activity, SearchRestaurantsActivity::class.java));
+            activity?.startActivityForResult(Intent(activity, SearchRestaurantsActivity::class.java),1);
         }
     }
 

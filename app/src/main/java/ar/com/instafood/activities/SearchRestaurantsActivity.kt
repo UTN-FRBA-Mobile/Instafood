@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class SearchRestaurantsActivity : AppCompatActivity() {
 
-    private val mainFragment : MainFragment = MainFragment()
     private val searchRestaurantFragment : SearchRestaurantFragment = SearchRestaurantFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +22,11 @@ class SearchRestaurantsActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         val transaction = supportFragmentManager.beginTransaction()
         transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
         when (item.itemId){
-            R.id.navigation_home ->  this.finish() //transaction.replace(R.id.search_fragment_container, mainFragment)
+            R.id.navigation_home ->  this.finish()
         }
         transaction.commit()
         true
