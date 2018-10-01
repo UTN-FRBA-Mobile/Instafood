@@ -12,5 +12,8 @@
     <!-- order-fragment -->
     <string name="close_table">Cerrar Mesa</string>
     <string name="final_amount">El monto final es de $</string>
+    <!-- check-fragment -->
+    <string name="confirmation">Confirmar</string>
+    <string name="total">Total</string>
 
 </resources>

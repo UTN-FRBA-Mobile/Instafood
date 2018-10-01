@@ -51,7 +51,6 @@ class MenuFragment : Fragment() {
     }
 
     private fun initialise() {
-        activity?.toolbar?.setTitle("InstaFood - Menu")
         listTitle.clear()
         listFragment.clear()
     }

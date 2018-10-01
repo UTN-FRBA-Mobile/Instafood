@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#004c40</color>
     <color name="colorAccent">#4caf50</color>
     <color name="colorHighlight">#4caf50</color>
+    <color name="bkg_card">#8C9EFF</color>
 
 </resources>

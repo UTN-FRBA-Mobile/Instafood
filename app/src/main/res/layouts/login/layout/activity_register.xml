@@ -15,7 +15,7 @@
         android:visibility="gone"/>
 
     <EditText
-        android:id="@+id/txtName"
+        android:id="@+id/txtTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
