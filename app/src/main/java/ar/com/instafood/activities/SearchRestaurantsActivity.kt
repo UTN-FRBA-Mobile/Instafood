@@ -1,57 +1,44 @@
 package ar.com.instafood.activities
 
-import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.widget.Button
-import ar.com.instafood.models.getSampleRestaurants;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView
-import ar.com.instafood.adapters.RestaurantAdapter
+import ar.com.instafood.fragments.MainFragment
+import ar.com.instafood.fragments.SearchRestaurantFragment
 import kotlinx.android.synthetic.main.activity_search_restaurants.*
+import kotlinx.android.synthetic.main.toolbar.*
 
-class SearchRestaurantsActivity : AppCompatActivity() , OnSeekBarChangeListener {
-    private var seekBar : SeekBar? = null
-    private var textView : TextView? = null
+class SearchRestaurantsActivity : AppCompatActivity() {
 
+    private val mainFragment : MainFragment = MainFragment()
+    private val searchRestaurantFragment : SearchRestaurantFragment = SearchRestaurantFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_restaurants)
+        SetActionBar()
+        search_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.add(R.id.search_fragment_container, searchRestaurantFragment)
+        transaction.commit()
+    }
 
-        seekBar = this.seekBarRestaurant
-        textView = this.areaBusquedaRestaurants
-        this.seekBar!!.setOnSeekBarChangeListener(this)
-        this.seekBar!!.progress = 1;
-        minusSignSeekRestaurant.setOnClickListener { it ->
-            seekBar!!.progress = seekBar!!.progress - 1;
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+        when (item.itemId){
+            R.id.navigation_home ->  this.finish() //transaction.replace(R.id.search_fragment_container, mainFragment)
         }
-
-        plusSignSeekRestaurant.setOnClickListener {
-            it -> seekBar!!.progress = seekBar!!.progress + 1;
-        }
-        recyclerViewSearchRestaurant.setHasFixedSize(true)
-        recyclerViewSearchRestaurant.layoutManager = LinearLayoutManager(this)
-        var Restaurants = getSampleRestaurants().filter{it.distance.toInt() <= seekBar!!.progress }
-        recyclerViewSearchRestaurant.adapter = RestaurantAdapter(Restaurants)
+        transaction.commit()
+        true
     }
 
-    override fun onProgressChanged(seekBar: SeekBar, progress: Int,
-                                   fromUser: Boolean) {
-        // called when progress is changed
-        textView!!.text = "Área de busqueda :" + progress.toString() + "Kms";
-        var Restaurants = getSampleRestaurants().filter{it.distance.toInt() <= progress }
-        recyclerViewSearchRestaurant.adapter = RestaurantAdapter(Restaurants)
+
+    private fun SetActionBar() {
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setTitle("Buscar restaurante")
     }
 
-    override fun onStartTrackingTouch(seekBar: SeekBar) {
-        // called when tracking the seekbar is started
-    }
-
-    override fun onStopTrackingTouch(seekBar: SeekBar) {
-        // called when tracking the seekbar is stopped
-    }
 }
 
