@@ -1,5 +1,6 @@
 package ar.com.instafood.adapters
 
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,15 @@ import kotlinx.android.synthetic.main.single_restaurant_card.view.*
 
 class RestaurantAdapter(val restaurants : List<Restaurant>) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>(){
 
-    class RestaurantViewHolder(val card: View) : RecyclerView.ViewHolder(card)
+    class RestaurantViewHolder(var card: View) : RecyclerView.ViewHolder(card){
+        init {
+        card.setOnClickListener { v: View ->
+            var position : Int = adapterPosition
+            Snackbar.make(v,"Click detectado en posicion $position",Snackbar.LENGTH_LONG).setAction("Action",null).show()
+        }
+    }
 
+    }
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
         if (holder != null) {
             val restaurant = restaurants[position]
