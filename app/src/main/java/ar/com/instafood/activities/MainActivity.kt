@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-        SetActionBar()
+        //SetActionBar()
         initialise()
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -74,8 +74,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun SetActionBar() {
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setTitle("Menu")
-    }
+
 }

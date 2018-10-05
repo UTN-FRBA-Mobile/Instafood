@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:layout_marginTop="?android:attr/actionBarSize"
     app:layout_constraintBottom_toTopOf="@+id/navigation"
-    app:layout_constraintTop_toBottomOf="@+id/toolbar"
     tools:context="ar.com.instafood.fragments.MenuFragment">
 
     <android.support.design.widget.AppBarLayout
@@ -27,6 +25,16 @@
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/htab_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:translationZ="100dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -145,16 +153,12 @@
                             android:translationZ="20dp" />
 
                     </RelativeLayout>
+
+
+
             </RelativeLayout>
 
-            <!--    <android.support.v7.widget.Toolbar
-        android:id="@+id/htab_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
 
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
 
             <!--                android:layout_marginBottom="48dp"
                 app:layout_collapseMode="pin"
@@ -172,7 +176,6 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
             android:elevation="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/toolbar"
             app:tabBackground="@color/colorPrimary"
             app:tabGravity="fill"
             app:tabMode="scrollable"
@@ -185,7 +188,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toTopOf="@+id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/menuTabs"/>
 
 </android.support.design.widget.CoordinatorLayout>

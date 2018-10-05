@@ -42,7 +42,6 @@ class CheckFragment : Fragment() {
     }
 
     private fun initialize() {
-        activity?.toolbar?.setTitle("Pedido")
     }
 
 
