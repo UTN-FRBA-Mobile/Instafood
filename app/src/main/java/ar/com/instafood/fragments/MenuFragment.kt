@@ -2,6 +2,7 @@ package ar.com.instafood.fragments
 
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -18,7 +19,9 @@ import kotlinx.android.synthetic.main.fragment_menu.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
-
+import android.widget.Toolbar
+import com.google.common.io.Resources
+import io.grpc.internal.SharedResourceHolder
 
 
 class MenuFragment : Fragment() {
@@ -39,10 +42,11 @@ class MenuFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_menu, container, false)
         initialise()
         prepareDataResource()
-        //setBar(view)
+        setBar(view)
 
         menuViewPager = view.findViewById(R.id.menuViewPager)
         menuTabLayout = view.findViewById(R.id.menuTabs)
+
 
         if(menuAdapter == null) {
             menuAdapter = MenuTabsAdapter(fragmentManager!!, listFragment, listTitle)
@@ -57,25 +61,8 @@ class MenuFragment : Fragment() {
     }
 
     private fun setBar(view: View) {
-        val collapsingToolbarLayout = view.findViewById(R.id.htab_appbar_layout) as CollapsingToolbarLayout
-        val appBarLayout = view.findViewById(R.id.htab_toolbar) as AppBarLayout
-        appBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
-            var isShow = true
-            var scrollRange = -1
-
-            override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.totalScrollRange
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayout.title = "La Birra Bar"
-                    isShow = true
-                } else if (isShow) {
-                    collapsingToolbarLayout.title = " "//carefull there should a space between double quote otherwise it wont work
-                    isShow = false
-                }
-            }
-        })
+        var toolbar = view.findViewById<android.support.v7.widget.Toolbar>(R.id.hbtoolbar)
+        toolbar.title = "La Birra Bar"
     }
 
     private fun initialise() {

@@ -21,20 +21,15 @@
             android:layout_height="200dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-
+            style="@style/ToolbarTheme"
+            app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
+            app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutCollapsedTextStyle"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/htab_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
 
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                android:translationZ="100dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -117,7 +112,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/birrabackground"
-                        android:contentDescription="TODO"
                         android:fitsSystemWindows="true"
                         android:scaleType="centerCrop"
                         app:layout_collapseMode="parallax" />
@@ -158,16 +152,14 @@
 
             </RelativeLayout>
 
-
-
-            <!--                android:layout_marginBottom="48dp"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/hbtoolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:expandedTitleTextAppearance="@android:color/transparent"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ToolbarTheme"-->
-
-            <!--        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>-->
-
-
+                style="@style/ToolbarTheme"
+                app:titleTextColor="@android:color/white" />
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <android.support.design.widget.TabLayout

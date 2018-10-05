@@ -5,5 +5,5 @@
     <color name="colorAccent">#4caf50</color>
     <color name="colorHighlight">#4caf50</color>
     <color name="bkg_card">#8C9EFF</color>
-
+    <color name="white">#FFFFFF</color>
 </resources>
