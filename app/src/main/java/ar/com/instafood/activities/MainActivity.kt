@@ -11,6 +11,9 @@ import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.toolbar.*
 import android.R.attr.fragment
 import android.content.Intent
+import android.R.attr.fragment
+import android.app.Fragment
+import android.support.v4.app.FragmentActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -72,6 +75,13 @@ class MainActivity : AppCompatActivity() {
                 transaction.commit()
             }
         }
+    }
+
+    fun switchContent(id: Int, frag: android.support.v4.app.Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+        transaction.replace(R.id.fragment_container, frag, frag.tag).addToBackStack(null)
+        transaction.commit()
     }
 
 
