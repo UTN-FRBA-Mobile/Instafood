@@ -8,88 +8,54 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ar.com.instafood.activities.R
-import ar.com.instafood.fragments.order.PrefUtil
+import ar.com.instafood.fragments.order.PreferenceUtils
+import ar.com.instafood.fragments.order.TimerState
 import kotlinx.android.synthetic.main.fragment_order.*
 
 class OrderFragment : Fragment() {
 
-
-    enum class TimerState{
-        Stopped, Paused, Running
-    }
-
     private lateinit var timer: CountDownTimer
     private var timerLengthSeconds: Long = 0
-    private var timerState = TimerState.Stopped
+    private var timerState = TimerState.STOPPED
 
     private var secondsRemaining: Long = 0
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onResume() {
         super.onResume()
         initTimer()
-        //TODO: hide notification
     }
 
     override fun onPause() {
         super.onPause()
-
-        if (timerState == TimerState.Running){
-            timer.cancel()
-            //TODO: show notification
-        }
-        else if (timerState == TimerState.Paused){
-            //TODO: show notification
-        }
-
-        PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, this.requireContext())
-        PrefUtil.setSecondsRemaining(secondsRemaining, this.requireContext())
-        PrefUtil.setTimerState(timerState, this.requireContext())
+        PreferenceUtils.setTimerState(timerState, this.requireContext())
     }
 
     private fun initTimer(){
-        timerState = PrefUtil.getTimerState(this.requireContext())
+        timerState = PreferenceUtils.getTimerState(this.requireContext())
 
-        //we don't want to change the length of the timer which is already running
-        //if the length was changed in settings while it was backgrounded
-        if (timerState == TimerState.Stopped)
-            setNewTimerLength()
-        else
-            setPreviousTimerLength()
-
-        secondsRemaining = if (timerState == TimerState.Running || timerState == TimerState.Paused)
-            PrefUtil.getSecondsRemaining(this.requireContext())
-        else
-            timerLengthSeconds
+        setNewTimerLength()
 
         if (secondsRemaining <= 0)
             onTimerFinished()
-        else if (timerState == TimerState.Running)
-            startTimer()
 
         updateCountdownUI()
     }
 
     private fun onTimerFinished(){
-        timerState = TimerState.Stopped
+        timerState = TimerState.STOPPED
 
-        //set the length of the timer to be the one set in SettingsActivity
-        //if the length was changed when the timer was running
         setNewTimerLength()
 
         progress_countdown.progress = 0
 
-        PrefUtil.setSecondsRemaining(timerLengthSeconds, this.requireContext())
         secondsRemaining = timerLengthSeconds
 
         updateCountdownUI()
     }
 
     private fun startTimer(){
-        timerState = TimerState.Running
+        timerState = TimerState.RUNNING
+
 
         timer = object : CountDownTimer(secondsRemaining * 1000, 1000) {
             override fun onFinish() = onTimerFinished()
@@ -102,13 +68,8 @@ class OrderFragment : Fragment() {
     }
 
     private fun setNewTimerLength(){
-        val lengthInMinutes = PrefUtil.getTimerLength(this.requireContext())
+        val lengthInMinutes = PreferenceUtils.getTimerLength(this.requireContext())
         timerLengthSeconds = (lengthInMinutes * 60L)
-        progress_countdown.max = timerLengthSeconds.toInt()
-    }
-
-    private fun setPreviousTimerLength(){
-        timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(this.requireContext())
         progress_countdown.max = timerLengthSeconds.toInt()
     }
 
@@ -116,8 +77,8 @@ class OrderFragment : Fragment() {
         val minutesUntilFinished = secondsRemaining / 60
         val secondsInMinuteUntilFinished = secondsRemaining - minutesUntilFinished * 60
         val secondsStr = secondsInMinuteUntilFinished.toString()
-        txt_countdown.text = "$minutesUntilFinished:${if (secondsStr.length == 2) secondsStr else "0" + secondsStr}"
-        progress_countdown.progress = (timerLengthSeconds - secondsRemaining).toInt()
+        txt_countdown?.text = "$minutesUntilFinished:${if (secondsStr.length == 2) secondsStr else "0" + secondsStr}"
+        progress_countdown?.progress = (timerLengthSeconds - secondsRemaining).toInt()
     }
 
 
@@ -138,7 +99,7 @@ class OrderFragment : Fragment() {
 
         fab_start.setOnClickListener{v ->
             startTimer()
-            timerState =  TimerState.Running
+            timerState =  TimerState.RUNNING
         }
     }
 

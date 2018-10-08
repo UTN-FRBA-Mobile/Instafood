@@ -12,7 +12,9 @@
         android:id="@+id/txt_countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="181dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textSize="70sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,44 +25,24 @@
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/progress_countdown"
-        style="@style/Widget.MaterialProgressBar.ProgressBar"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="50dp"
         android:minWidth="306dp"
-        android:minHeight="306dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-<!--
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginTop="64dp"
-        app:srcCompat="@drawable/ic_stop" />
+        android:minHeight="306dp" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginTop="64dp"
-        app:srcCompat="@drawable/ic_pause" />
-
--->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/progress_countdown"
         android:layout_gravity="bottom|start"
+        android:layout_marginStart="290dp"
         android:layout_marginTop="64dp"
         app:srcCompat="@drawable/ic_play_arrow" />
 
