@@ -17,6 +17,7 @@
 
     <style name="MainButton" >
         <item name="android:background">@drawable/button_ripple</item>
+        <item name="android:colorBackground">@color/colorHighlight</item>
         <item name="android:elevation">30dp</item>
         <item name="android:layout_marginLeft">60dp</item>
         <item name="android:layout_marginTop">20dp</item>
