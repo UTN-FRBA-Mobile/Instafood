@@ -14,21 +14,26 @@
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="125dp"
             android:layout_alignParentTop="true"
             android:src="@drawable/image_shape_rounded" />
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_alignParentBottom="true">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:maxLines="1"
-                android:textSize="15sp" />
+                android:textSize="20sp" />
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/tv_description"
@@ -36,14 +41,19 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:maxLines="1"
-                android:textSize="12sp" />
-
+                android:textSize="15sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/tv_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 />
+        </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
