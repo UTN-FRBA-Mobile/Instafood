@@ -34,6 +34,7 @@ class ProductDetailFragment : Fragment() {
         view.tv_description.text = tv_description
         view.tv_price.text = tv_price
         view.iv_image.setImageResource(product_image_string!!.toInt())
+        view.toolbar_product_detail.setTitle(tv_title)
         view.toolbar_product_detail.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_material));
         view.toolbar_product_detail.setNavigationOnClickListener({ item ->
             //TODO: back action in detail product
