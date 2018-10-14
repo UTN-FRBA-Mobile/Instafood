@@ -30,7 +30,7 @@ fun getSampleProducts(): ArrayList<Product> {
 
 fun getMainProducts(): ArrayList<Product> {
     return arrayListOf(
-            Product("Burger Facts", "Criolla doble con panceta y cebolla crocante", 240, R.drawable.burgerfacts),
+            Product("Burger Facts", "Triple Carne con Provoleta, Panceta, Cebolla Crispy, Queso Dambo y salsa de mayochurri", 240, R.drawable.burgerfacts),
             Product("Burger Love", "Doble carne, cheddar, dambo, cebolla morada, pepinos, panceta, cebolla crocrante y mucho alioli", 220, R.drawable.burgerlove),
             Product("Premium", "Queso cheddar, pancete, cebollas caramelizadas y tomate", 170, R.drawable.premium),
             Product("HeartBreaker", "200 gr de carne, pulled pork, queso cheddar, tomate, pepino, cebolla crocante y BBQ", 200, R.drawable.heartbreaker),

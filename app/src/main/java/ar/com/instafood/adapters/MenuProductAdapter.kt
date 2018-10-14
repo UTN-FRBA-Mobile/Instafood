@@ -1,28 +1,21 @@
 package ar.com.instafood.adapters
 
-import android.R.attr.contextClickable
-import android.support.design.widget.Snackbar
+import android.content.Context
+import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ar.com.instafood.activities.MainActivity
 import ar.com.instafood.activities.R
+import ar.com.instafood.fragments.menuFragments.ProductDetailFragment
 import ar.com.instafood.models.Product
 import kotlinx.android.synthetic.main.single_product_card.view.*
-import android.content.DialogInterface
-import android.R.string.cancel
-import android.app.AlertDialog
-import android.app.PendingIntent.getActivity
-import com.google.android.gms.common.internal.DowngradeableSafeParcel.DowngradeableSafeParcelHelper.putParcelable
-import android.os.Bundle
-import ar.com.instafood.fragments.menuFragments.ProductDetailFragment
-import android.R.attr.fragment
-import android.app.ActivityManager
-import android.content.Context
-import ar.com.instafood.activities.MainActivity
 
 
 class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapter<MenuProductAdapter.ProductViewHolder>(){
+
+    private var product_image : Int ? = null
 
     class ProductViewHolder(var card: View) : RecyclerView.ViewHolder(card) {
         init {
@@ -31,8 +24,6 @@ class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapt
                 mContext = v.context
 
                 fragmentJump(card)
-
-                Snackbar.make(v, "Click detectado en posicion $position", Snackbar.LENGTH_LONG).show()
             }
         }
 
@@ -42,7 +33,11 @@ class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapt
 
         private fun fragmentJump(card: View) {
             mBundle = Bundle()
-            mBundle?.putString("title","alto title")
+            mBundle?.putString("title",card.tv_title.text.toString())
+            mBundle?.putString("description",card.tv_description.text.toString())
+            mBundle?.putString("price",card.tv_price.text.toString())
+            mBundle?.putInt("image",card.iv_icon.id)
+            mBundle?.putString("image_string",card.iv_icon_string.text.toString())
 
             mFragment!!.arguments = mBundle
 
@@ -60,13 +55,16 @@ class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapt
 
 
     }
+
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         if (holder != null) {
             val product = products[position]
             holder.card.tv_title.text = product.title
             holder.card.tv_description.text = product.description
             holder.card.tv_price.text = product.price.toString()
-            holder.card.iv_icon.setImageResource(product.image)
+            holder.card.iv_icon_image.setImageResource(product.image)
+            holder.card.iv_icon_string.text = product.image.toString()
+            //product_image = product.image
         }
     }
     //Create a new view holder
