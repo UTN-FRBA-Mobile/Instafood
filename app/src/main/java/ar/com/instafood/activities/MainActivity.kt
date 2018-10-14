@@ -1,5 +1,6 @@
 package ar.com.instafood.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
@@ -8,12 +9,6 @@ import ar.com.instafood.fragments.MainFragment
 import ar.com.instafood.fragments.MenuFragment
 import ar.com.instafood.fragments.OrderFragment
 import kotlinx.android.synthetic.main.activity_menu.*
-import kotlinx.android.synthetic.main.toolbar.*
-import android.R.attr.fragment
-import android.content.Intent
-import android.R.attr.fragment
-import android.app.Fragment
-import android.support.v4.app.FragmentActivity
 
 
 class MainActivity : AppCompatActivity() {

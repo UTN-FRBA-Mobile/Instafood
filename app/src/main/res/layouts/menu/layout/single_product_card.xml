@@ -48,8 +48,8 @@
             android:layout_toEndOf="@+id/iv_icon"
             android:maxLines="1"
             android:singleLine="true"
-            android:textSize="25sp"
-            autofit:minTextSize="20sp" />
+            android:textSize="22sp"
+            autofit:minTextSize="18sp" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/tv_description"
@@ -57,10 +57,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_title"
             android:layout_toEndOf="@id/iv_icon"
-            android:maxLines="2"
+            android:maxLines="3"
             android:singleLine="false"
-            android:textSize="15sp"
-            autofit:minTextSize="12sp" />
+            android:textSize="12sp"
+            autofit:minTextSize="10sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

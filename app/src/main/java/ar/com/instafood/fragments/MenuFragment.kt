@@ -1,27 +1,16 @@
 package ar.com.instafood.fragments
 
 
-import android.app.Activity
-import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v4.view.ViewPager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ar.com.instafood.activities.R
 import ar.com.instafood.adapters.MenuTabsAdapter
 import ar.com.instafood.fragments.menuFragments.ProductFragment
-import kotlinx.android.synthetic.main.fragment_menu.view.*
-import kotlinx.android.synthetic.main.toolbar.*
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CollapsingToolbarLayout
-import android.widget.Toolbar
-import com.google.common.io.Resources
-import io.grpc.internal.SharedResourceHolder
 
 
 class MenuFragment : Fragment() {
