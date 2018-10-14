@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import ar.com.instafood.activities.R
 import ar.com.instafood.activities.SearchRestaurantsActivity
+import ar.com.instafood.adapters.MainRestaurantAdapter
 import ar.com.instafood.adapters.MenuTabsAdapter
 import ar.com.instafood.adapters.RestaurantAdapter
 import ar.com.instafood.models.getSampleRestaurants
@@ -53,8 +54,8 @@ class MainFragment : Fragment() {
 
         var restaurants = getSampleRestaurants()
         recyclerViewSearchRestaurant?.setHasFixedSize(true)
-        recyclerViewSearchRestaurant?.layoutManager = LinearLayoutManager(context)
-        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(restaurants)
+        recyclerViewSearchRestaurant?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewSearchRestaurant?.adapter = MainRestaurantAdapter(restaurants)
     }
 
     private fun switchSearchRestaurants() {

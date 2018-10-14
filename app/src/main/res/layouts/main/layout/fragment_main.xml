@@ -20,17 +20,6 @@ tools:context="ar.com.instafood.fragments.MainFragment">
         android:layout_gravity="center"
         android:text="@string/buscar_restaurantes" />
 
-    <TextView
-        android:id="@+id/closeMe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/QRScan"
-        android:layout_marginTop="104dp"
-        android:textSize="20dp"
-        android:inputType="textPersonName"
-        android:text="Cerca Mío" />
-
     <Button
         android:id="@+id/QRScan"
         style="@style/MainButton"
@@ -40,6 +29,16 @@ tools:context="ar.com.instafood.fragments.MainFragment">
         android:layout_centerHorizontal="true"
         android:text="Escanear qr" />
 
+    <TextView
+        android:id="@+id/closeMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/QRScan"
+        android:layout_marginTop="104dp"
+        android:textSize="20dp"
+        android:inputType="textPersonName"
+        android:text="Cerca de mi" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -51,16 +50,17 @@ tools:context="ar.com.instafood.fragments.MainFragment">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewSearchRestaurant"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="?attr/actionBarSize"
-                android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="?attr/actionBarSize"
                 app:layout_constraintBottom_toTopOf="@+id/navigation"
                 app:layout_constraintTop_toBottomOf="@+id/menuTabs" />
 

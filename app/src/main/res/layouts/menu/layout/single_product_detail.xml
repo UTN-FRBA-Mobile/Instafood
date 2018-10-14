@@ -38,7 +38,6 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        style="TextAppearance.MyApp.Headline1"
         android:textSize="36sp"
         autofit:minTextSize="25sp"
         />
