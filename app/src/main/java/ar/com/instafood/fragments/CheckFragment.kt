@@ -1,11 +1,8 @@
 package ar.com.instafood.fragments
 
-
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +11,6 @@ import ar.com.instafood.adapters.CheckAdapter
 import ar.com.instafood.models.Check
 import ar.com.instafood.models.getSampleCheck
 import kotlinx.android.synthetic.main.fragment_check.view.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
