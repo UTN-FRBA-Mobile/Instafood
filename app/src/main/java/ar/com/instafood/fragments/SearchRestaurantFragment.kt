@@ -1,7 +1,9 @@
 package ar.com.instafood.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,17 +13,18 @@ import android.widget.SeekBar
 import android.widget.TextView
 import ar.com.instafood.activities.R
 import ar.com.instafood.adapters.RestaurantAdapter
+import ar.com.instafood.interfaces.adapterCallback
+import ar.com.instafood.models.Restaurant
 import ar.com.instafood.models.getSampleRestaurants
 import kotlinx.android.synthetic.main.fragment_search_restaurant.*
+import android.app.Activity
 
-class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener {
+
+
+class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , adapterCallback {
     private var seekBar : SeekBar? = null
     private var textView : TextView? = null
     private var recyclerViewSearchRestaurant : RecyclerView? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -46,7 +49,15 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener {
 
     private fun updateRestaurants() {
         var Restaurants = getSampleRestaurants().filter { it.distance.toInt() <= seekBar!!.progress }
-        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(Restaurants)
+        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(Restaurants,this)
+    }
+
+    override fun onItemClick(restoPosition : Int){
+        var activity = this.activity
+        var intent_result = Intent();
+        intent_result.putExtra("position", restoPosition)
+        activity!!.setResult(Activity.RESULT_OK, intent_result)
+        activity!!.finish()
     }
 
     private fun updateNegativeClick() {
@@ -73,6 +84,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener {
                                    fromUser: Boolean) {
         textView!!.text = "Área de busqueda: " + progress.toString() + " Kms";
         var Restaurants = getSampleRestaurants().filter{it.distance.toInt() <= progress }
-        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(Restaurants)
+        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(Restaurants,this)
     }
+
 }

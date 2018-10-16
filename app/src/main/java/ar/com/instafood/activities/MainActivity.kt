@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
-                transaction.commit()
+                transaction.commitAllowingStateLoss();
             }
         }
     }
