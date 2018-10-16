@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import ar.com.instafood.activities.R
 import ar.com.instafood.models.Check
+import ar.com.instafood.models.Product
 import kotlinx.android.synthetic.main.check_card.view.*
 
 class CheckAdapter(val checks: ArrayList<Check>) : RecyclerView.Adapter<CheckAdapter.CheckViewHolder>() {
@@ -14,11 +15,14 @@ class CheckAdapter(val checks: ArrayList<Check>) : RecyclerView.Adapter<CheckAda
 
     override fun onBindViewHolder(holder: CheckViewHolder, p1: Int) {
         if (holder != null) {
-            val check = checks[p1]
-            holder.card.title.text = check.name
-            holder.card.txtProduct.text = check.products.first().title
-            holder.card.txtCantidad.text = 1.toString()
-            holder.card.txtTotal.text = check.products.first().price.toString()
+            holder.card.txtxUsername.text = checks[p1].name
+            for (item: Product in checks[p1].products) {
+                holder.card.iv_icon_image.setImageResource(item.image)
+                holder.card.txtProduct.text = item.title
+                holder.card.txtCantidad.text = 1.toString()
+                holder.card.txtTotal.text = item.price.toString()
+            }
+
         }
 
     }
