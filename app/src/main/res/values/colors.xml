@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#f44336</color>
     <color name="colorPrimaryDark">#aa2e25</color>
-    <color name="colorAccent">#fff7b0</color>
+    <color name="colorAccent">#FFF59D</color>
     <color name="colorHighlight">#f6685e</color>
     <color name="bkg_card">#8C9EFF</color>
     <color name="white">#FFFFFF</color>
