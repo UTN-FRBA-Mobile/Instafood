@@ -34,6 +34,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private var recyclerViewSearchRestaurant : RecyclerView? = null
     private var locationManager : LocationManager? = null
     private var currentLocation : Location? = null
+    private var restaurants : List<Restaurant> = getSampleRestaurants()
 
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +55,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
             currentLocation = location;
+            setDistances(restaurants,currentLocation)
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -72,10 +74,8 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
 
     @SuppressLint("MissingPermission")
     private fun updateRestaurants() {
-        var rests = setDistances(getSampleRestaurants(),currentLocation)
-        Log.e("Restaurants","latitude :" + currentLocation?.latitude.toString() + " longitude: " + currentLocation?.longitude.toString())
-        var Restaurants = rests.filter { it.distance.toInt() <= seekBar!!.progress }
-        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(Restaurants,this)
+        var filterRestaurants = restaurants.filter { it.distance.toDouble() <= seekBar!!.progress }
+        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(filterRestaurants,this)
     }
 
     override fun onItemClick(restoPosition : Int){
@@ -112,8 +112,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                    fromUser: Boolean) {
         textView!!.text = "Área de busqueda: " + progress.toString() + " Kms";
-        var Restaurants = getSampleRestaurants().filter{it.distance.toInt() <= progress }
-        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(Restaurants,this)
+        updateRestaurants()
     }
 
 }
