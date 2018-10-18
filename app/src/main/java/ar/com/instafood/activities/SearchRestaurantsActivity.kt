@@ -1,12 +1,17 @@
 package ar.com.instafood.activities
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import ar.com.instafood.fragments.MainFragment
 import ar.com.instafood.fragments.SearchRestaurantFragment
 import kotlinx.android.synthetic.main.activity_search_restaurants.*
 import kotlinx.android.synthetic.main.toolbar.*
+import android.Manifest
 
 class SearchRestaurantsActivity : AppCompatActivity() {
 
@@ -17,9 +22,49 @@ class SearchRestaurantsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search_restaurants)
         SetActionBar()
         search_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.search_fragment_container, searchRestaurantFragment)
-        transaction.commit()
+        setupPermissionAccessCoarse()
+        setupPermissionAccessFine()
+        val permissionFine = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionCoarse = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+
+        if((permissionFine == PackageManager.PERMISSION_GRANTED) && (permissionCoarse == PackageManager.PERMISSION_GRANTED)){
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(R.id.search_fragment_container,searchRestaurantFragment)
+            transaction.commit()
+        }
+    }
+
+    private fun makeRequestCoarse() {
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),200
+                )
+    }
+
+    private fun makeRequestFine() {
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),200
+        )
+    }
+
+    private fun setupPermissionAccessFine() {
+        val permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Permission", "Permission to GPS denied")
+            makeRequestFine()
+        }
+    }
+
+    private fun setupPermissionAccessCoarse() {
+        val permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Permission", "Permission to GPS denied")
+            makeRequestCoarse()
+        }
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
