@@ -12,85 +12,179 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="10">
+        android:weightSum="100">
 
         <include layout="@layout/toolbar"/>
 
-        <RelativeLayout
-            android:id="@+id/show_contact_headerArea"
+        <LinearLayout
+            android:id="@+id/show_contact_middleAreaf"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_weight="5"
             android:orientation="vertical">
 
+
             <RelativeLayout
-                android:id="@+id/countdownArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
+                android:id="@+id/countdownAreafdsas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_message"
-                    android:layout_marginTop="5dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    tools:text="Tu pedido llegara en" />
-
-                <ProgressBar
-                    android:id="@+id/progress_countdown"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:background="@drawable/drawable_circle_dark_blue"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/drawable_circle_yellow"
-                    android:rotation="-90" />
-
-                <TextView
-                    android:id="@+id/txt_countdown"
+                    android:id="@+id/lbl_ultimopedido"
+                    tools:text="TU ULTIMO PEDIDO"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30sp"
-                    tools:text="10.00" />
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab_start"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="130dp"
-                    app:backgroundTint="@color/light_grey"
-                    app:srcCompat="@drawable/ic_play_arrow" />
-
+                    android:layout_height="wrap_content" />
 
             </RelativeLayout>
 
-        </RelativeLayout>
-
-
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/show_contact_middleArea"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
-            android:orientation="vertical"/>
+            android:layout_weight="41"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/countdownArea2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".50"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/countdownAreafdsa"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/txt_message"
+                            tools:text="Tu pedido llegara en"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/txt_countdown"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="80dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="30sp"
+                            tools:text="10.00" />
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/fab_start"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="130dp"
+                            app:backgroundTint="@color/light_grey"
+                            app:srcCompat="@drawable/ic_play_arrow" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_countdown"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:background="@drawable/drawable_circle_dark_blue"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="100"
+                            android:progressDrawable="@drawable/drawable_circle_yellow"
+                            android:rotation="-90" />
+
+
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/countdownArea2b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".50"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/countdownAreafdsafds"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:text="Agregar detalle del pedido en esta seccion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/show_contact_bottomArea"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
-            android:orientation="vertical"/>
+            android:layout_weight="50"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/countdownAreafdsafdss"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_confirmation"
+                    style="@style/MainButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Confirmar recepcion" />
+
+                <Button
+                    android:id="@+id/btn_claim"
+                    style="@style/MainButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_confirmation"
+                    android:layout_centerHorizontal="true"
+                    android:text="Reclamar pedido" />
+
+                <Button
+                    android:id="@+id/btn_close"
+                    style="@style/MainButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_claim"
+                    android:layout_centerHorizontal="true"
+                    android:text="Cerrar mesa" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        </LinearLayout>
 
 </RelativeLayout>
 

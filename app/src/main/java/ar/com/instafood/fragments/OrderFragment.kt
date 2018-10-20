@@ -98,6 +98,7 @@ class OrderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initMessage()
+        initLabel()
 
         fab_start.setOnClickListener{v ->
             startTimer()
@@ -115,6 +116,12 @@ class OrderFragment : Fragment() {
         val amount = view?.findViewById<TextView>(R.id.txt_message)
         amount?.text = this.resources.getString(R.string.countdown_message)
     }
+
+    private fun initLabel() {
+        val amount = view?.findViewById<TextView>(R.id.lbl_ultimopedido)
+        amount?.text = "TU ULTIMO PEDIDO"
+    }
+
 
 
 /*

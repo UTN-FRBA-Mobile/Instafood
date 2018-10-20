@@ -16,5 +16,6 @@
     <!-- check-fragment -->
     <string name="confirmation">Confirmar</string>
     <string name="total">Total</string>
+    <string name="tu_ultimo_pedido"><u><b><i>TU TULTIMO PEDIDO</i></b></u></string>
 
 </resources>
