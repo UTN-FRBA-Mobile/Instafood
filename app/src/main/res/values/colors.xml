@@ -12,4 +12,5 @@
     <color name="countdownColorAccent">#F5FA55</color>
     <color name="countdownColorBackground">#151B29</color>
     <color name="countdownColorYellow">#F5FA55</color>
+    <color name="light_grey">#DDDDDD</color>
 </resources>

@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.order.PreferenceUtils
 import ar.com.instafood.fragments.order.TimerState
@@ -96,6 +97,7 @@ class OrderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
+        initMessage()
 
         fab_start.setOnClickListener{v ->
             startTimer()
@@ -107,6 +109,11 @@ class OrderFragment : Fragment() {
         val toolbar = view?.findViewById<Toolbar>(R.id.toolbar)
         toolbar?.setNavigationIcon(R.drawable.ic_restaurant)
         toolbar?.title = "En Mesa"
+    }
+
+    private fun initMessage() {
+        val amount = view?.findViewById<TextView>(R.id.txt_message)
+        amount?.text = this.resources.getString(R.string.countdown_message)
     }
 
 
