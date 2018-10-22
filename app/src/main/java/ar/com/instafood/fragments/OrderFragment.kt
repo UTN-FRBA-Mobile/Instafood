@@ -47,7 +47,7 @@ class OrderFragment : Fragment() {
 
         setNewTimerLength()
 
-        progress_countdown.progress = 0
+        bar_timer.progress = 0
 
         secondsRemaining = timerLengthSeconds
 
@@ -71,15 +71,15 @@ class OrderFragment : Fragment() {
     private fun setNewTimerLength(){
         val lengthInMinutes = PreferenceUtils.getTimerLength(this.requireContext())
         timerLengthSeconds = (lengthInMinutes * 60L)
-        progress_countdown.max = timerLengthSeconds.toInt()
+        bar_timer.max = timerLengthSeconds.toInt()
     }
 
     private fun updateCountdownUI(){
         val minutesUntilFinished = secondsRemaining / 60
         val secondsInMinuteUntilFinished = secondsRemaining - minutesUntilFinished * 60
         val secondsStr = secondsInMinuteUntilFinished.toString()
-        txt_countdown?.text = "$minutesUntilFinished:${if (secondsStr.length == 2) secondsStr else "0" + secondsStr}"
-        progress_countdown?.progress = (timerLengthSeconds - secondsRemaining).toInt()
+        lbl_timer?.text = "$minutesUntilFinished:${if (secondsStr.length == 2) secondsStr else "0" + secondsStr}"
+        bar_timer?.progress = (timerLengthSeconds - secondsRemaining).toInt()
     }
 
 
@@ -99,6 +99,7 @@ class OrderFragment : Fragment() {
         initToolbar()
         initMessage()
         initLabel()
+        initOrderDetail()
 
         fab_start.setOnClickListener{v ->
             startTimer()
@@ -113,14 +114,22 @@ class OrderFragment : Fragment() {
     }
 
     private fun initMessage() {
-        val amount = view?.findViewById<TextView>(R.id.txt_message)
+        val amount = view?.findViewById<TextView>(R.id.lbl_timer_description)
         amount?.text = this.resources.getString(R.string.countdown_message)
     }
 
     private fun initLabel() {
-        val amount = view?.findViewById<TextView>(R.id.lbl_ultimopedido)
-        amount?.text = "TU ULTIMO PEDIDO"
+        val amount = view?.findViewById<TextView>(R.id.lbl_last_order)
+        amount?.text = this.resources.getString(R.string.tu_ultimo_pedido)
     }
+
+    private fun initOrderDetail() {
+        val amount = view?.findViewById<TextView>(R.id.lbl_order_detail)
+        amount?.text = "\t\tDetalle\n\t\t\t- 1 Hamburguesa Doble Queso\n" +
+                "\t\t\t- 2 Cocacola 500ml\n" +
+                "\t\t\t- 1 Papas grandes"
+    }
+
 
 
 
