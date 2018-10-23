@@ -9,6 +9,11 @@ import ar.com.instafood.fragments.MainFragment
 import ar.com.instafood.fragments.MenuFragment
 import ar.com.instafood.fragments.OrderFragment
 import kotlinx.android.synthetic.main.activity_menu.*
+import android.Manifest
+import android.content.pm.PackageManager
+import android.support.v4.content.ContextCompat
+import android.util.Log
+import android.support.v4.app.ActivityCompat
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +22,8 @@ class MainActivity : AppCompatActivity() {
     private var menuFragment : MenuFragment
     private val checkFragment : CheckFragment
     private val orderFragment : OrderFragment
-
+    private val TAG = "Permisos"
+    private val RECORD_REQUEST_CODE = 101
     init {
         mainFragment = MainFragment()
         menuFragment = MenuFragment()
@@ -37,6 +43,9 @@ class MainActivity : AppCompatActivity() {
         transaction.add(R.id.fragment_container, mainFragment)
 
         transaction.commit()
+
+        setupPermissions()
+
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -77,6 +86,40 @@ class MainActivity : AppCompatActivity() {
         transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
         transaction.replace(R.id.fragment_container, frag, frag.tag).addToBackStack(null)
         transaction.commit()
+    }
+
+
+
+
+    private fun setupPermissions() {
+        val permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            makeRequest()
+        }
+    }
+
+    private fun makeRequest() {
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.CAMERA),
+                RECORD_REQUEST_CODE)
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            RECORD_REQUEST_CODE -> {
+
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    Log.i(TAG, "Permisos Denegados")
+                } else {
+                    Log.i(TAG, "Permisos Aceptados")
+                }
+            }
+        }
     }
 
 
