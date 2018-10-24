@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import ar.com.instafood.activities.R
+import ar.com.instafood.activities.ScanActivity
 import ar.com.instafood.activities.SearchRestaurantsActivity
 import ar.com.instafood.adapters.MainRestaurantAdapter
 import ar.com.instafood.adapters.MenuTabsAdapter
@@ -45,7 +46,8 @@ class MainFragment : Fragment() {
 
         // set on-click listener
         btn_QRScan?.setOnClickListener { _ ->
-
+            val intent = Intent(activity, ScanActivity::class.java)
+            startActivity(intent)
         }
         btn_restaurantSearch?.setOnClickListener { _ ->
 
