@@ -8,11 +8,13 @@ import ar.com.instafood.models.Restaurant
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.SearchRestaurantFragment
 import ar.com.instafood.interfaces.adapterCallback
+import ar.com.instafood.models.Restaurant2
 import kotlinx.android.synthetic.main.single_restaurant_card.view.*
 
 
-class RestaurantAdapter(val restaurants : List<Restaurant>, var cb : adapterCallback) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
+class RestaurantAdapter(val restaurants : List<Restaurant2>?, var cb : adapterCallback) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
 
+    var items : List<Restaurant2> = ArrayList()
     init{
         this.cb = cb;
     }
@@ -30,11 +32,11 @@ class RestaurantAdapter(val restaurants : List<Restaurant>, var cb : adapterCall
 
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
         if (holder != null) {
-            val restaurant = restaurants[position]
+            val restaurant = items[position]
             holder.card.tv_title.text = restaurant.title
             holder.card.tv_description.text = restaurant.description
             holder.card.tv_distance.text = restaurant.distance
-            holder.card.iv_icon.setImageResource(restaurant.image)
+            holder.card.iv_icon.setImageResource( R.drawable.logo_birrabar)
         }
     }
     //Create a new view holder
@@ -43,7 +45,12 @@ class RestaurantAdapter(val restaurants : List<Restaurant>, var cb : adapterCall
         return RestaurantViewHolder(view,cb)
     }
 
-    override fun getItemCount() = restaurants.size
-
+    override fun getItemCount() : Int{
+        if(items !== null)
+        {return items.size}
+        else{
+            return 0
+        }
+    }
 
 }

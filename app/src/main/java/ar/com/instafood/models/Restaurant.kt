@@ -16,11 +16,11 @@ fun getSampleRestaurants(): List<Restaurant> {
 }
 
 
-fun setDistances(restaurants: List<Restaurant>, currentLocation: Location?) {
-    return restaurants.forEach { it -> calculateLoc(currentLocation, it) };
+fun setDistances(restaurants: List<Restaurant2>?, currentLocation: Location?) {
+    return restaurants!!.forEach { it -> calculateLoc(currentLocation, it) }
 }
 
-fun calculateLoc(currentLocation: Location?, restaurant: Restaurant): Restaurant {
+fun calculateLoc(currentLocation: Location?, restaurant: Restaurant2): Restaurant2 {
     var location2 = Location("");
     location2.setLatitude(restaurant.latitud);
     location2.setLongitude(restaurant.longitud);

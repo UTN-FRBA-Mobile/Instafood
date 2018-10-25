@@ -16,46 +16,58 @@ import ar.com.instafood.activities.R
 import ar.com.instafood.adapters.RestaurantAdapter
 import ar.com.instafood.interfaces.adapterCallback
 import ar.com.instafood.models.Restaurant
-import ar.com.instafood.models.getSampleRestaurants
 import kotlinx.android.synthetic.main.fragment_search_restaurant.*
 import android.app.Activity
 import android.content.Context.LOCATION_SERVICE
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.support.v4.content.ContextCompat.getSystemService
-import android.util.Log
+import android.os.Handler
+import android.widget.Toast
+import ar.com.instafood.interfaces.RestaurantsService
 import ar.com.instafood.models.setDistances
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import android.support.v4.os.HandlerCompat.postDelayed
+import ar.com.instafood.models.Restaurant2
 
 
 class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , adapterCallback {
     private var seekBar : SeekBar? = null
     private var textView : TextView? = null
+    private var spinner : View? = null
+    private var adapter : RestaurantAdapter? = null
     private var recyclerViewSearchRestaurant : RecyclerView? = null
     private var locationManager : LocationManager? = null
+    private var disposable: Disposable? = null
     private var currentLocation : Location? = null
-    private var restaurants : List<Restaurant> = getSampleRestaurants()
+    private var self = this;
+    private val restaurantAPIServe by lazy {
+        RestaurantsService.create()
+    }
+    private var restaurants : List<Restaurant2>? = null
 
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         var view = inflater.inflate(R.layout.fragment_search_restaurant, container, false)
-        textView = view.findViewById(R.id.areaBusquedaRestaurants)
-        seekBar = view.findViewById(R.id.seekBarRestaurant)
-        recyclerViewSearchRestaurant = view.findViewById(R.id.recyclerViewSearchRestaurant)
-        locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?;
-        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener);
-        seekBar!!.setOnSeekBarChangeListener(this)
-        seekBar!!.progress = 1
-        return view;
+            textView = view.findViewById(R.id.areaBusquedaRestaurants)
+            seekBar = view.findViewById(R.id.seekBarRestaurant)
+            recyclerViewSearchRestaurant = view.findViewById(R.id.recyclerViewSearchRestaurant)
+            locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?;
+            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener);
+            seekBar!!.setOnSeekBarChangeListener(this)
+            return view;
     }
 
     //define the listener
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
             currentLocation = location;
-            setDistances(restaurants,currentLocation)
+            if(restaurants !== null) {
+                setDistances(restaurants, currentLocation)
+            }
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -65,17 +77,22 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        spinner = view.findViewById(R.id.progress_bar_loading);
+        spinner!!.postInvalidateOnAnimation()
+        spinner!!.setVisibility(View.VISIBLE)
+        val handler = Handler()
+        handler.postDelayed({ getRests()
+        }, 800)
         updateNegativeClick()
         updatePositiveClick()
         recyclerViewSearchRestaurant?.setHasFixedSize(true)
         recyclerViewSearchRestaurant?.layoutManager = LinearLayoutManager(context)
-        updateRestaurants()
     }
 
     @SuppressLint("MissingPermission")
     private fun updateRestaurants() {
-        var filterRestaurants = restaurants.filter { it.distance.toDouble() <= seekBar!!.progress }
-        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(filterRestaurants,this)
+        adapter!!.items = restaurants!!.filter { it.distance.toDouble() <= seekBar!!.progress }
+        adapter!!.notifyDataSetChanged()
     }
 
     override fun onItemClick(restoPosition : Int){
@@ -88,14 +105,14 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
 
     private fun updateNegativeClick() {
         minusSignSeekRestaurant.setOnClickListener { it ->
-            seekBar!!.progress = seekBar!!.progress - 1;
+                seekBar!!.progress = seekBar!!.progress - 1;
         }
     }
 
 
     private fun updatePositiveClick() {
         plusSignSeekRestaurant.setOnClickListener { it ->
-            seekBar!!.progress = seekBar!!.progress + 1;
+                seekBar!!.progress = seekBar!!.progress + 1;
         }
     }
 
@@ -107,7 +124,31 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         // called when tracking the seekbar is stopped
     }
 
+    private fun getRests() {
+        if (recyclerViewSearchRestaurant is RecyclerView) {
+            with(view) {
+                adapter = RestaurantAdapter(restaurants,self);
+                recyclerViewSearchRestaurant!!.adapter = adapter
+                disposable = restaurantAPIServe.getRestaurants().subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                { result -> adapter!!.items = result.restaurants
+                                    adapter!!.notifyDataSetChanged()
+                                    if(result.restaurants !== null){
+                                        restaurants = result.restaurants
+                                        spinner!!.setVisibility(View.INVISIBLE)
+                                    }},
+                                { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }
+                        )
+            }
+        }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        disposable?.dispose()
+    }
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                    fromUser: Boolean) {
