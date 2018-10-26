@@ -3,24 +3,23 @@ package ar.com.instafood.models
 import android.location.Location
 import ar.com.instafood.activities.R
 
-data class Restaurant(val title: String, val description: String, var distance: String, var longitud: Double, var latitud: Double, val image: Int)
+data class Restaurant(var title: String, var description: String, var distance: String, var longitud: Double, var latitud: Double, var resource: String)
 
-fun getSampleRestaurants(): List<Restaurant> {
-    return listOf(
-            Restaurant("La Birra Bar", "Carlos Calvo 4317, Boedo", "1", -58.3740076  , -34.6044714, R.drawable.logo_birrabar),
-            Restaurant("Aloha", " Av. Chiclana 3299, Parque Patricios", "2", -58.3740077, -34.6044643, R.drawable.burgermood),
-            Restaurant("Perez-H", "Descripcion perez h", "10", -58.3740098, -34.6044669, R.drawable.perezh),
-            Restaurant("McDonalds", "Descripcion Mcdonalds", "20", -58.3740079, -34.6044692, R.drawable.mcdonalds),
-            Restaurant("Burger King", "Descripcion Burger King", "30", -58.3740082, -34.6044711, R.drawable.burgerking)
-    )
-}
-
-
-fun setDistances(restaurants: List<Restaurant2>?, currentLocation: Location?) {
+fun setDistances(restaurants: List<Restaurant>?, currentLocation: Location?) {
     return restaurants!!.forEach { it -> calculateLoc(currentLocation, it) }
 }
 
-fun calculateLoc(currentLocation: Location?, restaurant: Restaurant2): Restaurant2 {
+fun getSampleRestaurants(): List<Restaurant> {
+    return listOf(
+            Restaurant("La Birra Bar", "Carlos Calvo 4317, Boedo", "1", -58.3740076  , -34.6044714, "http://instafood-server.herokuapp.com/instafood-api/restaurants/0/image"),
+            Restaurant("Aloha", " Av. Chiclana 3299, Parque Patricios", "2", -58.3740077, -34.6044643, "http://instafood-server.herokuapp.com/instafood-api/restaurants/1/image"),
+            Restaurant("Perez-H", "Descripcion perez h", "10", -58.3740098, -34.6044669, "http://instafood-server.herokuapp.com/instafood-api/restaurants/2/image"),
+            Restaurant("McDonalds", "Descripcion Mcdonalds", "20", -58.3740079, -34.6044692, "http://instafood-server.herokuapp.com/instafood-api/restaurants/3/image"),
+            Restaurant("Burger King", "Descripcion Burger King", "30", -58.3740082, -34.6044711, "http://instafood-server.herokuapp.com/instafood-api/restaurants/4/image")
+    )
+}
+
+fun calculateLoc(currentLocation: Location?, restaurant: Restaurant): Restaurant {
     var location2 = Location("");
     location2.setLatitude(restaurant.latitud);
     location2.setLongitude(restaurant.longitud);

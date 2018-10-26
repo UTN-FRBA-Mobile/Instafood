@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -29,8 +28,6 @@ import ar.com.instafood.models.setDistances
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import android.support.v4.os.HandlerCompat.postDelayed
-import ar.com.instafood.models.Restaurant2
 
 
 class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , adapterCallback {
@@ -46,7 +43,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private val restaurantAPIServe by lazy {
         RestaurantsService.create()
     }
-    private var restaurants : List<Restaurant2>? = null
+    private var restaurants : List<Restaurant>? = null
 
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +51,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         var view = inflater.inflate(R.layout.fragment_search_restaurant, container, false)
             textView = view.findViewById(R.id.areaBusquedaRestaurants)
             seekBar = view.findViewById(R.id.seekBarRestaurant)
+
             recyclerViewSearchRestaurant = view.findViewById(R.id.recyclerViewSearchRestaurant)
             locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?;
             locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener);
@@ -79,6 +77,10 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         super.onViewCreated(view, savedInstanceState)
         spinner = view.findViewById(R.id.progress_bar_loading);
         spinner!!.postInvalidateOnAnimation()
+        textView!!.setVisibility(View.INVISIBLE)
+        minusSignSeekRestaurant.setVisibility(View.INVISIBLE)
+        plusSignSeekRestaurant.setVisibility(View.INVISIBLE)
+        seekBar!!.setVisibility(View.INVISIBLE)
         spinner!!.setVisibility(View.VISIBLE)
         val handler = Handler()
         handler.postDelayed({ getRests()
@@ -87,7 +89,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         updatePositiveClick()
         recyclerViewSearchRestaurant?.setHasFixedSize(true)
         recyclerViewSearchRestaurant?.layoutManager = LinearLayoutManager(context)
-    }
+}
 
     @SuppressLint("MissingPermission")
     private fun updateRestaurants() {
@@ -135,7 +137,12 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
                                 { result -> adapter!!.items = result.restaurants
                                     adapter!!.notifyDataSetChanged()
                                     if(result.restaurants !== null){
+                                        setDistances(result.restaurants,currentLocation)
                                         restaurants = result.restaurants
+                                        textView!!.setVisibility(View.VISIBLE)
+                                        minusSignSeekRestaurant.setVisibility(View.VISIBLE)
+                                        plusSignSeekRestaurant.setVisibility(View.VISIBLE)
+                                        seekBar!!.setVisibility(View.VISIBLE)
                                         spinner!!.setVisibility(View.INVISIBLE)
                                     }},
                                 { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }

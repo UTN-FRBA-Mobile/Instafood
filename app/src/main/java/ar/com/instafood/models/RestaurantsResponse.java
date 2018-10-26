@@ -4,9 +4,9 @@ import java.util.List;
 
 public class RestaurantsResponse {
 
-    private List<Restaurant2> restaurants;
+    private List<Restaurant> restaurants;
 
-    public List<Restaurant2> getRestaurants() {
+    public List<Restaurant> getRestaurants() {
         return restaurants;
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import ar.com.instafood.models.Restaurant
 import ar.com.instafood.activities.R
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_restaurant_card.view.*
 
 class MainRestaurantAdapter(val restaurants : List<Restaurant>) : RecyclerView.Adapter<MainRestaurantAdapter.RestaurantViewHolder>(){
@@ -26,7 +27,7 @@ class MainRestaurantAdapter(val restaurants : List<Restaurant>) : RecyclerView.A
             holder.card.tv_title.text = restaurant.title
             holder.card.tv_description.text = restaurant.description
             holder.card.tv_distance.text = restaurant.distance
-            holder.card.iv_icon.setImageResource(restaurant.image)
+            Picasso.get().load(restaurant.resource).into(holder.card.iv_icon)
         }
     }
     //Create a new view holder
