@@ -15,7 +15,7 @@ class CheckAdapter(val checks: ArrayList<Check>) : RecyclerView.Adapter<CheckAda
 
     override fun onBindViewHolder(holder: CheckViewHolder, p1: Int) {
         if (holder != null) {
-            holder.card.txtxUsername.text = checks[p1].name
+            //holder.card.txtxUsername.text = checks[p1].name
             for (item: Product in checks[p1].products) {
                 holder.card.iv_icon_image.setImageResource(item.image)
                 holder.card.txtProduct.text = item.title

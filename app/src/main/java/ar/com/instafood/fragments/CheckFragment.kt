@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import ar.com.instafood.activities.R
 import ar.com.instafood.adapters.CheckAdapter
+import ar.com.instafood.adapters.DynamicCheckAdapter
 import ar.com.instafood.models.Check
 import ar.com.instafood.models.getSampleCheck
 import kotlinx.android.synthetic.main.fragment_check.view.*
@@ -31,9 +32,13 @@ class CheckFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_check, container, false)
         checks = getSampleCheck()
+        // Initialize the list
+        var mDynamicListAdapter = DynamicCheckAdapter()
+        mDynamicListAdapter.setFirstList(checks!!)
+        //mDynamicListAdapter.setSecondList(checks!!.get(1))
         view.cardList.setHasFixedSize(true)
         view.cardList.layoutManager = LinearLayoutManager(context)
-        view.cardList.adapter = CheckAdapter(checks!!)
+        view.cardList.adapter = mDynamicListAdapter
         return view
     }
 
