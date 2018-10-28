@@ -18,8 +18,13 @@
     <style name="MainButton" >
         <item name="android:background">@drawable/button_ripple</item>
         <item name="android:colorBackground">@color/colorHighlight</item>
-        <item name="android:elevation">30dp</item>
-        <item name="android:layout_marginLeft">60dp</item>
+        <item name="android:fontFamily">@font/cabin</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorHighlight</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:elevation">20dp</item>
+        <item name="android:layout_marginLeft">100dp</item>
         <item name="android:layout_marginTop">20dp</item>
     </style>
     <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">

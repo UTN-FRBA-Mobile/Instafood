@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import ar.com.instafood.models.Restaurant
 import ar.com.instafood.activities.R
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.single_restaurant_card.view.*
+import kotlinx.android.synthetic.main.main_restaurant_card.view.*
 
 class MainRestaurantAdapter(val restaurants : List<Restaurant>) : RecyclerView.Adapter<MainRestaurantAdapter.RestaurantViewHolder>(){
 
