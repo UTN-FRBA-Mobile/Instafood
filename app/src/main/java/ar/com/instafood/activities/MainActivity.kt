@@ -14,6 +14,8 @@ import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.support.v4.app.ActivityCompat
+import ar.com.instafood.application.SocketApplication
+import io.socket.client.Socket
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,7 +52,8 @@ class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         val transaction = supportFragmentManager.beginTransaction()
-
+        val app = application as SocketApplication
+        app.socket?.on(Socket.EVENT_CONNECT){app.socket?.emit("connectedSocket", "Juan")}
         if (item.itemId == R.id.navigation_menu) {
             menuFragment = MenuFragment()
         }
@@ -76,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
-                transaction.commitAllowingStateLoss();
+                transaction.commitAllowingStateLoss()
             }
         }
     }

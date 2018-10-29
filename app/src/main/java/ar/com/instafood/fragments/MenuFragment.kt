@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import ar.com.instafood.activities.R
 import ar.com.instafood.adapters.MenuTabsAdapter
 import ar.com.instafood.fragments.menuFragments.ProductFragment
+import io.socket.client.Socket
 
 
 class MenuFragment : Fragment() {
@@ -21,8 +22,8 @@ class MenuFragment : Fragment() {
     var menuAdapter : MenuTabsAdapter? = null
 
     init {
-        listFragment?.clear()
-        listTitle?.clear()
+        listFragment.clear()
+        listTitle.clear()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -70,4 +71,5 @@ class MenuFragment : Fragment() {
         listTitle.add(title)
 
     }
+
 }

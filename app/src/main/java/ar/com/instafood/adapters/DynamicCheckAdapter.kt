@@ -62,12 +62,12 @@ open class DynamicCheckAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
         val v: View
 
         if (viewType === HEADER) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.check_card_header, parent, false)
+            v = LayoutInflater.from(parent.context).inflate(R.layout.check_card_header, parent, false)
             return ViewHolder.HeaderElementViewHolder(v)
 
         } else {
             // SECOND_LIST_ITEM_VIEW
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.check_card, parent, false)
+            v = LayoutInflater.from(parent.context).inflate(R.layout.check_card, parent, false)
             return ViewHolder.SecondElementViewHolder(v)
         }
     }
@@ -89,8 +89,8 @@ open class DynamicCheckAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
         }
 
         fun bindViewSecondList(pos : Int) {
-            var _pos = pos - 1;
-            var firstListSize = maping.get(1)!!.toInt();
+            var _pos = pos - 1
+            var firstListSize = maping.get(1)!!.toInt()
             if ( _pos >  firstListSize  ) {
                 txtProduct!!.text = secondListItem[1].products.get(_pos - (firstListSize+1)).title
                 txtTotal!!.text = "2"
@@ -105,7 +105,7 @@ open class DynamicCheckAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
         }
 
         fun bindViewHeaderList(pos : Int) {
-            var firstListSize = maping.get(1)!!.toInt();
+            var firstListSize = maping.get(1)!!.toInt()
             if ( pos >=  firstListSize  ) {
                 txtxUsername!!.text = secondListItem[1].name
             }

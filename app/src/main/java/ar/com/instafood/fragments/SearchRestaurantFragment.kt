@@ -39,7 +39,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private var locationManager : LocationManager? = null
     private var disposable: Disposable? = null
     private var currentLocation : Location? = null
-    private var self = this;
+    private var self = this
     private val restaurantAPIServe by lazy {
         RestaurantsService.create()
     }
@@ -53,16 +53,16 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
             seekBar = view.findViewById(R.id.seekBarRestaurant)
 
             recyclerViewSearchRestaurant = view.findViewById(R.id.recyclerViewSearchRestaurant)
-            locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?;
-            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener);
-            seekBar!!.setOnSeekBarChangeListener(this)
-            return view;
+            locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
+        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+        seekBar!!.setOnSeekBarChangeListener(this)
+            return view
     }
 
     //define the listener
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            currentLocation = location;
+            currentLocation = location
             if(restaurants !== null) {
                 setDistances(restaurants, currentLocation)
             }
@@ -75,13 +75,13 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        spinner = view.findViewById(R.id.progress_bar_loading);
+        spinner = view.findViewById(R.id.progress_bar_loading)
         spinner!!.postInvalidateOnAnimation()
-        textView!!.setVisibility(View.INVISIBLE)
-        minusSignSeekRestaurant.setVisibility(View.INVISIBLE)
-        plusSignSeekRestaurant.setVisibility(View.INVISIBLE)
-        seekBar!!.setVisibility(View.INVISIBLE)
-        spinner!!.setVisibility(View.VISIBLE)
+        textView!!.visibility = View.INVISIBLE
+        minusSignSeekRestaurant.visibility = View.INVISIBLE
+        plusSignSeekRestaurant.visibility = View.INVISIBLE
+        seekBar!!.visibility = View.INVISIBLE
+        spinner!!.visibility = View.VISIBLE
         val handler = Handler()
         handler.postDelayed({ getRests()
         }, 800)
@@ -99,22 +99,22 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
 
     override fun onItemClick(restoPosition : Int){
         var activity = this.activity
-        var intent_result = Intent();
+        var intent_result = Intent()
         intent_result.putExtra("position", restoPosition)
         activity!!.setResult(Activity.RESULT_OK, intent_result)
-        activity!!.finish()
+        activity.finish()
     }
 
     private fun updateNegativeClick() {
         minusSignSeekRestaurant.setOnClickListener { it ->
-                seekBar!!.progress = seekBar!!.progress - 1;
+                seekBar!!.progress = seekBar!!.progress - 1
         }
     }
 
 
     private fun updatePositiveClick() {
         plusSignSeekRestaurant.setOnClickListener { it ->
-                seekBar!!.progress = seekBar!!.progress + 1;
+                seekBar!!.progress = seekBar!!.progress + 1
         }
     }
 
@@ -129,7 +129,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private fun getRests() {
         if (recyclerViewSearchRestaurant is RecyclerView) {
             with(view) {
-                adapter = RestaurantAdapter(restaurants,self);
+                adapter = RestaurantAdapter(restaurants,self)
                 recyclerViewSearchRestaurant!!.adapter = adapter
                 disposable = restaurantAPIServe.getRestaurants().subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -139,11 +139,11 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
                                     if(result.restaurants !== null){
                                         setDistances(result.restaurants,currentLocation)
                                         restaurants = result.restaurants
-                                        textView!!.setVisibility(View.VISIBLE)
-                                        minusSignSeekRestaurant.setVisibility(View.VISIBLE)
-                                        plusSignSeekRestaurant.setVisibility(View.VISIBLE)
-                                        seekBar!!.setVisibility(View.VISIBLE)
-                                        spinner!!.setVisibility(View.INVISIBLE)
+                                        textView!!.visibility = View.VISIBLE
+                                        minusSignSeekRestaurant.visibility = View.VISIBLE
+                                        plusSignSeekRestaurant.visibility = View.VISIBLE
+                                        seekBar!!.visibility = View.VISIBLE
+                                        spinner!!.visibility = View.INVISIBLE
                                     }},
                                 { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }
                         )
@@ -159,7 +159,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                    fromUser: Boolean) {
-        textView!!.text = "Área de busqueda: " + progress.toString() + " Kms";
+        textView!!.text = "Área de busqueda: " + progress.toString() + " Kms"
         updateRestaurants()
     }
 

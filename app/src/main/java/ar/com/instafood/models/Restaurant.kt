@@ -20,9 +20,9 @@ fun getSampleRestaurants(): List<Restaurant> {
 }
 
 fun calculateLoc(currentLocation: Location?, restaurant: Restaurant): Restaurant {
-    var location2 = Location("");
-    location2.setLatitude(restaurant.latitud);
-    location2.setLongitude(restaurant.longitud);
-    restaurant.distance = currentLocation?.distanceTo(location2)!!.div(1000).toString();
-    return restaurant;
+    var location2 = Location("")
+    location2.latitude = restaurant.latitud
+    location2.longitude = restaurant.longitud
+    restaurant.distance = currentLocation?.distanceTo(location2)!!.div(1000).toString()
+    return restaurant
 }

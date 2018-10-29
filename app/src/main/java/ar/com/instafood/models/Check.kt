@@ -2,9 +2,7 @@ package ar.com.instafood.models
 
 import ar.com.instafood.activities.R
 
-data class Check(val name: String, var products: ArrayList<Product>) {
-
-}
+data class Check(val name: String, var products: ArrayList<Product>)
 
 fun getSampleCheck(): ArrayList<Check> {
     return arrayListOf(

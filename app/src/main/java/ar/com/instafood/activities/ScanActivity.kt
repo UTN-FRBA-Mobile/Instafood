@@ -9,7 +9,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView
 /**
  * Created by mnavarro on 24/10/2018.
  */
-class ScanActivity() : AppCompatActivity(), ZXingScannerView.ResultHandler {
+class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     private var mScannerView: ZXingScannerView? = null
 
     public override fun onCreate(state: Bundle?) {
