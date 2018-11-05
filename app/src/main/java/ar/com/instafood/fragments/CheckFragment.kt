@@ -12,7 +12,10 @@ import ar.com.instafood.adapters.DynamicCheckAdapter
 import ar.com.instafood.application.SocketApplication
 import ar.com.instafood.models.Check
 import ar.com.instafood.models.getSampleCheck
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.fragment_check.view.*
+import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,21 +25,29 @@ import kotlinx.android.synthetic.main.fragment_check.view.*
  */
 class CheckFragment : Fragment() {
 
-    private lateinit var checks: ArrayList<Check>
+    private var checks: ArrayList<Check>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_check, container, false)
         val app  = activity?.application as SocketApplication
-        checks = getSampleCheck(app)
+
+        var array: ArrayList<Check> = arrayListOf()
+        app.socket?.emit("getProducts");
+        app.socket?.on("products", { args -> run {
+            val jsonElement = JsonParser().parse((args[0] as JSONObject).toString())
+            checks = arrayListOf(Gson().fromJson(jsonElement, Check::class.java))
+            var mDynamicListAdapter = DynamicCheckAdapter()
+            mDynamicListAdapter.setFirstList(checks!!)
+            view.cardList.setHasFixedSize(true)
+            view.cardList.layoutManager = LinearLayoutManager(context)
+            view.cardList.adapter = mDynamicListAdapter
+        }})
         // Initialize the list
-        var mDynamicListAdapter = DynamicCheckAdapter()
-        mDynamicListAdapter.setFirstList(checks!!)
+
         //mDynamicListAdapter.setSecondList(checks!!.get(1))
-        view.cardList.setHasFixedSize(true)
-        view.cardList.layoutManager = LinearLayoutManager(context)
-        view.cardList.adapter = mDynamicListAdapter
+
         return view
     }
 

@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         val transaction = supportFragmentManager.beginTransaction()
         val app = application as SocketApplication
-        app.socket?.on(Socket.EVENT_CONNECT){app.socket?.emit("connectedSocket", "Juan")}
+        app.socket?.on(Socket.EVENT_CONNECT, { args -> run { app.socket?.emit("connectedSocket", "Juan") }})
         if (item.itemId == R.id.navigation_menu) {
             menuFragment = MenuFragment()
         }
