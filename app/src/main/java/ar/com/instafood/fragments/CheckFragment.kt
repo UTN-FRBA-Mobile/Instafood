@@ -36,13 +36,18 @@ class CheckFragment : Fragment() {
         var array: ArrayList<Check> = arrayListOf()
         app.socket?.emit("getProducts");
         app.socket?.on("products", { args -> run {
-            val jsonElement = JsonParser().parse((args[0] as JSONObject).toString())
-            checks = arrayListOf(Gson().fromJson(jsonElement, Check::class.java))
-            var mDynamicListAdapter = DynamicCheckAdapter()
-            mDynamicListAdapter.setFirstList(checks!!)
-            view.cardList.setHasFixedSize(true)
-            view.cardList.layoutManager = LinearLayoutManager(context)
-            view.cardList.adapter = mDynamicListAdapter
+            activity?.runOnUiThread(
+                    {
+                        val jsonElement = JsonParser().parse((args[0] as JSONObject).toString())
+                        checks = arrayListOf(Gson().fromJson(jsonElement, Check::class.java))
+                        var mDynamicListAdapter = DynamicCheckAdapter()
+                        mDynamicListAdapter.setFirstList(checks!!)
+                        view.cardList.setHasFixedSize(true)
+                        view.cardList.layoutManager = LinearLayoutManager(context)
+                        view.cardList.adapter = mDynamicListAdapter
+                    }
+            )
+
         }})
         // Initialize the list
 
