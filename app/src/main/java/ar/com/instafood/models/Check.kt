@@ -1,17 +1,23 @@
 package ar.com.instafood.models
 
+import android.util.Log
 import ar.com.instafood.activities.R
+import ar.com.instafood.application.SocketApplication
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import io.socket.emitter.Emitter
+import org.json.JSONObject
 
 data class Check(val name: String, var products: ArrayList<Product>)
 
-fun getSampleCheck(): ArrayList<Check> {
-    return arrayListOf(
-            Check("Diego Pedro", arrayListOf(
-                    Product("Burger Facts", "Triple Carne con Provoleta, Panceta, Cebolla Crispy, Queso Dambo y salsa de mayochurri", 240, R.drawable.burgerfacts),
-                    Product("Burger Love", "Doble carne, cheddar, dambo, cebolla morada, pepinos, panceta, cebolla crocrante y mucho alioli", 220, R.drawable.burgerlove),
-                    Product("Donkey Donuts", "200 gr de carne con donas glaseadas, panceta y salsa de mostaza", 30, R.drawable.donut))),
-            Check("Juan Jose", arrayListOf(
-                    Product("Premium", "Queso cheddar, pancete, cebollas caramelizadas y tomate", 170, R.drawable.premium),
-                    Product("HeartBreaker", "200 gr de carne, pulled pork, queso cheddar, tomate, pepino, cebolla crocante y BBQ", 200, R.drawable.heartbreaker)))
-    )
+fun getSampleCheck(application: SocketApplication): ArrayList<Check> {
+    //TODO: Pasarlo a un service
+    var array: ArrayList<Check> = arrayListOf()
+    application.socket?.emit("getProducts");
+    application.socket?.on("products", { args -> run {
+        val jsonElement = JsonParser().parse((args[0] as JSONObject).toString())
+        array = arrayListOf(Gson().fromJson(jsonElement, Check::class.java))
+
+    }})
+    return array
 }

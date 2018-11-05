@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import ar.com.instafood.activities.R
 import ar.com.instafood.adapters.CheckAdapter
 import ar.com.instafood.adapters.DynamicCheckAdapter
+import ar.com.instafood.application.SocketApplication
 import ar.com.instafood.models.Check
 import ar.com.instafood.models.getSampleCheck
 import kotlinx.android.synthetic.main.fragment_check.view.*
@@ -21,13 +22,14 @@ import kotlinx.android.synthetic.main.fragment_check.view.*
  */
 class CheckFragment : Fragment() {
 
-    private var checks: ArrayList<Check>? = null
+    private lateinit var checks: ArrayList<Check>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_check, container, false)
-        checks = getSampleCheck()
+        val app  = activity?.application as SocketApplication
+        checks = getSampleCheck(app)
         // Initialize the list
         var mDynamicListAdapter = DynamicCheckAdapter()
         mDynamicListAdapter.setFirstList(checks!!)
