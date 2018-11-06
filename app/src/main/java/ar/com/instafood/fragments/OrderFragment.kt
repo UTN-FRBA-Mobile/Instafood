@@ -11,19 +11,36 @@ import android.widget.TextView
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.order.PreferenceUtils
 import ar.com.instafood.fragments.order.TimerState
-import kotlinx.android.synthetic.main.fragment_order.*
+import kotlinx.android.synthetic.main.fragment_order.view.*
 
 class OrderFragment : Fragment() {
 
     private lateinit var timer: CountDownTimer
     private var timerLengthSeconds: Long = 0
     private var timerState = TimerState.STOPPED
-
+    private lateinit var viewOrder : View
     private var secondsRemaining: Long = 0
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        this.viewOrder = inflater.inflate(R.layout.fragment_order, container, false)
+        initTimer()
+        if (timerState != TimerState.RUNNING) {
+            startTimer()
+        }
+        return this.viewOrder
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initToolbar()
+        initMessage()
+        initLabel()
+        initOrderDetail()
+    }
 
     override fun onResume() {
         super.onResume()
-        initTimer()
+        //initTimer()
     }
 
     override fun onPause() {
@@ -45,9 +62,9 @@ class OrderFragment : Fragment() {
     private fun onTimerFinished(){
         timerState = TimerState.STOPPED
 
-        setNewTimerLength()
+        //setNewTimerLength()
 
-        bar_timer.progress = 0
+        viewOrder.bar_timer.progress = 0
 
         secondsRemaining = timerLengthSeconds
 
@@ -71,40 +88,15 @@ class OrderFragment : Fragment() {
     private fun setNewTimerLength(){
         val lengthInMinutes = PreferenceUtils.getTimerLength(this.requireContext())
         timerLengthSeconds = (lengthInMinutes * 60L)
-        bar_timer.max = timerLengthSeconds.toInt()
+        viewOrder.bar_timer.max = timerLengthSeconds.toInt()
     }
 
     private fun updateCountdownUI(){
         val minutesUntilFinished = secondsRemaining / 60
         val secondsInMinuteUntilFinished = secondsRemaining - minutesUntilFinished * 60
         val secondsStr = secondsInMinuteUntilFinished.toString()
-        lbl_timer?.text = "$minutesUntilFinished:${if (secondsStr.length == 2) secondsStr else "0" + secondsStr}"
-        bar_timer?.progress = (timerLengthSeconds - secondsRemaining).toInt()
-    }
-
-
-
-
-
-
-
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_order, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initToolbar()
-        initMessage()
-        initLabel()
-        initOrderDetail()
-
-        fab_start.setOnClickListener{v ->
-            startTimer()
-            timerState =  TimerState.RUNNING
-        }
+        viewOrder.lbl_timer?.text = "$minutesUntilFinished:${if (secondsStr.length == 2) secondsStr else "0" + secondsStr}"
+        viewOrder.bar_timer?.progress = (timerLengthSeconds - secondsRemaining).toInt()
     }
 
     private fun initToolbar() {
@@ -129,10 +121,6 @@ class OrderFragment : Fragment() {
                 "\t\t\t- 2 Cocacola 500ml\n" +
                 "\t\t\t- 1 Papas grandes"
     }
-
-
-
-
 /*
     private fun switchSearchRestaurants() {
         val restSearch = getView()?.findViewById<Button>(R.id.btn_close_table)
@@ -143,5 +131,4 @@ class OrderFragment : Fragment() {
         }
     }
 */
-
 }

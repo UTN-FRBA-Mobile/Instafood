@@ -72,16 +72,6 @@
                         android:textSize="30sp"
                         tools:text="10.00" />
 
-                    <!--TODO> Remove when countdown starts at order beginning -->
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fab_start"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="110dp"
-                        app:backgroundTint="@color/light_grey"
-                        app:srcCompat="@drawable/ic_play_arrow" />
-
                     <ProgressBar
                         android:id="@+id/bar_timer"
                         style="?android:attr/progressBarStyleHorizontal"
