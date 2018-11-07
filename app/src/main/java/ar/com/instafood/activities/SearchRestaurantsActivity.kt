@@ -22,49 +22,9 @@ class SearchRestaurantsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search_restaurants)
         SetActionBar()
         search_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        setupPermissionAccessCoarse()
-        setupPermissionAccessFine()
-        val permissionFine = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
-        val permissionCoarse = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
-
-        if((permissionFine == PackageManager.PERMISSION_GRANTED) && (permissionCoarse == PackageManager.PERMISSION_GRANTED)){
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.add(R.id.search_fragment_container,searchRestaurantFragment)
-            transaction.commit()
-        }
-    }
-
-    private fun makeRequestCoarse() {
-        ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),200
-                )
-    }
-
-    private fun makeRequestFine() {
-        ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),200
-        )
-    }
-
-    private fun setupPermissionAccessFine() {
-        val permission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            Log.i("Permission", "Permission to GPS denied")
-            makeRequestFine()
-        }
-    }
-
-    private fun setupPermissionAccessCoarse() {
-        val permission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            Log.i("Permission", "Permission to GPS denied")
-            makeRequestCoarse()
-        }
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.add(R.id.search_fragment_container, searchRestaurantFragment)
+        transaction.commit()
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -80,7 +40,7 @@ class SearchRestaurantsActivity : AppCompatActivity() {
 
     private fun SetActionBar() {
         setSupportActionBar(toolbar)
-        supportActionBar!!.setTitle("Buscar restaurante")
+        supportActionBar!!.setTitle("Buscar restaurantes")
     }
 
 }

@@ -43,17 +43,16 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private val restaurantAPIServe by lazy {
         RestaurantsService.create()
     }
-    private var restaurants : List<Restaurant>? = null
+    private var searchRestaurants : List<Restaurant>? = null
 
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_search_restaurant, container, false)
-            textView = view.findViewById(R.id.areaBusquedaRestaurants)
-            seekBar = view.findViewById(R.id.seekBarRestaurant)
-
-            recyclerViewSearchRestaurant = view.findViewById(R.id.recyclerViewSearchRestaurant)
-            locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
+        textView = view.findViewById(R.id.areaBusquedaRestaurants)
+        seekBar = view.findViewById(R.id.seekBarRestaurant)
+        recyclerViewSearchRestaurant = view.findViewById(R.id.recyclerViewSearchRestaurant)
+        locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
         seekBar!!.setOnSeekBarChangeListener(this)
             return view
@@ -63,8 +62,8 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
             currentLocation = location
-            if(restaurants !== null) {
-                setDistances(restaurants, currentLocation)
+            if(searchRestaurants !== null) {
+                setDistances(searchRestaurants, currentLocation)
             }
         }
 
@@ -93,7 +92,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
 
     @SuppressLint("MissingPermission")
     private fun updateRestaurants() {
-        adapter!!.items = restaurants!!.filter { it.distance.toDouble() <= seekBar!!.progress }
+        adapter!!.items = searchRestaurants!!.filter { it.distance.toDouble() <= seekBar!!.progress }
         adapter!!.notifyDataSetChanged()
     }
 
@@ -129,7 +128,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private fun getRests() {
         if (recyclerViewSearchRestaurant is RecyclerView) {
             with(view) {
-                adapter = RestaurantAdapter(restaurants,self)
+                adapter = RestaurantAdapter(searchRestaurants,self)
                 recyclerViewSearchRestaurant!!.adapter = adapter
                 disposable = restaurantAPIServe.getRestaurants().subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -137,19 +136,25 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
                                 { result -> adapter!!.items = result.restaurants
                                     adapter!!.notifyDataSetChanged()
                                     if(result.restaurants !== null){
-                                        setDistances(result.restaurants,currentLocation)
-                                        restaurants = result.restaurants
-                                        textView!!.visibility = View.VISIBLE
-                                        minusSignSeekRestaurant.visibility = View.VISIBLE
-                                        plusSignSeekRestaurant.visibility = View.VISIBLE
-                                        seekBar!!.visibility = View.VISIBLE
-                                        spinner!!.visibility = View.INVISIBLE
+                                        searchRestaurants = result.restaurants
+                                        enableVisibility()
+                                        if(currentLocation !== null) {
+                                            setDistances(result.restaurants, currentLocation)
+                                        }
                                     }},
                                 { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }
                         )
             }
         }
 
+    }
+
+    private fun enableVisibility(){
+        textView!!.visibility = View.VISIBLE
+        minusSignSeekRestaurant.visibility = View.VISIBLE
+        plusSignSeekRestaurant.visibility = View.VISIBLE
+        seekBar!!.visibility = View.VISIBLE
+        spinner!!.visibility = View.INVISIBLE
     }
 
     override fun onPause() {

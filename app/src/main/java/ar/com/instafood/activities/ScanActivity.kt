@@ -1,5 +1,6 @@
 package ar.com.instafood.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -34,18 +35,27 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     }
 
      override fun handleResult(rawResult: Result) {
-
         Log.i("SCAN RESULT", rawResult.text)
-        onBackPressed()
-
+         returnMain(rawResult.text)
+         //onBackPressed()
     }
 
+    private fun returnMain(text : String){
+        var intent_result = Intent()
+        intent_result.putExtra("qrText", text)
+        setResult(Activity.RESULT_OK, intent_result)
+        finish()
+    }
 
     override fun onBackPressed() {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-        transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
-        transaction.commitAllowingStateLoss()
+
+        var intent_result = Intent()
+        setResult(Activity.RESULT_CANCELED, intent_result)
+        finish()
+        //val transaction = supportFragmentManager.beginTransaction()
+        //transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+        //transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+        //transaction.commitAllowingStateLoss()
     }
 
 }

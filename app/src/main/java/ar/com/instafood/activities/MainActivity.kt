@@ -15,7 +15,7 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.support.v4.app.ActivityCompat
 import ar.com.instafood.application.SocketApplication
-import io.socket.client.Socket
+//import io.socket.client.Socket
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
         //SetActionBar()
         initialise()
-
+        setupPermissions()
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -46,14 +46,12 @@ class MainActivity : AppCompatActivity() {
 
         transaction.commit()
 
-        setupPermissions()
-
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         val transaction = supportFragmentManager.beginTransaction()
         val app = application as SocketApplication
-        app.socket?.on(Socket.EVENT_CONNECT, { args -> run { app.socket?.emit("connectedSocket", "Juan") }})
+        //app.socket?.on(Socket.EVENT_CONNECT, { args -> run { app.socket?.emit("connectedSocket", "Juan") }})
         if (item.itemId == R.id.navigation_menu) {
             menuFragment = MenuFragment()
         }
@@ -71,6 +69,38 @@ class MainActivity : AppCompatActivity() {
 
     private fun initialise() {
         //Todo en algun momento :D
+    }
+
+    private fun makeRequestCoarse() {
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),200
+        )
+    }
+
+    private fun makeRequestFine() {
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),200
+        )
+    }
+
+    private fun setupPermissionAccessFine() {
+        val permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Permission", "Permission to GPS denied")
+            makeRequestFine()
+        }
+    }
+
+    private fun setupPermissionAccessCoarse() {
+        val permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Permission", "Permission to GPS denied")
+            makeRequestCoarse()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -95,12 +125,20 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupPermissions() {
+
         val permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
+        val permissionFine = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionCoarse = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)
+        if((permissionFine == PackageManager.PERMISSION_GRANTED) && (permissionCoarse == PackageManager.PERMISSION_GRANTED)){
+            setupPermissionAccessCoarse()
+            setupPermissionAccessFine()
+        }
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             makeRequest()
         }
+
     }
 
     private fun makeRequest() {

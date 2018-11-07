@@ -45,11 +45,7 @@ class RestaurantAdapter(val restaurants : List<Restaurant>?, var cb : adapterCal
     }
 
     override fun getItemCount() : Int{
-        if(items !== null)
-        {return items.size}
-        else{
-            return 0
-        }
+        return if(items !== null) items.size else 0
     }
 
 }
