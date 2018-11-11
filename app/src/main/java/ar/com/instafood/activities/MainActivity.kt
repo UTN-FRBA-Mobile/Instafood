@@ -34,18 +34,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu)
-        //SetActionBar()
-        initialise()
         setupPermissions()
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container, mainFragment)
-
-        transaction.commit()
-
+        super.onCreate(savedInstanceState)
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -71,38 +61,6 @@ class MainActivity : AppCompatActivity() {
         //Todo en algun momento :D
     }
 
-    private fun makeRequestCoarse() {
-        ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),200
-        )
-    }
-
-    private fun makeRequestFine() {
-        ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),200
-        )
-    }
-
-    private fun setupPermissionAccessFine() {
-        val permission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            Log.i("Permission", "Permission to GPS denied")
-            makeRequestFine()
-        }
-    }
-
-    private fun setupPermissionAccessCoarse() {
-        val permission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            Log.i("Permission", "Permission to GPS denied")
-            makeRequestCoarse()
-        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
@@ -121,43 +79,41 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-
-
-
     private fun setupPermissions() {
-
-        val permission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)
+        val permission = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)
         val permissionFine = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
         val permissionCoarse = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)
-        if((permissionFine == PackageManager.PERMISSION_GRANTED) && (permissionCoarse == PackageManager.PERMISSION_GRANTED)){
-            setupPermissionAccessCoarse()
-            setupPermissionAccessFine()
-        }
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
+        if (permission != PackageManager.PERMISSION_GRANTED || permissionFine != PackageManager.PERMISSION_GRANTED || permissionCoarse != PackageManager.PERMISSION_GRANTED) {
             makeRequest()
         }
-
     }
 
     private fun makeRequest() {
         ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.CAMERA),
+                arrayOf(Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION),
                 RECORD_REQUEST_CODE)
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             RECORD_REQUEST_CODE -> {
 
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED
+                        || grantResults[1] != PackageManager.PERMISSION_GRANTED
+                        || grantResults[2] != PackageManager.PERMISSION_GRANTED) {
 
                     Log.i(TAG, "Permisos Denegados")
                 } else {
                     Log.i(TAG, "Permisos Aceptados")
+                    setContentView(R.layout.activity_menu)
+                    //SetActionBar()
+                    initialise()
+                    navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.add(R.id.fragment_container, mainFragment)
+                    transaction.commit()
                 }
             }
         }
