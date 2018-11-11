@@ -7,7 +7,15 @@
     <string name="title_order">Orden</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="buscar_restaurantes">Buscar restaurantes</string>
-    <string name="busca_restaurantes">Busca Restaurantes</string>
+    <string name="buscar_restaurantes">Área de busqueda: Menos de 1000 metros</string>
+    <string name="boton_buscar_restaurant">Buscar restaurant</string>
     <string name="instafoodTitle">InstaFood</string>
+    <!-- order-fragment -->
+    <string name="close_table">Cerrar Mesa</string>
+    <string name="final_amount">El monto final es de $</string>
+    <string name="countdown_message">\t\tTu pedido llegará en</string>
+    <!-- check-fragment -->
+    <string name="confirmation">Confirmar</string>
+    <string name="total">Total</string>
+    <string name="tu_ultimo_pedido"><u><b><i>ULTIMO PEDIDO</i></b></u></string>
 </resources>

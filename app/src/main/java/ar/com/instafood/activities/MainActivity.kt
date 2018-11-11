@@ -1,5 +1,6 @@
 package ar.com.instafood.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
@@ -8,9 +9,13 @@ import ar.com.instafood.fragments.MainFragment
 import ar.com.instafood.fragments.MenuFragment
 import ar.com.instafood.fragments.OrderFragment
 import kotlinx.android.synthetic.main.activity_menu.*
-import kotlinx.android.synthetic.main.toolbar.*
-import android.R.attr.fragment
-
+import android.Manifest
+import android.content.pm.PackageManager
+import android.support.v4.content.ContextCompat
+import android.util.Log
+import android.support.v4.app.ActivityCompat
+import ar.com.instafood.application.SocketApplication
+//import io.socket.client.Socket
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +24,8 @@ class MainActivity : AppCompatActivity() {
     private var menuFragment : MenuFragment
     private val checkFragment : CheckFragment
     private val orderFragment : OrderFragment
-
+    private val TAG = "Permisos"
+    private val RECORD_REQUEST_CODE = 101
     init {
         mainFragment = MainFragment()
         menuFragment = MenuFragment()
@@ -30,20 +36,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-        SetActionBar()
+        //SetActionBar()
         initialise()
-
+        setupPermissions()
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container, mainFragment)
 
         transaction.commit()
+
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         val transaction = supportFragmentManager.beginTransaction()
-
+        val app = application as SocketApplication
+        //app.socket?.on(Socket.EVENT_CONNECT, { args -> run { app.socket?.emit("connectedSocket", "Juan") }})
         if (item.itemId == R.id.navigation_menu) {
             menuFragment = MenuFragment()
         }
@@ -63,8 +71,100 @@ class MainActivity : AppCompatActivity() {
         //Todo en algun momento :D
     }
 
-    private fun SetActionBar() {
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setTitle("Menu")
+    private fun makeRequestCoarse() {
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),200
+        )
     }
+
+    private fun makeRequestFine() {
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),200
+        )
+    }
+
+    private fun setupPermissionAccessFine() {
+        val permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Permission", "Permission to GPS denied")
+            makeRequestFine()
+        }
+    }
+
+    private fun setupPermissionAccessCoarse() {
+        val permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Permission", "Permission to GPS denied")
+            makeRequestCoarse()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+                transaction.commitAllowingStateLoss()
+            }
+        }
+    }
+
+    fun switchContent(id: Int, frag: android.support.v4.app.Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+        transaction.replace(R.id.fragment_container, frag, frag.tag).addToBackStack(null)
+        transaction.commit()
+    }
+
+
+
+
+    private fun setupPermissions() {
+
+        val permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+        val permissionFine = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionCoarse = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)
+        if((permissionFine == PackageManager.PERMISSION_GRANTED) && (permissionCoarse == PackageManager.PERMISSION_GRANTED)){
+            setupPermissionAccessCoarse()
+            setupPermissionAccessFine()
+        }
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            makeRequest()
+        }
+
+    }
+
+    private fun makeRequest() {
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.CAMERA),
+                RECORD_REQUEST_CODE)
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            RECORD_REQUEST_CODE -> {
+
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    Log.i(TAG, "Permisos Denegados")
+                } else {
+                    Log.i(TAG, "Permisos Aceptados")
+                }
+            }
+        }
+    }
+
+
+
+
+
 }

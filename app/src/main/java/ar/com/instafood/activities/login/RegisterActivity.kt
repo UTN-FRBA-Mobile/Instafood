@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        txtName = findViewById(R.id.txtName)
+        txtName = findViewById(R.id.txtTotal)
         txtLastname = findViewById(R.id.txtLastname)
         txtEmail = findViewById(R.id.txtEmail)
         txtPassword = findViewById(R.id.txtPassword)

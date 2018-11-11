@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        getWindow().getDecorView().setBackgroundColor(Color.WHITE)
+        window.decorView.setBackgroundColor(Color.WHITE)
         txtUser = findViewById(R.id.txtUser)
         txtPassword = findViewById(R.id.txtPassword)
         progressBar = findViewById(R.id.progressBar)
