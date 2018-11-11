@@ -10,6 +10,7 @@ import ar.com.instafood.activities.MainActivity
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.menuFragments.ProductDetailFragment
 import ar.com.instafood.models.Product
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_product_card.view.*
 
 
@@ -62,7 +63,7 @@ class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapt
             holder.card.tv_title.text = product.title
             holder.card.tv_description.text = product.description
             holder.card.tv_price.text = product.price.toString()
-            holder.card.iv_icon_image.setImageResource(product.image)
+            Picasso.get().load(product.image).into(holder.card.iv_icon_image)
             holder.card.iv_icon_string.text = product.image.toString()
             //product_image = product.image
         }
