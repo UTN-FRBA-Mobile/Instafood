@@ -1,7 +1,6 @@
-package ar.com.instafood.Models;
+package ar.com.instafood.models;
 
 import java.util.List;
-;import ar.com.instafood.models.Restaurant;
 
 public class RestaurantsResponse {
 
