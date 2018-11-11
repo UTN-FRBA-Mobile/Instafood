@@ -36,6 +36,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setupPermissions()
         super.onCreate(savedInstanceState)
+        val permission = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)
+        val permissionFine = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionCoarse = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (permission == PackageManager.PERMISSION_GRANTED && permissionFine == PackageManager.PERMISSION_GRANTED && permissionCoarse == PackageManager.PERMISSION_GRANTED) {
+            setContentView(R.layout.activity_menu)
+            //SetActionBar()
+            initialise()
+            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(R.id.fragment_container, mainFragment)
+            transaction.commit()
+    }
+
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
