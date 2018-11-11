@@ -1,6 +1,6 @@
 package ar.com.instafood.interfaces
 
-import ar.com.instafood.Models.RestaurantsResponse
+import ar.com.instafood.models.RestaurantsResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.Retrofit
