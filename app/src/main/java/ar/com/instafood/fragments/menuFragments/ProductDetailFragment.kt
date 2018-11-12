@@ -45,28 +45,26 @@ class ProductDetailFragment : Fragment() {
         Picasso.get().load(product_image_string).into(view.iv_image)
         view.toolbar_product_detail.title = tv_title
         view.toolbar_product_detail.navigationIcon = context?.getDrawable(R.drawable.abc_ic_ab_back_material)
-        view.toolbar_product_detail.setNavigationOnClickListener({ item ->
-            val fragment = fragmentManager!!.findFragmentByTag("MENU_FRAGMENT") as MenuFragment
-            val transaction = fragmentManager!!.beginTransaction()
-            transaction.replace(R.id.fragment_container, fragment, "MENU_FRAGMENT");
-            transaction.addToBackStack(null);
-            transaction.commit();
-        })
+        view.toolbar_product_detail.setNavigationOnClickListener({ returnToMenuFragment() })
         val app  = activity?.application as SocketApplication
         val gsonBuilder = GsonBuilder().create()
         val socket = app.socket
         val btn = view.findViewById<Button>(R.id.buttonflat)
         val json = gsonBuilder.toJson(Check("Juan", arrayListOf(Product(tv_title ?: "", tv_description ?: "", tv_price?.toInt() ?: 0, product_image_string!!))))
 
-        btn?.setOnClickListener{
-            socket?.emit("productSelected",  json)
-            val fragment = fragmentManager!!.findFragmentByTag("MENU_FRAGMENT") as MenuFragment
-            val transaction = fragmentManager!!.beginTransaction()
-            transaction.replace(R.id.fragment_container, fragment, "MENU_FRAGMENT");
-            transaction.addToBackStack(null);
-            transaction.commit();
+        btn?.setOnClickListener {
+            socket?.emit("productSelected", json)
+            returnToMenuFragment()
         }
         return view
+    }
+
+    private fun returnToMenuFragment() {
+        val fragment = fragmentManager!!.findFragmentByTag("MENU_FRAGMENT") as MenuFragment
+        val transaction = fragmentManager!!.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment, "MENU_FRAGMENT");
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 
