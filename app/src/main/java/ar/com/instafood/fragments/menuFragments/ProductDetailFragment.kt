@@ -58,7 +58,14 @@ class ProductDetailFragment : Fragment() {
         val btn = view.findViewById<Button>(R.id.buttonflat)
         val json = gsonBuilder.toJson(Check("Juan", arrayListOf(Product(tv_title ?: "", tv_description ?: "", tv_price?.toInt() ?: 0, product_image_string!!))))
 
-        btn?.setOnClickListener{socket?.emit("productSelected",  json)}
+        btn?.setOnClickListener{
+            socket?.emit("productSelected",  json)
+            val fragment = fragmentManager!!.findFragmentByTag("MENU_FRAGMENT") as MenuFragment
+            val transaction = fragmentManager!!.beginTransaction()
+            transaction.replace(R.id.fragment_container, fragment, "MENU_FRAGMENT");
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
         return view
     }
 

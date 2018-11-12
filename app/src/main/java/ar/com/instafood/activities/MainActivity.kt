@@ -15,7 +15,7 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.support.v4.app.ActivityCompat
 import ar.com.instafood.application.SocketApplication
-//import io.socket.client.Socket
+import io.socket.client.Socket
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,8 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         val transaction = supportFragmentManager.beginTransaction()
-        val app = application as SocketApplication
-        //app.socket?.on(Socket.EVENT_CONNECT, { args -> run { app.socket?.emit("connectedSocket", "Juan") }})
+
         if (item.itemId == R.id.navigation_menu) {
             menuFragment = MenuFragment()
         }
@@ -73,6 +72,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initialise() {
         //Todo en algun momento :D
+        val app = application as SocketApplication
+        app.socket?.on(Socket.EVENT_CONNECT, { args -> run { app.socket?.emit("connectedSocket", "Juan") }})
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
