@@ -2,12 +2,14 @@ package ar.com.instafood.fragments.menuFragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import ar.com.instafood.activities.R
 import ar.com.instafood.application.SocketApplication
+import ar.com.instafood.fragments.MenuFragment
 import ar.com.instafood.models.Check
 import ar.com.instafood.models.Product
 import com.google.gson.GsonBuilder
@@ -44,7 +46,11 @@ class ProductDetailFragment : Fragment() {
         view.toolbar_product_detail.title = tv_title
         view.toolbar_product_detail.navigationIcon = context?.getDrawable(R.drawable.abc_ic_ab_back_material)
         view.toolbar_product_detail.setNavigationOnClickListener({ item ->
-            //TODO: back action in detail product
+            val fragment = fragmentManager!!.findFragmentByTag("MENU_FRAGMENT") as MenuFragment
+            val transaction = fragmentManager!!.beginTransaction()
+            transaction.replace(R.id.fragment_container, fragment, "MENU_FRAGMENT");
+            transaction.addToBackStack(null);
+            transaction.commit();
         })
         val app  = activity?.application as SocketApplication
         val gsonBuilder = GsonBuilder().create()

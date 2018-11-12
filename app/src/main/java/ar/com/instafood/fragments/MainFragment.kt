@@ -57,9 +57,9 @@ class MainFragment : Fragment() {
                 setDistances(restaurants, currentLocation)
                 restaurants = restaurants!!.filter{it.distance.toDouble() <= 3}
                 if(restaurants!!.isEmpty()){
-                    closeMeNoData.visibility = VISIBLE
+                    closeMeNoData?.visibility = VISIBLE
                 }else{
-                    closeMeNoData.visibility = INVISIBLE
+                    closeMeNoData?.visibility = INVISIBLE
                 }
                 val recyclerViewMainRestaurant = getView()?.findViewById<RecyclerView>(R.id.recyclerViewMainRestaurant)
                 recyclerViewMainRestaurant?.adapter = MainRestaurantAdapter(restaurants)

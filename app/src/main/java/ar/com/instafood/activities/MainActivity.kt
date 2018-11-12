@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private val mainFragment : MainFragment
     private var menuFragment : MenuFragment
+    val TAG_MENU_FRAGMENT = "MENU_FRAGMENT"
     private val checkFragment : CheckFragment
     private val orderFragment : OrderFragment
     private val TAG = "Permisos"
@@ -61,10 +62,10 @@ class MainActivity : AppCompatActivity() {
         transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
 
         when (item.itemId){
-            R.id.navigation_home -> transaction.replace(R.id.fragment_container, mainFragment)
-            R.id.navigation_menu -> transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
-            R.id.navigation_check -> transaction.replace(R.id.fragment_container, checkFragment)
-            R.id.navigation_order -> transaction.replace(R.id.fragment_container, orderFragment)
+            R.id.navigation_home -> transaction.replace(R.id.fragment_container, mainFragment).addToBackStack(null)
+            R.id.navigation_menu -> transaction.replace(R.id.fragment_container, menuFragment, TAG_MENU_FRAGMENT).addToBackStack(null)
+            R.id.navigation_check -> transaction.replace(R.id.fragment_container, checkFragment).addToBackStack(null)
+            R.id.navigation_order -> transaction.replace(R.id.fragment_container, orderFragment).addToBackStack(null)
         }
         transaction.commit()
         true
@@ -99,6 +100,11 @@ class MainActivity : AppCompatActivity() {
         if (permission != PackageManager.PERMISSION_GRANTED || permissionFine != PackageManager.PERMISSION_GRANTED || permissionCoarse != PackageManager.PERMISSION_GRANTED) {
             makeRequest()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
     }
 
     private fun makeRequest() {
