@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import ar.com.instafood.activities.R
+import ar.com.instafood.fragments.order.OrderService
 import ar.com.instafood.fragments.order.PreferenceUtils
 import ar.com.instafood.fragments.order.TimerState
 import kotlinx.android.synthetic.main.fragment_order.view.*
+import java.lang.StringBuilder
 
 class OrderFragment : Fragment() {
 
@@ -20,6 +22,7 @@ class OrderFragment : Fragment() {
     private var timerState = TimerState.STOPPED
     private lateinit var viewOrder : View
     private var secondsRemaining: Long = 0
+    private var orderService = OrderService()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.viewOrder = inflater.inflate(R.layout.fragment_order, container, false)
@@ -117,9 +120,20 @@ class OrderFragment : Fragment() {
 
     private fun initOrderDetail() {
         val amount = view?.findViewById<TextView>(R.id.lbl_order_detail)
-        amount?.text = "\t\tDetalle\n\t\t\t- 1 Hamburguesa Doble Queso\n" +
-                "\t\t\t- 2 Cocacola 500ml\n" +
-                "\t\t\t- 1 Papas grandes"
+
+        val builder = StringBuilder()
+        builder.append("Detalle\n")
+
+        for (singleOrder in orderService.fetchLastOrder()) {
+            builder
+                    .append("\t\t- ")
+                    .append(singleOrder.quantity)
+                    .append(" ")
+                    .append(singleOrder.productName)
+                    .append("\n")
+        }
+
+        amount?.text = builder.toString()
     }
 /*
     private fun switchSearchRestaurants() {
