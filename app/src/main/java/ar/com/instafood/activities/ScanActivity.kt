@@ -5,9 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Button
+import ar.com.instafood.application.SocketApplication
 import com.google.zxing.Result
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import ar.com.instafood.fragments.MenuFragment
+import ar.com.instafood.models.Check
+import ar.com.instafood.models.Product
+import com.google.gson.GsonBuilder
 
 /**
  * Created by mnavarro on 24/10/2018.
@@ -36,11 +41,23 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
      override fun handleResult(rawResult: Result) {
         Log.i("SCAN RESULT", rawResult.text)
+         emitResultToSocket(rawResult.text)
          returnMain(rawResult.text)
-         //onBackPressed()
+    }
+
+    private fun emitResultToSocket(resultFromScanner: String){
+        val app  = application as SocketApplication
+        val socket = app.socket
+
+        socket?.emit("restaurantSelected", resultFromScanner)
     }
 
     private fun returnMain(text : String){
+        /**
+         * TODO: refactorizar ya que se le envia al socket previamente el texto como parametro en el
+         * canal
+         * */
+
         var intent_result = Intent()
         intent_result.putExtra("qrText", text)
         setResult(Activity.RESULT_OK, intent_result)
