@@ -65,8 +65,6 @@ class OrderFragment : Fragment() {
     private fun onTimerFinished(){
         timerState = TimerState.STOPPED
 
-        //setNewTimerLength()
-
         viewOrder.bar_timer.progress = 0
 
         secondsRemaining = timerLengthSeconds
@@ -105,24 +103,24 @@ class OrderFragment : Fragment() {
     private fun initToolbar() {
         val toolbar = view?.findViewById<Toolbar>(R.id.toolbar)
         toolbar?.setNavigationIcon(R.drawable.ic_restaurant)
-        toolbar?.title = "En Mesa"
+        toolbar?.title = this.resources.getString(R.string.lbl_order_title)
     }
 
     private fun initMessage() {
         val amount = view?.findViewById<TextView>(R.id.lbl_timer_description)
-        amount?.text = this.resources.getString(R.string.countdown_message)
+        amount?.text = this.resources.getString(R.string.lbl_order_your_order_will_arrive_in)
     }
 
     private fun initLabel() {
         val amount = view?.findViewById<TextView>(R.id.lbl_last_order)
-        amount?.text = this.resources.getString(R.string.tu_ultimo_pedido)
+        amount?.text = this.resources.getString(R.string.lbl_order_last_order)
     }
 
     private fun initOrderDetail() {
         val amount = view?.findViewById<TextView>(R.id.lbl_order_detail)
 
         val builder = StringBuilder()
-        builder.append("Detalle\n")
+        builder.append(this.resources.getString(R.string.lbl_order_detail) + ":\n")
 
         for (singleOrder in orderService.fetchLastOrder()) {
             builder
@@ -135,14 +133,5 @@ class OrderFragment : Fragment() {
 
         amount?.text = builder.toString()
     }
-/*
-    private fun switchSearchRestaurants() {
-        val restSearch = getView()?.findViewById<Button>(R.id.btn_close_table)
-        restSearch?.setOnClickListener { _ ->
-            val amount = view?.findViewById<TextView>(R.id.txt_final_amount)
-            val amountFormat = this.resources.getString(R.string.final_amount)
-            amount?.text = amountFormat + "808.30"
-        }
-    }
-*/
+
 }
