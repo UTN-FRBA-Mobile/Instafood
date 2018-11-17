@@ -18,7 +18,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/htab_collapse_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="200pt"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             style="@style/ToolbarTheme"
@@ -98,7 +98,6 @@
                         android:layout_toEndOf="@+id/logo_comp"
                         android:text="Carlos Calvo 4317"
                         android:textColor="@android:color/black"
-                        android:textFontWeight="20dp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>
@@ -140,11 +139,11 @@
                             android:layout_height="50sp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="200pt"
                             android:background="@null"
                             android:src="@android:drawable/ic_menu_share"
                             android:tint="@color/colorPrimaryDark"
-                            android:translationZ="20dp" />
+                            />
 
                     </RelativeLayout>
 

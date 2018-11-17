@@ -1,17 +1,11 @@
 package ar.com.instafood.activities
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import ar.com.instafood.fragments.MainFragment
 import ar.com.instafood.fragments.SearchRestaurantFragment
 import kotlinx.android.synthetic.main.activity_search_restaurants.*
 import kotlinx.android.synthetic.main.toolbar.*
-import android.Manifest
 
 class SearchRestaurantsActivity : AppCompatActivity() {
 
@@ -37,11 +31,8 @@ class SearchRestaurantsActivity : AppCompatActivity() {
         true
     }
 
-
     private fun SetActionBar() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setTitle("Buscar restaurantes")
     }
-
 }
-

@@ -30,7 +30,7 @@ class MenuFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_menu, container, false)
-        initialise()
+        //initialise()
         prepareDataResource()
         setBar(view)
 
@@ -39,7 +39,7 @@ class MenuFragment : Fragment() {
 
 
         if(menuAdapter == null) {
-            menuAdapter = MenuTabsAdapter(fragmentManager!!, listFragment, listTitle)
+            menuAdapter = MenuTabsAdapter(childFragmentManager, listFragment, listTitle)
         }
         menuViewPager!!.adapter = menuAdapter
 
@@ -61,9 +61,11 @@ class MenuFragment : Fragment() {
     }
 
     private fun prepareDataResource() {
-        addData(ProductFragment.newInstance("platosPrincipales"),"Platos Principales")
-        addData(ProductFragment.newInstance("platosSecundarios"),"Entradas")
-        addData(ProductFragment.newInstance("postreBebidas"),"Bebidas y Postres Especiales")
+        if (listFragment.isEmpty()) {
+            addData(ProductFragment.newInstance("platosPrincipales"), "Platos Principales")
+            addData(ProductFragment.newInstance("platosSecundarios"), "Entradas")
+            addData(ProductFragment.newInstance("postreBebidas"), "Bebidas y Postres Especiales")
+        }
     }
 
     private fun addData(fragment : Fragment, title : String ){

@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import ar.com.instafood.activities.R
+import com.squareup.picasso.Picasso
 
 
 open class DynamicCheckAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -94,13 +95,13 @@ open class DynamicCheckAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
             if ( _pos >  firstListSize  ) {
                 txtProduct!!.text = secondListItem[1].products.get(_pos - (firstListSize+1)).title
                 txtTotal!!.text = "2"
-                iv_icon_image!!.setImageResource(secondListItem[1].products.get(_pos - (firstListSize+1)).image)
+                Picasso.get().load(secondListItem[1].products.get(_pos - (firstListSize+1)).image).into(iv_icon_image)
             }
             else{
                 txtProduct!!.text = secondListItem[0].products.get(_pos ).title
                 txtTotal!!.text = secondListItem[0].products.get(_pos).price.toString()
                 txtCantidad!!.text = "1"
-                iv_icon_image!!.setImageResource(secondListItem[0].products.get(_pos).image)
+                Picasso.get().load(secondListItem[0].products.get(_pos).image).into(iv_icon_image)
             }
         }
 

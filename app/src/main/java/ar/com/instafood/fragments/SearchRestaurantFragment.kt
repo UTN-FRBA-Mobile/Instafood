@@ -105,14 +105,14 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     }
 
     private fun updateNegativeClick() {
-        minusSignSeekRestaurant.setOnClickListener { it ->
+        minusSignSeekRestaurant.setOnClickListener { _ ->
                 seekBar!!.progress = seekBar!!.progress - 1
         }
     }
 
 
     private fun updatePositiveClick() {
-        plusSignSeekRestaurant.setOnClickListener { it ->
+        plusSignSeekRestaurant.setOnClickListener { _ ->
                 seekBar!!.progress = seekBar!!.progress + 1
         }
     }

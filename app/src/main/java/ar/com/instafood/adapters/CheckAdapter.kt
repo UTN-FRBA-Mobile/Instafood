@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import ar.com.instafood.activities.R
 import ar.com.instafood.models.Check
 import ar.com.instafood.models.Product
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.check_card.view.*
 
 class CheckAdapter(val checks: ArrayList<Check>) : RecyclerView.Adapter<CheckAdapter.CheckViewHolder>() {
@@ -17,7 +18,7 @@ class CheckAdapter(val checks: ArrayList<Check>) : RecyclerView.Adapter<CheckAda
         if (holder != null) {
             //holder.card.txtxUsername.text = checks[p1].name
             for (item: Product in checks[p1].products) {
-                holder.card.iv_icon_image.setImageResource(item.image)
+                Picasso.get().load(item.image).into(holder.card.iv_icon_image)
                 holder.card.txtProduct.text = item.title
                 holder.card.txtCantidad.text = 1.toString()
                 holder.card.txtTotal.text = item.price.toString()

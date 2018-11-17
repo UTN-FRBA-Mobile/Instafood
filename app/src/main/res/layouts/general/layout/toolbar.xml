@@ -7,7 +7,7 @@
     android:background="@color/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     android:elevation="5dp"
-    app:title="InstaFood"
+    app:title="@string/instafoodTitle"
     app:theme="@style/ToolbarTheme">
 
 </android.support.v7.widget.Toolbar>

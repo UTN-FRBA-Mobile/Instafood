@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="ar.com.instafood.fragments.OrderFragment"
     android:theme="@style/CountdownTheme"
     android:layout_width="match_parent"
@@ -23,7 +22,7 @@
 
             <TextView
                 android:id="@+id/lbl_last_order"
-                tools:text="ÚLTIMO PEDIDO"
+                tools:text="@string/lbl_order_last_order"
                 android:textSize="20sp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
@@ -58,7 +57,7 @@
 
                     <TextView
                         android:id="@+id/lbl_timer_description"
-                        tools:text="   Tu pedido llegará en"
+                        tools:text="@string/lbl_order_your_order_will_arrive_in"
                         android:layout_centerHorizontal="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -122,65 +121,64 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/countdownAreafdsafdss"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btn_confirmation"
+                    android:id="@+id/btn_add"
                     style="@style/MainButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:text="Confirmar recepcion" />
+                    android:text="@string/btn_order_add" />
 
                 <Button
-                    android:id="@+id/btn_claim"
+                    android:id="@+id/btn_waiter"
                     style="@style/MainButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_confirmation"
+                    android:layout_below="@+id/btn_add"
                     android:layout_centerHorizontal="true"
-                    android:text="Reclamar pedido" />
+                    android:text="@string/btn_order_waiter" />
 
                 <RelativeLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/RelativeLayout01"
+                    android:id="@+id/lay_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_claim"
+                    android:layout_below="@+id/btn_waiter"
                     android:layout_marginTop="30dp"
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/mytextview1"
-                        android:text="\t\t\t\tTotal"
+                        android:id="@+id/lbl_total"
+                        android:text="@string/lbl_order_total"
                         android:textSize="30sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" />
 
                     <TextView
-                        android:id="@+id/mytextview2"
-                        android:text="$ 999\t\t\t\t"
+                        android:id="@+id/out_total"
+                        android:text="$ 999"
                         android:textSize="30sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/mytextview1"
+                        android:layout_toRightOf="@id/lbl_total"
                         android:gravity="right"/>
 
                 </RelativeLayout>
 
                 <Button
                     android:id="@+id/btn_close"
-                    style="@style/MainButton"
+                    style="@style/CloseButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/RelativeLayout01"
+                    android:layout_below="@+id/lay_total"
                     android:layout_centerHorizontal="true"
-                    android:text="Cerrar mesa" />
+                    android:text="@string/btn_order_close" />
 
 
             </RelativeLayout>
@@ -189,39 +187,3 @@
 
 
 </LinearLayout>
-
-
-
-
-    <!--
-    -->
-
-<!--
-
--->
-
-
-<!--
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
-
-        <Button
-            android:id="@+id/btn_close_table"
-            android:text="@string/close_table"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/MainButton"
-            android:layout_centerHorizontal="true"/>
-
-        <TextView
-            android:id="@+id/txt_final_amount"
-            android:layout_below="@+id/btn_close_table"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"/>
-
-    </RelativeLayout>
--->
-

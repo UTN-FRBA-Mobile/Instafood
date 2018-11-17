@@ -2,7 +2,6 @@ package ar.com.instafood.fragments.order
 
 import android.content.Context
 import android.preference.PreferenceManager
-import ar.com.instafood.fragments.OrderFragment
 
 class PreferenceUtils {
 
@@ -10,7 +9,7 @@ class PreferenceUtils {
 
         private const val TIMER_STATE_ID = "com.resocoder.timer.timer_state"
 
-        fun getTimerLength(context: Context): Int{
+        fun getTimerLength(): Int{
             return 1
         }
 
