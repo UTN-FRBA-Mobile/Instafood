@@ -16,7 +16,7 @@
     <string name="lbl_order_title">En mesa</string>
     <string name="lbl_order_will_arrive_in">Llegará en</string>
     <string name="lbl_order_last_order"><u><b><i>ÚLTIMO PEDIDO</i></b></u></string>
-    <string name="lbl_order_total">Total</string>
+    <string name="lbl_order_accumulated">Acumulado</string>
     <string name="lbl_order_detail">Detalle</string>
     <string name="btn_order_add">Agregar pedido</string>
     <string name="btn_order_waiter">LLamar al mesero</string>
