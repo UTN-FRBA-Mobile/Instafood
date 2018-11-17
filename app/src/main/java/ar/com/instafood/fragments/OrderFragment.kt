@@ -107,8 +107,8 @@ class OrderFragment : Fragment() {
     }
 
     private fun initMessage() {
-        val amount = view?.findViewById<TextView>(R.id.lbl_timer_description)
-        amount?.text = this.resources.getString(R.string.lbl_order_your_order_will_arrive_in)
+        val amount = view?.findViewById<TextView>(R.id.lbl_will_arrive_in)
+        amount?.text = this.resources.getString(R.string.lbl_order_will_arrive_in)
     }
 
     private fun initLabel() {
@@ -124,7 +124,7 @@ class OrderFragment : Fragment() {
 
         for (singleOrder in orderService.fetchLastOrder()) {
             builder
-                    .append("\t\t- ")
+                    .append("\t- ")
                     .append(singleOrder.quantity)
                     .append(" ")
                     .append(singleOrder.productName)

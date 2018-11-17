@@ -36,7 +36,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="30"
+        android:layout_weight="23"
         android:orientation="vertical">
 
         <LinearLayout
@@ -51,16 +51,9 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/lbl_timer_description"
-                        tools:text="@string/lbl_order_your_order_will_arrive_in"
-                        android:layout_centerHorizontal="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:id="@+id/lbl_timer"
@@ -74,24 +67,38 @@
                     <ProgressBar
                         android:id="@+id/bar_timer"
                         style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
+                        android:layout_width="400dp"
+                        android:layout_height="400dp"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/drawable_circle_dark_blue"
                         android:indeterminate="false"
-                        android:layout_marginTop="5dp"
                         android:max="100"
                         android:progress="100"
                         android:progressDrawable="@drawable/drawable_circle_yellow"
                         android:rotation="-90" />
 
+                    <TextView
+                        android:id="@+id/lbl_will_arrive_in"
+                        tools:text="@string/lbl_order_will_arrive_in"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
                 </RelativeLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight=".40">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight=".40"
+                    android:background="@color/colorHighlight"
+                    android:layout_weight=".10"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -103,87 +110,96 @@
                             android:id="@+id/lbl_order_detail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginLeft="5dp"
                             android:gravity="left"/>
 
                     </RelativeLayout>
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".90"
+                    android:orientation="vertical">
                 </LinearLayout>
 
             </LinearLayout>
+
         </LinearLayout>
+    </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/show_contact_bottomArea"
+    <LinearLayout
+        android:id="@+id/show_contact_bottomArea"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="63"
+        android:orientation="vertical">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="63"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/btn_add"
+                style="@style/MainButton"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/btn_order_add" />
 
-                <Button
-                    android:id="@+id/btn_add"
-                    style="@style/MainButton"
+            <Button
+                android:id="@+id/btn_waiter"
+                style="@style/MainButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_add"
+                android:layout_centerHorizontal="true"
+                android:text="@string/btn_order_waiter" />
+
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/lay_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_waiter"
+                android:layout_marginTop="30dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/lbl_total"
+                    android:text="@string/lbl_order_total"
+                    android:textSize="30sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true" />
+
+                <TextView
+                    android:id="@+id/out_total"
+                    android:text="$ 999"
+                    android:textSize="30sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/btn_order_add" />
-
-                <Button
-                    android:id="@+id/btn_waiter"
-                    style="@style/MainButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_add"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/btn_order_waiter" />
-
-                <RelativeLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/lay_total"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_waiter"
-                    android:layout_marginTop="30dp"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/lbl_total"
-                        android:text="@string/lbl_order_total"
-                        android:textSize="30sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true" />
-
-                    <TextView
-                        android:id="@+id/out_total"
-                        android:text="$ 999"
-                        android:textSize="30sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/lbl_total"
-                        android:gravity="right"/>
-
-                </RelativeLayout>
-
-                <Button
-                    android:id="@+id/btn_close"
-                    style="@style/CloseButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lay_total"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/btn_order_close" />
-
+                    android:layout_toRightOf="@id/lbl_total"
+                    android:gravity="right"/>
 
             </RelativeLayout>
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/btn_close"
+                style="@style/CloseButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lay_total"
+                android:layout_centerHorizontal="true"
+                android:text="@string/btn_order_close" />
 
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
