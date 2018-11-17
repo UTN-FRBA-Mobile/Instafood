@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Button
 import ar.com.instafood.application.SocketApplication
 import com.google.zxing.Result
 import me.dm7.barcodescanner.zxing.ZXingScannerView
@@ -15,13 +14,6 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import android.graphics.Bitmap
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import android.os.Environment
-import android.media.MediaScannerConnection
-import java.util.Calendar
 import android.widget.ImageView
 
 /**
@@ -70,38 +62,7 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
             iv!!.setImageBitmap(bitmap)
 
     }
-    fun saveImage(myBitmap: Bitmap?): String {
-        val bytes = ByteArrayOutputStream()
-        myBitmap!!.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
-        val wallpaperDirectory = File(
-                Environment.getExternalStorageDirectory().toString() + IMAGE_DIRECTORY)
-        // have the object build the directory structure, if needed.
 
-        if (!wallpaperDirectory.exists()) {
-            Log.d("dirrrrr", "" + wallpaperDirectory.mkdirs())
-            wallpaperDirectory.mkdirs()
-        }
-
-        try {
-            val f = File(wallpaperDirectory, Calendar.getInstance()
-                    .timeInMillis.toString() + ".jpg")
-            f.createNewFile()   //give read write permission
-            val fo = FileOutputStream(f)
-            fo.write(bytes.toByteArray())
-            MediaScannerConnection.scanFile(this,
-                    arrayOf(f.path),
-                    arrayOf("image/jpeg"), null)
-            fo.close()
-            Log.d("TAG", "File Saved::--->" + f.absolutePath)
-
-            return f.absolutePath
-        } catch (e1: IOException) {
-            e1.printStackTrace()
-        }
-
-        return ""
-
-    }
 
     @Throws(WriterException::class)
     private fun TextToImageEncode(Value: String): Bitmap? {
