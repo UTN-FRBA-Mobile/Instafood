@@ -21,6 +21,7 @@
     <string name="btn_order_add">Agregar pedido</string>
     <string name="btn_order_waiter">LLamar al mesero</string>
     <string name="btn_order_close">Cerrar Mesa</string>
+    <string name="lbl_order_please_score">¿Qué te pareció este lugar?</string>
 
     <!-- check-fragment -->
     <string name="confirmation">Confirmar</string>

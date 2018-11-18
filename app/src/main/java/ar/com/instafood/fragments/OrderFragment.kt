@@ -1,5 +1,6 @@
 package ar.com.instafood.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.app.Fragment
@@ -7,10 +8,13 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.order.OrderService
 import ar.com.instafood.fragments.order.PreferenceUtils
+import ar.com.instafood.fragments.order.StarService
 import ar.com.instafood.fragments.order.TimerState
 import kotlinx.android.synthetic.main.fragment_order.view.*
 import java.lang.StringBuilder
@@ -38,10 +42,8 @@ class OrderFragment : Fragment() {
         initToolbar()
         initMessage()
         initLabel()
+        initCloseButton()
         initOrderDetail()
-    }
-
-    override fun onResume() {
         super.onResume()
         //initTimer()
     }
@@ -133,5 +135,24 @@ class OrderFragment : Fragment() {
 
         amount?.text = builder.toString()
     }
+
+
+    private fun initCloseButton() {
+        val closeButton = view?.findViewById<Button>(R.id.btn_close)
+        closeButton?.setOnClickListener { _ ->
+
+            val mBuilder = AlertDialog.Builder(this.requireContext())
+            val mView = layoutInflater?.inflate(R.layout.popup_close, null)
+
+            val service = StarService()
+            service.init(mView!!)
+
+
+            mBuilder.setView(mView)
+            val popup = mBuilder.create()
+            popup.show()
+        }
+    }
+
 
 }
