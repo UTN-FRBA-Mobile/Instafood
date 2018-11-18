@@ -15,6 +15,7 @@
         android:id="@+id/lay_relative_stars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/aPopUp">
 
         <LinearLayout
@@ -133,17 +134,23 @@
 
     </RelativeLayout>
 
-
+    <TextView
+        android:id="@+id/lbl_close_score_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/lay_relative_stars"
+        android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/btn_popup_accept"
         style="@style/CloseButton"
-        android:layout_below="@+id/lay_relative_stars"
-        android:layout_width="match_parent"
+        android:layout_below="@+id/lbl_close_score_description"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:text="Aceptar" />
+        android:text="Puntuar" />
 
 
 </RelativeLayout>

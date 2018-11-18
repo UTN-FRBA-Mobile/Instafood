@@ -22,6 +22,11 @@
     <string name="btn_order_waiter">LLamar al mesero</string>
     <string name="btn_order_close">Cerrar Mesa</string>
     <string name="lbl_order_please_score">¿Qué te pareció este lugar?</string>
+    <string name="lbl_order_score_1">No me gustó en absoluto</string>
+    <string name="lbl_order_score_2">No me gustó</string>
+    <string name="lbl_order_score_3">Está bien</string>
+    <string name="lbl_order_score_4">Me gustó</string>
+    <string name="lbl_order_score_5">Me encantó</string>
 
     <!-- check-fragment -->
     <string name="confirmation">Confirmar</string>
