@@ -144,9 +144,8 @@ class OrderFragment : Fragment() {
             val mBuilder = AlertDialog.Builder(this.requireContext())
             val mView = layoutInflater?.inflate(R.layout.popup_close, null)
 
-            val service = StarService()
-            service.init(mView!!)
-
+            val starService = StarService()
+            starService.init(mView!!, this.requireContext())
 
             mBuilder.setView(mView)
             val popup = mBuilder.create()
