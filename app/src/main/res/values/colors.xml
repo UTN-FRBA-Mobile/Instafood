@@ -6,7 +6,7 @@
     <color name="colorHighlight">#f6685e</color>
     <color name="bkg_card">#8C9EFF</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="black">#000000</color>
     <color name="countdownColorPrimary">#1E2538</color>
     <color name="countdownColorPrimaryDark">#DCDCDC</color>
     <color name="countdownColorAccent">#f8c643</color>
