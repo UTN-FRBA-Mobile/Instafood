@@ -18,15 +18,19 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import ar.com.instafood.activities.R
 import ar.com.instafood.activities.ScanActivity
 import ar.com.instafood.activities.SearchRestaurantsActivity
 import ar.com.instafood.adapters.MainRestaurantAdapter
-import ar.com.instafood.interfaces.activityCallback
+import ar.com.instafood.interfaces.RestaurantsService
 import ar.com.instafood.interfaces.adapterCallback
 import ar.com.instafood.models.Restaurant
 import ar.com.instafood.models.getSampleRestaurants
 import ar.com.instafood.models.setDistances
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
@@ -39,8 +43,13 @@ class MainFragment : Fragment(), adapterCallback {
     private var locationManager : LocationManager? = null
     private var currentLocation : Location? = null
     private var restaurants : List<Restaurant>? = null
+    private var adapter : MainRestaurantAdapter? = null
     private var noDataText : View? = null
     private var self = this
+    private var disposable: Disposable? = null
+    private val restaurantAPIServe by lazy {
+        RestaurantsService.create()
+    }
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -57,9 +66,8 @@ class MainFragment : Fragment(), adapterCallback {
         override fun onLocationChanged(location: Location) {
             currentLocation = location
             if(restaurants !== null) {
-                restaurants = getSampleRestaurants()
                 setDistances(restaurants, currentLocation)
-                restaurants = restaurants!!.filter{it.distance.toDouble() <= 3}
+                restaurants = restaurants!!.filter{it.distance.toDouble() <= 10}
                 if(restaurants!!.isEmpty()){
                     closeMeNoData?.visibility = VISIBLE
                 }else{
@@ -106,5 +114,28 @@ class MainFragment : Fragment(), adapterCallback {
         restSearch?.setOnClickListener { _ ->
             activity?.startActivityForResult(Intent(activity, SearchRestaurantsActivity::class.java),1)
         }
+    }
+
+    private fun getRests() {
+        if (recyclerViewMainRestaurant is RecyclerView) {
+            with(view) {
+                adapter = MainRestaurantAdapter(restaurants,self)
+                recyclerViewMainRestaurant!!.adapter = adapter
+                disposable = restaurantAPIServe.getRestaurants().subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                { result -> adapter!!.items = result.restaurants
+                                    adapter!!.notifyDataSetChanged()
+                                    if(result.restaurants !== null){
+                                        restaurants = result.restaurants
+                                        if(currentLocation !== null) {
+                                            setDistances(result.restaurants, currentLocation)
+                                        }
+                                    }},
+                                { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }
+                        )
+            }
+        }
+
     }
 }
