@@ -17,6 +17,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".login.LoginActivity"></activity>
         <activity android:name=".login.RegisterActivity" />
+        <activity android:name=".CloseActivity" />
         <activity android:name=".MainActivity">
             //Mover filtros para indicar donde comienza la App
             <intent-filter>
