@@ -45,6 +45,7 @@ class OrderFragment : Fragment() {
         initLabel()
         initCloseButton()
         initOrderDetail()
+        setAddMenu()
         super.onResume()
         //initTimer()
     }
@@ -137,6 +138,17 @@ class OrderFragment : Fragment() {
         amount?.text = builder.toString()
     }
 
+
+    private fun setAddMenu(){
+        val btn_add = view?.findViewById<Button>(R.id.btn_add)
+        btn_add?.setOnClickListener { _ ->
+            val transaction = activity!!.supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            var menuFragment = MenuFragment()
+            transaction.replace(R.id.fragment_container, menuFragment).addToBackStack(null)
+            transaction.commitAllowingStateLoss()
+        }
+    }
 
     private fun initCloseButton() {
         val closeButton = view?.findViewById<Button>(R.id.btn_close)
