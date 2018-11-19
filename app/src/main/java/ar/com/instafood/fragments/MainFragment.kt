@@ -9,6 +9,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -26,7 +27,6 @@ import ar.com.instafood.adapters.MainRestaurantAdapter
 import ar.com.instafood.interfaces.RestaurantsService
 import ar.com.instafood.interfaces.adapterCallback
 import ar.com.instafood.models.Restaurant
-import ar.com.instafood.models.getSampleRestaurants
 import ar.com.instafood.models.setDistances
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -44,7 +44,7 @@ class MainFragment : Fragment(), adapterCallback {
     private var currentLocation : Location? = null
     private var restaurants : List<Restaurant>? = null
     private var adapter : MainRestaurantAdapter? = null
-    private var noDataText : View? = null
+    private var spinner : View? = null
     private var self = this
     private var disposable: Disposable? = null
     private val restaurantAPIServe by lazy {
@@ -54,7 +54,6 @@ class MainFragment : Fragment(), adapterCallback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_main, container, false)
-        restaurants = getSampleRestaurants()
         locationManager = activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
 
@@ -97,6 +96,15 @@ class MainFragment : Fragment(), adapterCallback {
         val recyclerViewMainRestaurant = getView()?.findViewById<RecyclerView>(R.id.recyclerViewMainRestaurant)
         switchSearchRestaurants()
         setQRscan()
+        if(restaurants == null) {
+            spinner = view.findViewById(R.id.main_progress_bar_loading)
+            spinner!!.postInvalidateOnAnimation()
+            spinner!!.visibility = View.VISIBLE
+            val handler = Handler()
+            handler.postDelayed({
+                getRests()
+            }, 800)
+        }
         recyclerViewMainRestaurant?.setHasFixedSize(true)
         recyclerViewMainRestaurant?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewMainRestaurant?.adapter = MainRestaurantAdapter(restaurants,this)
@@ -128,6 +136,7 @@ class MainFragment : Fragment(), adapterCallback {
                                     adapter!!.notifyDataSetChanged()
                                     if(result.restaurants !== null){
                                         restaurants = result.restaurants
+                                        spinner!!.visibility = View.GONE
                                         if(currentLocation !== null) {
                                             setDistances(result.restaurants, currentLocation)
                                         }
