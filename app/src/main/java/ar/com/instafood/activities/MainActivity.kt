@@ -20,11 +20,11 @@ import io.socket.client.Socket
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainFragment : MainFragment
-    private var menuFragment : MenuFragment
+    val mainFragment : MainFragment
+    var menuFragment : MenuFragment
     val TAG_MENU_FRAGMENT = "MENU_FRAGMENT"
-    private val checkFragment : CheckFragment
-    private val orderFragment : OrderFragment
+    val checkFragment : CheckFragment
+    val orderFragment : OrderFragment
     private val TAG = "Permisos"
     private val RECORD_REQUEST_CODE = 101
     init {

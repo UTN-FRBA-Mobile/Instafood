@@ -7,16 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import ar.com.instafood.models.Restaurant
 import ar.com.instafood.activities.R
+import ar.com.instafood.interfaces.adapterCallback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.main_restaurant_card.view.*
 
-class MainRestaurantAdapter(val restaurants : List<Restaurant>?) : RecyclerView.Adapter<MainRestaurantAdapter.RestaurantViewHolder>() {
+class MainRestaurantAdapter(val restaurants : List<Restaurant>?, var cb : adapterCallback) : RecyclerView.Adapter<MainRestaurantAdapter.RestaurantViewHolder>() {
 
-    class RestaurantViewHolder(var card: View) : RecyclerView.ViewHolder(card) {
+    init{
+        this.cb = cb
+    }
+
+    class RestaurantViewHolder(var card: View, adapterCallback: adapterCallback) : RecyclerView.ViewHolder(card) {
         init {
             card.setOnClickListener { v: View ->
                 var position: Int = adapterPosition
-                Snackbar.make(v, "Click detectado en posicion $position", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+                adapterCallback.onItemClick(position)
             }
         }
 
@@ -36,7 +41,7 @@ class MainRestaurantAdapter(val restaurants : List<Restaurant>?) : RecyclerView.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantViewHolder {
 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.main_restaurant_card, parent, false)
-        return RestaurantViewHolder(view)
+        return RestaurantViewHolder(view,cb)
     }
 
     override fun getItemCount(): Int {
