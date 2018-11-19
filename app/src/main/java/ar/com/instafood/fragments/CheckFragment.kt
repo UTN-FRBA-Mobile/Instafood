@@ -6,7 +6,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import ar.com.instafood.activities.R
+import ar.com.instafood.activities.R.id.btn_confirmation
 import ar.com.instafood.adapters.CheckAdapter
 import ar.com.instafood.adapters.DynamicCheckAdapter
 import ar.com.instafood.application.SocketApplication
@@ -34,7 +36,7 @@ class CheckFragment : Fragment() {
         val app  = activity?.application as SocketApplication
 
         var array: ArrayList<Check> = arrayListOf()
-        app.socket?.emit("getProducts");
+        app.socket?.emit("getProducts")
         app.socket?.on("products", { args -> run {
             activity?.runOnUiThread(
                     {
@@ -50,12 +52,25 @@ class CheckFragment : Fragment() {
 
         }})
         // Initialize the list
-
         //mDynamicListAdapter.setSecondList(checks!!.get(1))
-
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setConfirmation()
+    }
+
+    private fun setConfirmation(){
+        val btn_confirmation = view?.findViewById<Button>(R.id.btn_confirmation)
+        btn_confirmation?.setOnClickListener { _ ->
+            val transaction = activity!!.supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            var orderFragment = OrderFragment()
+            transaction.replace(R.id.fragment_container, orderFragment).addToBackStack(null)
+            transaction.commitAllowingStateLoss()
+        }
+    }
     private fun initialize() {
     }
 
