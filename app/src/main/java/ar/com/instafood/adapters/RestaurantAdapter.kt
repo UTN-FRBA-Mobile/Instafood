@@ -23,7 +23,6 @@ class RestaurantAdapter(val restaurants : List<Restaurant>?, var cb : adapterCal
         init {
         card.setOnClickListener { v: View ->
             var position : Int = adapterPosition
-            //Snackbar.make(v,"Click detectado en posicion $position",Snackbar.LENGTH_LONG).setAction("Action",null).show();
             adapterCallback.onItemClick(position)
         }
         }

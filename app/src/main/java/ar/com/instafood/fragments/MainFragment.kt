@@ -2,6 +2,7 @@ package ar.com.instafood.fragments
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.location.Location
@@ -21,6 +22,8 @@ import ar.com.instafood.activities.R
 import ar.com.instafood.activities.ScanActivity
 import ar.com.instafood.activities.SearchRestaurantsActivity
 import ar.com.instafood.adapters.MainRestaurantAdapter
+import ar.com.instafood.interfaces.activityCallback
+import ar.com.instafood.interfaces.adapterCallback
 import ar.com.instafood.models.Restaurant
 import ar.com.instafood.models.getSampleRestaurants
 import ar.com.instafood.models.setDistances
@@ -30,13 +33,14 @@ import kotlinx.android.synthetic.main.fragment_main.*
  * A simple [Fragment] subclass.
  *
  */
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), adapterCallback {
+
 
     private var locationManager : LocationManager? = null
     private var currentLocation : Location? = null
     private var restaurants : List<Restaurant>? = null
     private var noDataText : View? = null
-
+    private var self = this
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -62,7 +66,7 @@ class MainFragment : Fragment() {
                     closeMeNoData?.visibility = INVISIBLE
                 }
                 val recyclerViewMainRestaurant = getView()?.findViewById<RecyclerView>(R.id.recyclerViewMainRestaurant)
-                recyclerViewMainRestaurant?.adapter = MainRestaurantAdapter(restaurants)
+                recyclerViewMainRestaurant?.adapter = MainRestaurantAdapter(restaurants,self)
 
             }
         }
@@ -72,6 +76,14 @@ class MainFragment : Fragment() {
         override fun onProviderDisabled(provider: String) {}
     }
 
+    override fun onItemClick(restoPosition : Int){
+        val transaction = activity!!.supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+        var menuFragment = MenuFragment()
+        transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+        transaction.commitAllowingStateLoss()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerViewMainRestaurant = getView()?.findViewById<RecyclerView>(R.id.recyclerViewMainRestaurant)
@@ -79,7 +91,7 @@ class MainFragment : Fragment() {
         setQRscan()
         recyclerViewMainRestaurant?.setHasFixedSize(true)
         recyclerViewMainRestaurant?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewMainRestaurant?.adapter = MainRestaurantAdapter(restaurants)
+        recyclerViewMainRestaurant?.adapter = MainRestaurantAdapter(restaurants,this)
     }
 
     private fun setQRscan(){
