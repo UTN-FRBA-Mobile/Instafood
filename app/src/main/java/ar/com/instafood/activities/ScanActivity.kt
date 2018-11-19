@@ -15,6 +15,9 @@ import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import android.graphics.Bitmap
 import android.widget.ImageView
+import com.journeyapps.barcodescanner.BarcodeEncoder
+
+
 
 /**
  * Created by mnavarro on 24/10/2018.
@@ -27,22 +30,24 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        mScannerView = ZXingScannerView(this)   // Programmatically initialize the scanner view
-        setContentView(mScannerView)                // Set the scanner view as the content view
-        convertToImage("lo que sea");
+        //mScannerView = ZXingScannerView(this)   // Programmatically initialize the scanner view
+        //setContentView(mScannerView)                // Set the scanner view as the content view
+        setContentView(R.layout.activity_scan)
+        iv = findViewById(R.id.iv)
+        convertToImage("Lo que sea.");
     }
 
-    public override fun onResume() {
-        super.onResume()
+    //public override fun onResume() {
+    //    super.onResume()
+//
+    //      mScannerView!!.setResultHandler(this) // Register ourselves as a handler for scan results.
+    //   mScannerView!!.startCamera()          // Start camera on resume
+    //}
 
-       mScannerView!!.setResultHandler(this) // Register ourselves as a handler for scan results.
-       mScannerView!!.startCamera()          // Start camera on resume
-    }
-
-    public override fun onPause() {
-        super.onPause()
-        mScannerView!!.stopCamera()           // Stop camera on pause
-    }
+    //public override fun onPause() {
+    //   super.onPause()
+    //   mScannerView!!.stopCamera()           // Stop camera on pause
+    //}
 
      override fun handleResult(rawResult: Result) {
         Log.i("SCAN RESULT", rawResult.text)
@@ -58,45 +63,47 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     }
 
     private fun convertToImage(text: String){
-            bitmap = TextToImageEncode(text)
+            bitmap = textToImageEncode(text)
             iv!!.setImageBitmap(bitmap)
 
     }
 
-
     @Throws(WriterException::class)
-    private fun TextToImageEncode(Value: String): Bitmap? {
-        val bitMatrix: BitMatrix
+    private fun textToImageEncode(textToEncode: String): Bitmap? {
+        var bitMatrix: BitMatrix
+        var multiFormatWriter = MultiFormatWriter()
+        var QRcodeWidth = 500
         try {
-            bitMatrix = MultiFormatWriter().encode(
-                    Value,
+            bitMatrix = multiFormatWriter.encode(
+                    textToEncode,
                     BarcodeFormat.QR_CODE,
-                    QRcodeWidth, QRcodeWidth, null
-            )
+                    QRcodeWidth, QRcodeWidth,null)
 
         } catch (Illegalargumentexception: IllegalArgumentException) {
 
             return null
         }
 
-        val bitMatrixWidth = bitMatrix.getWidth()
+        var bitMatrixWidth = bitMatrix.getWidth()
 
-        val bitMatrixHeight = bitMatrix.getHeight()
+        var bitMatrixHeight = bitMatrix.getHeight()
 
-        val pixels = IntArray(bitMatrixWidth * bitMatrixHeight)
+        var pixels = IntArray(bitMatrixWidth * bitMatrixHeight)
 
         for (y in 0 until bitMatrixHeight) {
-            val offset = y * bitMatrixWidth
+            var offset = y * bitMatrixWidth
 
             for (x in 0 until bitMatrixWidth) {
 
                 pixels[offset + x] = if (bitMatrix.get(x, y))
-                    resources.getColor(R.color.abc_hint_foreground_material_dark)
+                    resources.getColor(R.color.black)
                 else
                     resources.getColor(R.color.white)
             }
         }
-        val bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444)
+        var barcodeEncoder = BarcodeEncoder()
+        //var bitmap = barcodeEncoder.createBitmap(bitMatrix)
+        var bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444)
 
         bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight)
         return bitmap
