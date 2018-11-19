@@ -15,10 +15,10 @@ import ar.com.instafood.activities.CloseActivity
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.order.OrderService
 import ar.com.instafood.fragments.order.PreferenceUtils
-import ar.com.instafood.fragments.order.StarService
 import ar.com.instafood.fragments.order.TimerState
 import kotlinx.android.synthetic.main.fragment_order.view.*
 import java.lang.StringBuilder
+
 
 class OrderFragment : Fragment() {
 
@@ -43,7 +43,7 @@ class OrderFragment : Fragment() {
         initToolbar()
         initMessage()
         initLabel()
-        initCloseButton2()
+        initCloseButton()
         initOrderDetail()
         super.onResume()
         //initTimer()
@@ -142,23 +142,13 @@ class OrderFragment : Fragment() {
         val closeButton = view?.findViewById<Button>(R.id.btn_close)
         closeButton?.setOnClickListener { _ ->
 
-            val mBuilder = AlertDialog.Builder(this.requireContext())
-            val mView = layoutInflater?.inflate(R.layout.fragment_close, null)
-
-            val starService = StarService()
-            starService.init(mView!!, this.requireContext())
-
-            mBuilder.setView(mView)
-            val popup = mBuilder.create()
-            popup.show()
+            val alertDialog = AlertDialog.Builder(this.requireContext()).create()
+            alertDialog.setMessage(this.resources.getString(R.string.lbl_order_popup_question))
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, this.resources.getString(R.string.lbl_order_yes))
+                { dialog, which -> activity?.startActivityForResult(Intent(activity, CloseActivity::class.java),1) }
+            alertDialog.show()
         }
-    }
 
-    private fun initCloseButton2() {
-        val closeButton = view?.findViewById<Button>(R.id.btn_close)
-        closeButton?.setOnClickListener { _ ->
-            activity?.startActivityForResult(Intent(activity, CloseActivity::class.java),1)
-        }
     }
 
 }

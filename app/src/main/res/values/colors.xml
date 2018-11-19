@@ -13,4 +13,6 @@
     <color name="countdownColorBackground">#151B29</color>
     <color name="countdownColorYellow">#f8c643</color>
     <color name="light_grey">#DDDDDD</color>
+    <color name="green">#228B22</color>
+
 </resources>

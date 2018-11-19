@@ -27,6 +27,9 @@
     <string name="lbl_order_score_3">Está bien</string>
     <string name="lbl_order_score_4">Me gustó</string>
     <string name="lbl_order_score_5">Me encantó</string>
+    <string name="lbl_order_popup_question">¿De verdad deseas cerrar la mesa?</string>
+    <string name="lbl_order_yes">Si</string>
+    <string name="lbl_close_may_pay">Ya podés abonar</string>
 
     <!-- check-fragment -->
     <string name="confirmation">Confirmar</string>
