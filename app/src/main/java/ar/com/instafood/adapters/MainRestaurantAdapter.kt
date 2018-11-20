@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.main_restaurant_card.view.*
 
 class MainRestaurantAdapter(val restaurants : List<Restaurant>?, var cb : adapterCallback) : RecyclerView.Adapter<MainRestaurantAdapter.RestaurantViewHolder>() {
 
+    var items : List<Restaurant> = ArrayList()
     init{
         this.cb = cb
     }

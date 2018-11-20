@@ -27,9 +27,11 @@ class StarService {
 
         for (star in goldStars) {
             star.setOnClickListener { _ ->
-                goldStars.forEach { it.visibility = View.INVISIBLE }
-                starsToTurnOn(goldStars, star).forEach { it.visibility = View.VISIBLE }
-                view.findViewById<TextView>(R.id.lbl_close_score_description).text = labels.get(star.contentDescription)
+                if (!PreferenceUtils.getScoreLocked(context)) {
+                    goldStars.forEach { it.visibility = View.INVISIBLE }
+                    starsToTurnOn(goldStars, star).forEach { it.visibility = View.VISIBLE }
+                    view.findViewById<TextView>(R.id.lbl_close_score_description).text = labels.get(star.contentDescription)
+                }
             }
         }
 
@@ -42,9 +44,11 @@ class StarService {
 
         for (star in greyStars) {
             star.setOnClickListener { _ ->
-                goldStars.forEach { it.visibility = View.INVISIBLE }
-                starsToTurnOn(goldStars, star).forEach { it.visibility = View.VISIBLE }
-                view.findViewById<TextView>(R.id.lbl_close_score_description).text = labels.get(star.contentDescription)
+                if (!PreferenceUtils.getScoreLocked(context)) {
+                    goldStars.forEach { it.visibility = View.INVISIBLE }
+                    starsToTurnOn(goldStars, star).forEach { it.visibility = View.VISIBLE }
+                    view.findViewById<TextView>(R.id.lbl_close_score_description).text = labels.get(star.contentDescription)
+                }
             }
         }
 

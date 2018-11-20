@@ -5,8 +5,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.order.StarService
+import android.widget.Toast
+import ar.com.instafood.fragments.order.PreferenceUtils
+
 
 class CloseFragment : Fragment() {
 
@@ -19,6 +24,7 @@ class CloseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        PreferenceUtils.setScoreLocked(false, this.requireContext())
         initCloseButton()
         super.onResume()
     }
@@ -27,6 +33,15 @@ class CloseFragment : Fragment() {
         val starService = StarService()
         starService.init(this.view!!, this.requireContext())
 
+        val closeButton = view?.findViewById<Button>(R.id.btn_close_score)
+        closeButton?.setOnClickListener { _ ->
+            Toast.makeText(getActivity(), "Gracias por puntuar", Toast.LENGTH_LONG).show();
+            val label = view?.findViewById<TextView>(R.id.lbl_close_score_description)
+            PreferenceUtils.setScoreLocked(true, this.requireContext())
+            val scoreDescription = label?.text
+            label?.text = "Puntuado: " + scoreDescription
+            closeButton.visibility = View.INVISIBLE
+        }
     }
 
 

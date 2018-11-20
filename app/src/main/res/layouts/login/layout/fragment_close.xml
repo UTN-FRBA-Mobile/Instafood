@@ -186,11 +186,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/btn_popup_accept"
+        android:layout_above="@+id/btn_close_score"
         android:layout_marginTop="20dp" />
 
     <Button
-        android:id="@+id/btn_popup_accept"
+        android:id="@+id/btn_close_score"
         style="@style/CloseButton"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
@@ -198,6 +198,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="40dp"
         android:text="Puntuar" />
+
 
 
 </RelativeLayout>
