@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import ar.com.instafood.activities.CloseActivity
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.order.OrderService
@@ -46,6 +47,7 @@ class OrderFragment : Fragment() {
         initCloseButton()
         initOrderDetail()
         setAddMenu()
+        initWaiterButton()
         super.onResume()
         //initTimer()
     }
@@ -160,7 +162,17 @@ class OrderFragment : Fragment() {
                 { dialog, which -> activity?.startActivityForResult(Intent(activity, CloseActivity::class.java),1) }
             alertDialog.show()
         }
+    }
 
+    private fun initWaiterButton(){
+        val closeButton = view?.findViewById<Button>(R.id.btn_waiter)
+        closeButton?.setOnClickListener { _ ->
+            val alertDialog = AlertDialog.Builder(this.requireContext()).create()
+            alertDialog.setMessage("¿En verdad deseas llamar al mesero?")
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, this.resources.getString(R.string.lbl_order_yes))
+            { dialog, which -> Toast.makeText(getActivity(), "Llamado a mesero realizado", Toast.LENGTH_LONG).show(); }
+            alertDialog.show()
+        }
     }
 
 }
