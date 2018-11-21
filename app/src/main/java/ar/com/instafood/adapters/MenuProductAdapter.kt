@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.single_product_card.view.*
 class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapter<MenuProductAdapter.ProductViewHolder>(){
 
     private var product_image : Int ? = null
+    var items : List<Product> = ArrayList()
 
     class ProductViewHolder(var card: View) : RecyclerView.ViewHolder(card) {
         init {

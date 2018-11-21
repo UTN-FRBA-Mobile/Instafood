@@ -23,9 +23,7 @@ class CheckAdapter(val checks: ArrayList<Check>) : RecyclerView.Adapter<CheckAda
                 holder.card.txtCantidad.text = 1.toString()
                 holder.card.txtTotal.text = item.price.toString()
             }
-
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): CheckViewHolder {
