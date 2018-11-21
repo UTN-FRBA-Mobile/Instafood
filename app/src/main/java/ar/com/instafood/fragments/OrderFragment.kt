@@ -75,7 +75,10 @@ class OrderFragment : Fragment() {
 
         secondsRemaining = timerLengthSeconds
 
-        updateCountdownUI()
+//        updateCountdownUI()
+        val label = view?.findViewById<TextView>(R.id.lbl_will_arrive_in)
+        label?.text =this.resources.getString(R.string.lbl_order_title)
+        Toast.makeText(getActivity(), "Bon appetit!", Toast.LENGTH_LONG).show();
     }
 
     private fun startTimer(){

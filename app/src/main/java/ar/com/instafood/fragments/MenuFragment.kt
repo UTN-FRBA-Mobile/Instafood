@@ -45,8 +45,6 @@ class MenuFragment : Fragment() {
 
         menuTabLayout!!.setupWithViewPager(menuViewPager)
 
-
-
         return view
     }
 
