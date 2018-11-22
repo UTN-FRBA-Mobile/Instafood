@@ -1,5 +1,6 @@
 package ar.com.instafood.fragments.menuFragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
@@ -8,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import ar.com.instafood.activities.R
+import ar.com.instafood.activities.SearchRestaurantsActivity
+import ar.com.instafood.activities.login.LoginActivity
 import ar.com.instafood.application.SocketApplication
 import ar.com.instafood.fragments.MenuFragment
 import ar.com.instafood.models.Check
@@ -17,7 +20,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_product_detail.view.*
 
 class ProductDetailFragment : Fragment() {
-
     private var tv_title: String? = null
     private var tv_description: String? = null
     private var tv_price: String? = null
@@ -53,10 +55,18 @@ class ProductDetailFragment : Fragment() {
         val json = gsonBuilder.toJson(Check("Juan", arrayListOf(Product(tv_title ?: "", tv_description ?: "", tv_price?.toInt() ?: 0, product_image_string!!))))
 
         btn?.setOnClickListener {
+            if (userName == null){
+                activity?.startActivityForResult(Intent(activity, LoginActivity::class.java),1)
+            }
             socket?.emit("productSelected", json)
             returnToMenuFragment()
         }
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        returnToMenuFragment()
     }
 
     private fun returnToMenuFragment() {
@@ -69,6 +79,9 @@ class ProductDetailFragment : Fragment() {
 
 
     companion object {
+        var userName: String? = null
+        var userId: String? = null
+
         @JvmStatic
         fun newInstance(product: String) =
                 ProductDetailFragment().apply {
