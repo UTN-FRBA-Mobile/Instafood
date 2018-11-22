@@ -18,7 +18,7 @@ class CheckAdapter(val checks: ArrayList<Check>) : RecyclerView.Adapter<CheckAda
         if (holder != null) {
             //holder.card.txtxUsername.text = checks[p1].name
             for (item: Product in checks[p1].products) {
-                Picasso.get().load(item.image).into(holder.card.iv_icon_image)
+                Picasso.get().load(item.resource).into(holder.card.iv_icon_image)
                 holder.card.txtProduct.text = item.title
                 holder.card.txtCantidad.text = 1.toString()
                 holder.card.txtTotal.text = item.price.toString()

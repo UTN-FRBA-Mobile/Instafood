@@ -2,7 +2,7 @@ package ar.com.instafood.models
 
 import ar.com.instafood.activities.R
 
-data class Product(val title : String, val description : String, val price : Int, val image : String) {
+data class Product(val title : String, val description : String, val price : Int, val resource : String) {
     var listProduct : ArrayList<Product> = arrayListOf<Product>()
 
 

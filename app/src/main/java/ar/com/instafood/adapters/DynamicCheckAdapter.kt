@@ -95,13 +95,13 @@ open class DynamicCheckAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
             if ( _pos >  firstListSize  ) {
                 txtProduct!!.text = secondListItem[1].products.get(_pos - (firstListSize+1)).title
                 txtTotal!!.text = "2"
-                Picasso.get().load(secondListItem[1].products.get(_pos - (firstListSize+1)).image).into(iv_icon_image)
+                Picasso.get().load(secondListItem[1].products.get(_pos - (firstListSize+1)).resource).into(iv_icon_image)
             }
             else{
                 txtProduct!!.text = secondListItem[0].products.get(_pos ).title
                 txtTotal!!.text = secondListItem[0].products.get(_pos).price.toString()
                 txtCantidad!!.text = "1"
-                Picasso.get().load(secondListItem[0].products.get(_pos).image).into(iv_icon_image)
+                Picasso.get().load(secondListItem[0].products.get(_pos).resource).into(iv_icon_image)
             }
         }
 

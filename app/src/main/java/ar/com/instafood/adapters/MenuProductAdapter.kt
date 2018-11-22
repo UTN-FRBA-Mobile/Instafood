@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_product_card.view.*
 
 
-class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapter<MenuProductAdapter.ProductViewHolder>(){
+class MenuProductAdapter(val products : ArrayList<Product>?) : RecyclerView.Adapter<MenuProductAdapter.ProductViewHolder>(){
 
     private var product_image : Int ? = null
     var items : List<Product> = ArrayList()
@@ -60,12 +60,12 @@ class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         if (holder != null) {
-            val product = products[position]
+            val product = products!![position]
             holder.card.tv_title.text = product.title
             holder.card.tv_description.text = product.description
             holder.card.tv_price.text = product.price.toString()
-            Picasso.get().load(product.image).into(holder.card.iv_icon_image)
-            holder.card.iv_icon_string.text = product.image.toString()
+            Picasso.get().load(product.resource).into(holder.card.iv_icon_image)
+            holder.card.iv_icon_string.text = product.resource
             //product_image = product.image
         }
     }
@@ -76,6 +76,6 @@ class MenuProductAdapter(val products : ArrayList<Product>) : RecyclerView.Adapt
         return ProductViewHolder(view)
     }
 
-    override fun getItemCount() = products.size
+    override fun getItemCount() = products!!.size
 
 }

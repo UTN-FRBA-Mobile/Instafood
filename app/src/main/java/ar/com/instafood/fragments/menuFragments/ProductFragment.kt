@@ -2,6 +2,7 @@ package ar.com.instafood.fragments.menuFragments
 
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -37,6 +38,8 @@ class ProductFragment : Fragment() {
     private var productList: String? = null
     private var products: ArrayList<Product>? = null
     private var mainProducts : List<Product>? = null
+    private var secondaryProducts : List<Product>? = null
+    private var drinkProducts : List<Product>? = null
     private var disposable: Disposable? = null
     private var adapter : MenuProductAdapter? = null
     private var menuView : View? = null
@@ -52,37 +55,53 @@ class ProductFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         var view = inflater.inflate(R.layout.fragment_product, container, false)
-        menuView = view
-        when (productList) {
-            "platosPrincipales" -> { products = getMainProducts() }
-            "platosSecundarios" -> { products = getSecondaryProducts() }
-            "postreBebidas" -> { products = getDrinkProducts() }
-            else -> { // Note the block
-                Log.d("Error in ProductFrag","no se cargo el menu en el product fragment.")
-            }
-        }
-        view.recyclerViewSearchProduct.setHasFixedSize(true)
-        view.recyclerViewSearchProduct.layoutManager = LinearLayoutManager(context)
-        view.recyclerViewSearchProduct.adapter = MenuProductAdapter(products!!)
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        menuView = view
+        if(mainProducts == null || secondaryProducts == null || drinkProducts == null){
+            val handler = Handler()
+            handler.postDelayed({
+                getMenu()
+            }, 800)
+        }
+        view.recyclerViewSearchProduct.setHasFixedSize(true)
+        view.recyclerViewSearchProduct.layoutManager = LinearLayoutManager(context)
+        //view.recyclerViewSearchProduct.adapter = MenuProductAdapter(products!!)
+    }
 
     private fun getMenu() {
         if (menuView!!.recyclerViewSearchProduct is RecyclerView) {
             with(view) {
-                adapter = MenuProductAdapter(products!!)
-                view!!.recyclerViewSearchProduct!!.adapter = adapter
                 disposable = menuAPIServe.getMenu().subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                { result -> adapter!!.items = result.mainProducts()
-                                    adapter!!.notifyDataSetChanged()
+                                { result ->
                                     if(result.mainProducts() !== null){
                                         mainProducts = result.mainProducts()
-                                    }},
+                                    }
+                                    if(result.secondaryProducts() !== null){
+                                        secondaryProducts = result.secondaryProducts()
+                                    }
+                                    if(result.drinkProducts() !== null){
+                                        drinkProducts = result.drinkProducts()
+                                    }
+                                    when (productList) {
+                                        "platosPrincipales" -> { products = mainProducts as ArrayList<Product>?
+                                        }
+                                        "platosSecundarios" -> { products = secondaryProducts as ArrayList<Product>? }
+                                        "postreBebidas" -> { products = drinkProducts as ArrayList<Product>? }
+                                        else -> { // Note the block
+                                            Log.d("Error in ProductFrag","no se cargo el menu en el product fragment.")
+                                        }
+                                    }
+                                    adapter = MenuProductAdapter(products)
+                                    view!!.recyclerViewSearchProduct!!.adapter = adapter
+                                    adapter!!.notifyDataSetChanged()
+                                },
                                 { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }
                         )
             }
