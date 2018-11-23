@@ -26,3 +26,4 @@ fun calculateLoc(currentLocation: Location?, restaurant: Restaurant): Restaurant
     restaurant.distance = currentLocation?.distanceTo(location2)!!.div(1000).toString()
     return restaurant
 }
+
