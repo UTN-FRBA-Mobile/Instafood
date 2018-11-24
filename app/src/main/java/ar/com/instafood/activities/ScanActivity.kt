@@ -11,7 +11,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView
 import ar.com.instafood.fragments.MenuFragment
 import android.graphics.Bitmap
 import android.widget.ImageView
-
+import ar.com.instafood.fragments.menuFragments.ProductDetailFragment
 
 
 /**
@@ -51,7 +51,7 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         val app  = application as SocketApplication
         val socket = app.socket
 
-        socket?.emit("restaurantSelected", resultFromScanner)
+        socket?.emit(ProductDetailFragment.userName, ProductDetailFragment.userName)
     }
 
 
