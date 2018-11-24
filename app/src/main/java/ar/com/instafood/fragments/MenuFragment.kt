@@ -8,6 +8,8 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import ar.com.instafood.activities.R
 import ar.com.instafood.adapters.MenuTabsAdapter
 import ar.com.instafood.fragments.menuFragments.ProductFragment
@@ -30,6 +32,7 @@ class MenuFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_menu, container, false)
+        shareMenu()
         //initialise()
         prepareDataResource()
         setBar(view)
@@ -72,4 +75,21 @@ class MenuFragment : Fragment() {
 
     }
 
+
+
+
+    private fun shareMenu(){
+        val btn_search = view?.findViewById<ImageButton>(R.id.searchImageButton)
+        btn_search?.setOnClickListener { _ ->
+            val transaction = activity!!.supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            var showQRFragment = ShowQRFragment()
+            transaction.replace(R.id.fragment_container, showQRFragment).addToBackStack(null)
+            transaction.commitAllowingStateLoss()
+        }
+
+    }
+
+
 }
+

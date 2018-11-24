@@ -9,13 +9,8 @@ import ar.com.instafood.application.SocketApplication
 import com.google.zxing.Result
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import ar.com.instafood.fragments.MenuFragment
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.MultiFormatWriter
-import com.google.zxing.WriterException
-import com.google.zxing.common.BitMatrix
 import android.graphics.Bitmap
 import android.widget.ImageView
-import com.journeyapps.barcodescanner.BarcodeEncoder
 
 
 
@@ -24,9 +19,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
  */
 class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     private var mScannerView: ZXingScannerView? = null
-    private var menuFragment = MenuFragment()
-    internal var bitmap: Bitmap? = null
-    private var iv: ImageView? = null
+
 
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -61,59 +54,6 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         socket?.emit("restaurantSelected", resultFromScanner)
     }
 
-    private fun convertToImage(text: String){
-            bitmap = textToImageEncode(text)
-            iv!!.setImageBitmap(bitmap)
-
-    }
-
-    @Throws(WriterException::class)
-    private fun textToImageEncode(textToEncode: String): Bitmap? {
-        var bitMatrix: BitMatrix
-        var multiFormatWriter = MultiFormatWriter()
-        var QRcodeWidth = 500
-        try {
-            bitMatrix = multiFormatWriter.encode(
-                    textToEncode,
-                    BarcodeFormat.QR_CODE,
-                    QRcodeWidth, QRcodeWidth,null)
-
-        } catch (Illegalargumentexception: IllegalArgumentException) {
-
-            return null
-        }
-
-        var bitMatrixWidth = bitMatrix.getWidth()
-
-        var bitMatrixHeight = bitMatrix.getHeight()
-
-        var pixels = IntArray(bitMatrixWidth * bitMatrixHeight)
-
-        for (y in 0 until bitMatrixHeight) {
-            var offset = y * bitMatrixWidth
-
-            for (x in 0 until bitMatrixWidth) {
-
-                pixels[offset + x] = if (bitMatrix.get(x, y))
-                    resources.getColor(R.color.black)
-                else
-                    resources.getColor(R.color.white)
-            }
-        }
-        var barcodeEncoder = BarcodeEncoder()
-        //var bitmap = barcodeEncoder.createBitmap(bitMatrix)
-        var bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444)
-
-        bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight)
-        return bitmap
-    }
-
-    companion object {
-
-        val QRcodeWidth = 500
-
-        private val IMAGE_DIRECTORY = "/QRcodeDemonuts"
-    }
 
 
 
