@@ -9,7 +9,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="buscar_restaurantes">Área de busqueda: Menos de 1000 metros</string>
-    <string name="boton_buscar_restaurant">Buscar restaurant</string>
+    <string name="boton_buscar_restaurant">Buscar restaurante</string>
     <string name="instafoodTitle">InstaFood</string>
 
     <!-- order-fragment -->

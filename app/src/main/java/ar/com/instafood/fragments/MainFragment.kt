@@ -66,7 +66,8 @@ class MainFragment : Fragment(), adapterCallback {
             currentLocation = location
             if(restaurants !== null) {
                 setDistances(restaurants, currentLocation)
-                restaurants = restaurants!!.filter{it.distance.toDouble() <= 10}
+                restaurants = restaurants!!.filter{it.distanceDouble <= 10}
+                restaurants!!.sortedBy { it.distanceDouble }
                 if(restaurants!!.isEmpty()){
                     closeMeNoData?.visibility = VISIBLE
                 }else{
@@ -139,6 +140,7 @@ class MainFragment : Fragment(), adapterCallback {
                                         spinner!!.visibility = View.GONE
                                         if(currentLocation !== null) {
                                             setDistances(result.restaurants, currentLocation)
+                                            restaurants!!.sortedBy { it.distanceDouble }
                                         }
                                     }},
                                 { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }

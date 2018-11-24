@@ -51,6 +51,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         var view = inflater.inflate(R.layout.fragment_search_restaurant, container, false)
         textView = view.findViewById(R.id.areaBusquedaRestaurants)
         seekBar = view.findViewById(R.id.seekBarRestaurant)
+        self = this
         recyclerViewSearchRestaurant = view.findViewById(R.id.recyclerViewSearchRestaurant)
         locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
@@ -62,8 +63,12 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
             currentLocation = location
-            if(searchRestaurants !== null) {
+            if (searchRestaurants !== null) {
                 setDistances(searchRestaurants, currentLocation)
+                searchRestaurants = searchRestaurants!!.sortedWith(compareBy {it.distanceDouble})
+                adapter!!.items = searchRestaurants!!
+                adapter!!.notifyDataSetChanged()
+                updateRestaurants()
             }
         }
 
@@ -71,6 +76,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
     }
+    fun selector(p: Restaurant): Double = p.distanceDouble
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,11 +94,12 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         updatePositiveClick()
         recyclerViewSearchRestaurant?.setHasFixedSize(true)
         recyclerViewSearchRestaurant?.layoutManager = LinearLayoutManager(context)
+        recyclerViewSearchRestaurant?.adapter = RestaurantAdapter(searchRestaurants,this)
 }
 
     @SuppressLint("MissingPermission")
     private fun updateRestaurants() {
-        adapter!!.items = searchRestaurants!!.filter { it.distance.toDouble() <= seekBar!!.progress }
+        adapter!!.items = searchRestaurants!!.filter { it.distanceDouble <= seekBar!!.progress }
         adapter!!.notifyDataSetChanged()
     }
 
@@ -133,13 +140,19 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
                 disposable = restaurantAPIServe.getRestaurants().subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                { result -> adapter!!.items = result.restaurants
-                                    adapter!!.notifyDataSetChanged()
+                                { result ->
                                     if(result.restaurants !== null){
+                                        adapter!!.items = result.restaurants
+                                        adapter!!.notifyDataSetChanged()
                                         searchRestaurants = result.restaurants
+                                        updateRestaurants()
                                         enableVisibility()
                                         if(currentLocation !== null) {
-                                            setDistances(result.restaurants, currentLocation)
+                                            setDistances(searchRestaurants, currentLocation)
+                                            searchRestaurants = searchRestaurants!!.sortedWith(compareBy {it.distanceDouble})
+                                            adapter!!.items = searchRestaurants!!
+                                            adapter!!.notifyDataSetChanged()
+                                            updateRestaurants()
                                         }
                                     }},
                                 { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }
