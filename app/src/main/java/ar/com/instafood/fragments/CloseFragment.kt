@@ -31,6 +31,7 @@ class CloseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PreferenceUtils.setScoreLocked(false, this.requireContext())
+        initAmountLabel()
         initCloseButton()
         super.onResume()
     }
