@@ -29,6 +29,7 @@ class MenuFragment : Fragment() {
     var menuTabLayout: TabLayout? = null
     var menuAdapter : MenuTabsAdapter? = null
     var restaurant : Restaurant? = null
+    var username : String? = null
     private lateinit var viewMenu : View
 
     init {
@@ -42,6 +43,7 @@ class MenuFragment : Fragment() {
 
         val bundle = arguments
         restaurant = bundle!!.getSerializable("restaurant") as Restaurant
+        username = bundle.getString("username")
         viewMenu = inflater.inflate(R.layout.fragment_menu, container, false)
         shareMenu()
         //initialise()
@@ -86,9 +88,17 @@ class MenuFragment : Fragment() {
 
     private fun prepareDataResource() {
         if (listFragment.isEmpty()) {
-            addData(ProductFragment.newInstance("platosPrincipales",restaurant!!.id), "Platos Principales")
-            addData(ProductFragment.newInstance("platosSecundarios",restaurant!!.id), "Entradas")
-            addData(ProductFragment.newInstance("postreBebidas",restaurant!!.id), "Bebidas y Postres Especiales")
+            if(username != null) {
+                addData(ProductFragment.newInstance("platosPrincipales", restaurant!!.id, username!!), "Platos Principales")
+                addData(ProductFragment.newInstance("platosSecundarios", restaurant!!.id, username!!), "Entradas")
+                addData(ProductFragment.newInstance("postreBebidas", restaurant!!.id, username!!), "Bebidas y Postres Especiales")
+            }
+            else{
+                username = "";
+                addData(ProductFragment.newInstance("platosPrincipales", restaurant!!.id, username!!), "Platos Principales")
+                addData(ProductFragment.newInstance("platosSecundarios", restaurant!!.id, username!!), "Entradas")
+                addData(ProductFragment.newInstance("postreBebidas", restaurant!!.id, username!!), "Bebidas y Postres Especiales")
+            }
         }
     }
 
