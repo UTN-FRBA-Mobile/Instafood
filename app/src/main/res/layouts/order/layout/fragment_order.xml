@@ -36,7 +36,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="23"
+        android:layout_weight="24"
         android:orientation="vertical">
 
         <LinearLayout
@@ -67,8 +67,8 @@
                     <ProgressBar
                         android:id="@+id/bar_timer"
                         style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="400dp"
-                        android:layout_height="400dp"
+                        android:layout_width="320dp"
+                        android:layout_height="320dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/drawable_circle_dark_blue"
                         android:indeterminate="false"
