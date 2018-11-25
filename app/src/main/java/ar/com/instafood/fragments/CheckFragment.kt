@@ -17,6 +17,7 @@ import ar.com.instafood.models.getSampleCheck
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.fragment_check.view.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,8 +42,8 @@ class CheckFragment : Fragment() {
             activity?.runOnUiThread(
                     {
                     if (args[0] != null ) {
-                        val jsonElement = JsonParser().parse((args[0] as JSONObject).toString())
-                        checks = arrayListOf(Gson().fromJson(jsonElement, Check::class.java))
+                        val jsonElement = JsonParser().parse((args[0] as JSONArray).toString())
+                        checks = Gson().fromJson(jsonElement, Array<Check>::class.java).toCollection(ArrayList())
                         var mDynamicListAdapter = DynamicCheckAdapter()
                         mDynamicListAdapter.setFirstList(checks!!)
                         view.cardList.setHasFixedSize(true)
