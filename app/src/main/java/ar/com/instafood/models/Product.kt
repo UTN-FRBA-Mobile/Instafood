@@ -1,8 +1,9 @@
 package ar.com.instafood.models
 
 import ar.com.instafood.activities.R
+import java.io.Serializable
 
-data class Product(val title : String, val description : String, val price : Int, val resource : String) {
+data class Product(val title : String, val description : String, val price : Int, val resource : String) : Serializable {
     var listProduct : ArrayList<Product> = arrayListOf<Product>()
 
 

@@ -7,8 +7,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import io.socket.emitter.Emitter
 import org.json.JSONObject
+import java.io.Serializable
 
-data class Check(val name: String, var products: ArrayList<Product>)
+data class Check(val name: String, var products: ArrayList<Product>) : Serializable
 
 fun getSampleCheck(application: SocketApplication): ArrayList<Check> {
     //TODO: Pasarlo a un service
