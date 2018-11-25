@@ -64,6 +64,7 @@ class LoginActivity : AppCompatActivity() {
                         val app = application as SocketApplication
                         var intent_result = Intent()
                         intent_result.putExtra("username_result", user)
+                        intent_result.putExtra("activity_id", 3)
                         this!!.setResult(Activity.RESULT_OK, intent_result)
                         app.socket?.emit("connectedSocket", user)
                         this.finish()
