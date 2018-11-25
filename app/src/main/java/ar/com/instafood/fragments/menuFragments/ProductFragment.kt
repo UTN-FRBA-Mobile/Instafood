@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_product.view.*
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val PRODUCT_LIST = "productList"
+private const val MENU_ID = "menuId"
 
 /**
  * A simple [Fragment] subclass.
@@ -42,6 +43,7 @@ class ProductFragment : Fragment() {
     private var drinkProducts : List<Product>? = null
     private var disposable: Disposable? = null
     private var adapter : MenuProductAdapter? = null
+    private var menuId : String? = null
     private var menuView : View? = null
     private val menuAPIServe by lazy {
         MenuService.create()
@@ -49,6 +51,7 @@ class ProductFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            menuId = it.getString(MENU_ID)
             productList = it.getString(PRODUCT_LIST)
         }
     }
@@ -76,7 +79,7 @@ class ProductFragment : Fragment() {
     private fun getMenu() {
         if (menuView!!.recyclerViewSearchProduct is RecyclerView) {
             with(view) {
-                disposable = menuAPIServe.getMenu().subscribeOn(Schedulers.io())
+                disposable = menuAPIServe.getMenu(menuId!!).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 { result ->
@@ -112,10 +115,11 @@ class ProductFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(product: String) =
+        fun newInstance(product: String, id: String) =
                 ProductFragment().apply {
                     arguments = Bundle().apply {
                         putString(PRODUCT_LIST, product)
+                        putString(MENU_ID,id)
                     }
                 }
     }

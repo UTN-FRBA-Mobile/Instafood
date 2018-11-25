@@ -86,9 +86,9 @@ class MenuFragment : Fragment() {
 
     private fun prepareDataResource() {
         if (listFragment.isEmpty()) {
-            addData(ProductFragment.newInstance("platosPrincipales"), "Platos Principales")
-            addData(ProductFragment.newInstance("platosSecundarios"), "Entradas")
-            addData(ProductFragment.newInstance("postreBebidas"), "Bebidas y Postres Especiales")
+            addData(ProductFragment.newInstance("platosPrincipales",restaurant!!.id), "Platos Principales")
+            addData(ProductFragment.newInstance("platosSecundarios",restaurant!!.id), "Entradas")
+            addData(ProductFragment.newInstance("postreBebidas",restaurant!!.id), "Bebidas y Postres Especiales")
         }
     }
 
