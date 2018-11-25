@@ -16,6 +16,8 @@ import android.util.Log
 import android.support.v4.app.ActivityCompat
 import ar.com.instafood.application.SocketApplication
 import io.socket.client.Socket
+import android.R.attr.data
+import ar.com.instafood.models.Restaurant
 
 
 class MainActivity : AppCompatActivity() {
@@ -79,6 +81,10 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
+                var restaurant = data!!.getExtras().getSerializable("restaurant") as Restaurant
+                var args = Bundle()
+                args.putSerializable("restaurant",restaurant)
+                menuFragment.setArguments(args)
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)

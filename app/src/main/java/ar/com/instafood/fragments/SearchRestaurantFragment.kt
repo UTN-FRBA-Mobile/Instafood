@@ -106,7 +106,8 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     override fun onItemClick(restoPosition : Int){
         var activity = this.activity
         var intent_result = Intent()
-        intent_result.putExtra("position", restoPosition)
+        var restaurant = searchRestaurants!![restoPosition]
+        intent_result.putExtra("restaurant", restaurant)
         activity!!.setResult(Activity.RESULT_OK, intent_result)
         activity.finish()
     }
