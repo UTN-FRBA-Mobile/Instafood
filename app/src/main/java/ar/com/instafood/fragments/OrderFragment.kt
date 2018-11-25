@@ -192,7 +192,7 @@ class OrderFragment : Fragment() {
         if (checks != null) {
             return checks?.flatMap { it.products }?.map {
                 var description : String = it.description
-                if (it.description.length > 10) {
+                if (it.description.length > 20) {
                     description = it.description.substring(0,10)
                 }
                 SingleOrder(description, 1)
