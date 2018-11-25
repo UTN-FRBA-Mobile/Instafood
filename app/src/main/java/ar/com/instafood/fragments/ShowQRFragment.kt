@@ -7,37 +7,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
 import ar.com.instafood.activities.R
-import ar.com.instafood.adapters.MenuTabsAdapter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
-import com.journeyapps.barcodescanner.BarcodeEncoder
+import kotlinx.android.synthetic.main.show_qr.view.*
 
 /**
  * Created by mnavarro on 23/11/2018.
  */
 class ShowQRFragment : Fragment() {
 
-    private var showQRFragment = ShowQRFragment()
     internal var bitmap: Bitmap? = null
-    private var iv: ImageView? = null
+    private lateinit var viewScan : View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        convertToImage("Pedido");
+        viewScan = inflater.inflate(R.layout.show_qr, container, false)
+        bitmap = textToImageEncode("Pedido")
+        viewScan.iv.setImageBitmap(bitmap)
+        //convertToImage();
         goToOrder()
 
-        return view
+        return viewScan
     }
 
     private fun convertToImage(text: String){
-        bitmap = textToImageEncode(text)
-        iv!!.setImageBitmap(bitmap)
+
 
     }
 
@@ -82,8 +80,7 @@ class ShowQRFragment : Fragment() {
     }
 
     private fun goToOrder(){
-        val btn_ready = view?.findViewById<Button>(R.id.btn)
-        btn_ready?.setOnClickListener { _ ->
+        viewScan.btn.setOnClickListener { _ ->
             val transaction = activity!!.supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             var orderFragment = OrderFragment()
