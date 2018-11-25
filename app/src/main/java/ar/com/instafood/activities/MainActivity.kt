@@ -101,8 +101,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initialise() {
         //Todo en algun momento :D
-        val app = application as SocketApplication
-        app.socket?.on(Socket.EVENT_CONNECT, { _ -> run { app.socket?.emit("connectedSocket", "Juan") }})
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

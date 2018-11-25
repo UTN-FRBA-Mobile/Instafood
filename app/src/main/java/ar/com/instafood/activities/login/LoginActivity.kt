@@ -12,9 +12,11 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import ar.com.instafood.activities.MainActivity
 import ar.com.instafood.activities.R
+import ar.com.instafood.application.SocketApplication
 import ar.com.instafood.fragments.MenuFragment
 import ar.com.instafood.fragments.menuFragments.ProductDetailFragment
 import com.google.firebase.auth.FirebaseAuth
+import io.socket.client.Socket
 import kotlinx.android.synthetic.main.activity_menu.*
 
 class LoginActivity : AppCompatActivity() {
@@ -58,6 +60,8 @@ class LoginActivity : AppCompatActivity() {
                     task ->
                     if(task.isSuccessful){
                         ProductDetailFragment.userName = user
+                        val app = application as SocketApplication
+                        app.socket?.emit("connectedSocket", user)
                         this.finish()
                         //action()
                     }

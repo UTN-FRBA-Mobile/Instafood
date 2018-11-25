@@ -48,30 +48,38 @@ class ProductDetailFragment : Fragment() {
         view.toolbar_product_detail.title = tv_title
         view.toolbar_product_detail.navigationIcon = context?.getDrawable(R.drawable.abc_ic_ab_back_material)
         view.toolbar_product_detail.setNavigationOnClickListener({ returnToMenuFragment() })
-        val app  = activity?.application as SocketApplication
-        val gsonBuilder = GsonBuilder().create()
-        val socket = app.socket
+
         val btn = view.findViewById<Button>(R.id.buttonflat)
-        val json = gsonBuilder.toJson(Check("Juan", arrayListOf(Product(tv_title ?: "", tv_description ?: "", tv_price?.toInt() ?: 0, product_image_string!!))))
 
         btn?.setOnClickListener {
             if (userName == null){
                 activity?.startActivityForResult(Intent(activity, LoginActivity::class.java),1)
+            } else {
+                val gsonBuilder = GsonBuilder().create()
+                val app  = activity?.application as SocketApplication
+                val socket = app.socket
+                val json = gsonBuilder.toJson(Check(userName!!, arrayListOf(Product(tv_title ?: "", tv_description ?: "", tv_price?.toInt() ?: 0, product_image_string!!))))
+                socket?.emit("productSelected", json)
+                //returnToMenuFragment()
             }
-            socket?.emit("productSelected", json)
-            returnToMenuFragment()
+
         }
         return view
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        returnToMenuFragment()
+        val gsonBuilder = GsonBuilder().create()
+        val app  = activity?.application as SocketApplication
+        val socket = app.socket
+        val json = gsonBuilder.toJson(Check(userName!!, arrayListOf(Product(tv_title ?: "", tv_description ?: "", tv_price?.toInt() ?: 0, product_image_string!!))))
+
+        socket?.emit("productSelected", json)
     }
 
     private fun returnToMenuFragment() {
-        val fragment = fragmentManager!!.findFragmentByTag("MENU_FRAGMENT") as MenuFragment
         val transaction = fragmentManager!!.beginTransaction()
+        val fragment = fragmentManager!!.findFragmentByTag("MENU_FRAGMENT") as MenuFragment
         transaction.replace(R.id.fragment_container, fragment, "MENU_FRAGMENT");
         transaction.addToBackStack(null);
         transaction.commit();

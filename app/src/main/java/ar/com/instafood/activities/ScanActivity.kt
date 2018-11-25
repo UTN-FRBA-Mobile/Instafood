@@ -54,7 +54,7 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         if(scanCode == null){
             scanCode = resultFromScanner
         }
-        socket?.emit(ProductDetailFragment.userName, ProductDetailFragment.userName)
+        socket?.emit("addNewUser", scanCode)
     }
 
 

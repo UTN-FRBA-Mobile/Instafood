@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import ar.com.instafood.activities.R
+import ar.com.instafood.fragments.menuFragments.ProductDetailFragment
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -26,7 +27,7 @@ class ShowQRFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         viewScan = inflater.inflate(R.layout.show_qr, container, false)
-        bitmap = textToImageEncode("Pedido")
+        bitmap = textToImageEncode(ProductDetailFragment.userName!!)
         viewScan.iv.setImageBitmap(bitmap)
         //convertToImage();
         goToOrder()
