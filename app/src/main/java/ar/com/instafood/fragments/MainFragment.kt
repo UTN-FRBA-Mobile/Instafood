@@ -84,10 +84,14 @@ class MainFragment : Fragment(), adapterCallback {
         override fun onProviderDisabled(provider: String) {}
     }
 
-    override fun onItemClick(restoPosition : Int){
+    override fun onItemClick(position : Int){
         val transaction = activity!!.supportFragmentManager.beginTransaction()
         transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
         var menuFragment = MenuFragment()
+        var args = Bundle()
+        var rest : Restaurant = restaurants!![position]
+        args.putSerializable("restaurant",rest)
+        menuFragment.setArguments(args)
         transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
         transaction.commitAllowingStateLoss()
     }

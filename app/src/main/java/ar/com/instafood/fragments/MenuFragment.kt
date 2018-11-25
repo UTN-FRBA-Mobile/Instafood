@@ -10,10 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import ar.com.instafood.activities.R
 import ar.com.instafood.adapters.MenuTabsAdapter
 import ar.com.instafood.fragments.menuFragments.ProductFragment
+import ar.com.instafood.models.Restaurant
+import com.squareup.picasso.Picasso
 import io.socket.client.Socket
+import kotlinx.android.synthetic.main.fragment_menu.*
+import org.w3c.dom.Text
 
 
 class MenuFragment : Fragment() {
@@ -22,7 +28,7 @@ class MenuFragment : Fragment() {
     var menuViewPager: ViewPager? = null
     var menuTabLayout: TabLayout? = null
     var menuAdapter : MenuTabsAdapter? = null
-
+    var restaurant : Restaurant? = null
     init {
         listFragment.clear()
         listTitle.clear()
@@ -31,6 +37,8 @@ class MenuFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        val bundle = arguments
+        restaurant = bundle!!.getSerializable("restaurant") as Restaurant
         var view = inflater.inflate(R.layout.fragment_menu, container, false)
         shareMenu()
         //initialise()
@@ -53,7 +61,19 @@ class MenuFragment : Fragment() {
 
     private fun setBar(view: View) {
         var toolbar = view.findViewById<android.support.v7.widget.Toolbar>(R.id.hbtoolbar)
-        toolbar.title = "La Birra Bar"
+        var titleRestaurant = view.findViewById<me.grantland.widget.AutofitTextView>(R.id.tv_title_restaurant)
+        var addressRestaurant = view.findViewById<TextView>(R.id.tv_address)
+        var logoRestaurant = view.findViewById<com.mikhaellopez.circularimageview.CircularImageView>(R.id.logo_comp)
+        //htab_header_image
+        //
+        var backgroundRestaraunt = view.findViewById<ImageView>(R.id.htab_header_image)
+        var scheduleRestaurant = view.findViewById<TextView>(R.id.tv_open)
+        titleRestaurant.text = restaurant!!.title
+        addressRestaurant.text = restaurant!!.description
+        Picasso.get().load(restaurant!!.resource).into(logoRestaurant)
+        Picasso.get().load(restaurant!!.background_url).into(backgroundRestaraunt)
+        scheduleRestaurant.text = restaurant!!.schedule
+        toolbar.title = restaurant!!.title
     }
 
     private fun initialise() {
