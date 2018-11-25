@@ -22,6 +22,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Handler
+import android.widget.Button
 import android.widget.Toast
 import ar.com.instafood.interfaces.RestaurantsService
 import ar.com.instafood.models.setDistances
@@ -37,6 +38,8 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     private var adapter : RestaurantAdapter? = null
     private var recyclerViewSearchRestaurant : RecyclerView? = null
     private var locationManager : LocationManager? = null
+    private var minusSeek : Button? = null
+    private var plusSeek : Button? = null
     private var disposable: Disposable? = null
     private var currentLocation : Location? = null
     private var self = this
@@ -51,6 +54,8 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         var view = inflater.inflate(R.layout.fragment_search_restaurant, container, false)
         textView = view.findViewById(R.id.areaBusquedaRestaurants)
         seekBar = view.findViewById(R.id.seekBarRestaurant)
+        minusSeek = view.findViewById(R.id.minusSignSeekRestaurant)
+        plusSeek = view.findViewById(R.id.plusSignSeekRestaurant)
         self = this
         recyclerViewSearchRestaurant = view.findViewById(R.id.recyclerViewSearchRestaurant)
         locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
@@ -69,6 +74,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
                 adapter!!.items = searchRestaurants!!
                 adapter!!.notifyDataSetChanged()
                 updateRestaurants()
+                enableVisibility()
             }
         }
 
@@ -76,20 +82,17 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
     }
-    fun selector(p: Restaurant): Double = p.distanceDouble
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        spinner = view.findViewById(R.id.progress_bar_loading)
-        spinner!!.postInvalidateOnAnimation()
-        textView!!.visibility = View.INVISIBLE
-        minusSignSeekRestaurant.visibility = View.INVISIBLE
-        plusSignSeekRestaurant.visibility = View.INVISIBLE
-        seekBar!!.visibility = View.INVISIBLE
-        spinner!!.visibility = View.VISIBLE
-        val handler = Handler()
-        handler.postDelayed({ getRests()
-        }, 800)
+        if(searchRestaurants == null) {
+            spinner = view.findViewById(R.id.progress_bar_loading)
+            disableVisibility()
+            val handler = Handler()
+            handler.postDelayed({
+                getRests()
+            }, 800)
+        }
         updateNegativeClick()
         updatePositiveClick()
         recyclerViewSearchRestaurant?.setHasFixedSize(true)
@@ -113,14 +116,14 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
     }
 
     private fun updateNegativeClick() {
-        minusSignSeekRestaurant.setOnClickListener { _ ->
+        minusSeek!!.setOnClickListener { _ ->
                 seekBar!!.progress = seekBar!!.progress - 1
         }
     }
 
 
     private fun updatePositiveClick() {
-        plusSignSeekRestaurant.setOnClickListener { _ ->
+        plusSeek!!.setOnClickListener { _ ->
                 seekBar!!.progress = seekBar!!.progress + 1
         }
     }
@@ -147,13 +150,15 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
                                         adapter!!.notifyDataSetChanged()
                                         searchRestaurants = result.restaurants
                                         updateRestaurants()
-                                        enableVisibility()
                                         if(currentLocation !== null) {
                                             setDistances(searchRestaurants, currentLocation)
                                             searchRestaurants = searchRestaurants!!.sortedWith(compareBy {it.distanceDouble})
                                             adapter!!.items = searchRestaurants!!
                                             adapter!!.notifyDataSetChanged()
                                             updateRestaurants()
+                                            enableVisibility()
+                                        }else{
+                                            disableVisibility()
                                         }
                                     }},
                                 { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }
@@ -165,10 +170,21 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
 
     private fun enableVisibility(){
         textView!!.visibility = View.VISIBLE
-        minusSignSeekRestaurant.visibility = View.VISIBLE
-        plusSignSeekRestaurant.visibility = View.VISIBLE
+        minusSeek!!.visibility = View.VISIBLE
+        plusSeek!!.visibility = View.VISIBLE
+        recyclerViewSearchRestaurant!!.visibility = View.VISIBLE
         seekBar!!.visibility = View.VISIBLE
         spinner!!.visibility = View.INVISIBLE
+    }
+
+    private fun disableVisibility(){
+        spinner!!.postInvalidateOnAnimation()
+        textView!!.visibility = View.INVISIBLE
+        minusSeek!!.visibility = View.INVISIBLE
+        plusSeek!!.visibility = View.INVISIBLE
+        seekBar!!.visibility = View.INVISIBLE
+        recyclerViewSearchRestaurant!!.visibility = View.GONE
+        spinner!!.visibility = View.VISIBLE
     }
 
     override fun onPause() {

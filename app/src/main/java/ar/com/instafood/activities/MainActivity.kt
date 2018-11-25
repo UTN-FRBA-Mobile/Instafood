@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat
 import ar.com.instafood.application.SocketApplication
 import io.socket.client.Socket
 import android.R.attr.data
+import android.widget.Toast
 import ar.com.instafood.models.Restaurant
 
 
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     val TAG_MENU_FRAGMENT = "MENU_FRAGMENT"
     val checkFragment : CheckFragment
     val orderFragment : OrderFragment
+    var restaurant : Restaurant? = null
     private val TAG = "Permisos"
     private val RECORD_REQUEST_CODE = 101
     init {
@@ -64,13 +66,38 @@ class MainActivity : AppCompatActivity() {
 
         when (item.itemId){
             R.id.navigation_home -> transaction.replace(R.id.fragment_container, mainFragment).addToBackStack(null)
-            R.id.navigation_menu -> transaction.replace(R.id.fragment_container, menuFragment, TAG_MENU_FRAGMENT).addToBackStack(null)
-            R.id.navigation_check -> transaction.replace(R.id.fragment_container, checkFragment).addToBackStack(null)
-            R.id.navigation_order -> transaction.replace(R.id.fragment_container, orderFragment).addToBackStack(null)
+            R.id.navigation_menu -> {
+                if(restaurant !== null){
+                    var args = Bundle()
+                    args.putSerializable("restaurant",restaurant)
+                    menuFragment.setArguments(args)
+                    transaction.replace(R.id.fragment_container, menuFragment, TAG_MENU_FRAGMENT).addToBackStack(null)
+                }
+                else{
+                    Toast.makeText(this, "¡Todavia no seleccionaste un restaurante!", Toast.LENGTH_LONG).show();
+                }
+            }
+            R.id.navigation_check -> {
+                if(restaurant !== null) {
+                    transaction.replace(R.id.fragment_container, checkFragment).addToBackStack(null)
+                }
+                else{
+                    Toast.makeText(this, "¡Todavia no seleccionaste un restaurante!", Toast.LENGTH_LONG).show();
+                }
+            }
+            R.id.navigation_order -> {
+                if(restaurant !== null) {
+                transaction.replace(R.id.fragment_container, orderFragment).addToBackStack(null)
+                }
+                else{
+                    Toast.makeText(this, "¡Todavia no seleccionaste un restaurante!", Toast.LENGTH_LONG).show();
+                }
+            }
         }
         transaction.commit()
         true
     }
+
 
     private fun initialise() {
         //Todo en algun momento :D
@@ -81,7 +108,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
-                var restaurant = data!!.getExtras().getSerializable("restaurant") as Restaurant
+                restaurant = data!!.getExtras().getSerializable("restaurant") as Restaurant
                 var args = Bundle()
                 args.putSerializable("restaurant",restaurant)
                 menuFragment.setArguments(args)
