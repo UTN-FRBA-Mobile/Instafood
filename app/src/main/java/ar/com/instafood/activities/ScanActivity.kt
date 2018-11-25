@@ -63,7 +63,8 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(resultCode == Activity.RESULT_OK){
             username = data!!.getExtras().getSerializable("username_result") as String
-            emitResultToSocket(username!!)
+            //emitResultToSocket(username!!)
+            emitResultToSocket(qrData!!.username)
             returnMain(qrData!!)
         }
     }
