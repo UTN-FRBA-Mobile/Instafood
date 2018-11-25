@@ -92,7 +92,7 @@ class MainFragment : Fragment(), adapterCallback {
         var rest : Restaurant = restaurants!![position]
         args.putSerializable("restaurant",rest)
         menuFragment.setArguments(args)
-        transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+        transaction.replace(R.id.fragment_container, menuFragment, "MENU_FRAGMENT").addToBackStack(null)
         transaction.commitAllowingStateLoss()
     }
 

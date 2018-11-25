@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                     menuFragment.setArguments(args)
                     val transaction = supportFragmentManager.beginTransaction()
                     transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+                    transaction.replace(R.id.fragment_container, menuFragment, TAG_MENU_FRAGMENT).addToBackStack(null)
                     transaction.commitAllowingStateLoss()
                 }
                 //Id 2 es para cuando vuelve del activity scan
@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                     menuFragment.setArguments(args)
                     val transaction = supportFragmentManager.beginTransaction()
                     transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+                    transaction.replace(R.id.fragment_container, menuFragment, TAG_MENU_FRAGMENT).addToBackStack(null)
                     transaction.commitAllowingStateLoss()
                 }
 
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                     menuFragment.setArguments(args)
                     val transaction = supportFragmentManager.beginTransaction()
                     transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+                    transaction.replace(R.id.fragment_container, menuFragment, TAG_MENU_FRAGMENT).addToBackStack(null)
                     transaction.commitAllowingStateLoss()
                 }
             }
