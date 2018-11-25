@@ -13,6 +13,8 @@ import android.graphics.Bitmap
 import android.widget.ImageView
 import ar.com.instafood.fragments.menuFragments.ProductDetailFragment
 import ar.com.instafood.fragments.menuFragments.ProductDetailFragment.Companion.scanCode
+import ar.com.instafood.models.QrUserRestaurant
+import ar.com.instafood.models.Restaurant
 
 
 /**
@@ -43,9 +45,10 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     }
 
      override fun handleResult(rawResult: Result) {
+        var qrData = QrUserRestaurant.deserialize(rawResult.text)
         Log.i("SCAN RESULT", rawResult.text)
-         emitResultToSocket(rawResult.text)
-         returnMain(rawResult.text)
+         emitResultToSocket(qrData.username)
+         returnMain(qrData)
     }
 
     private fun emitResultToSocket(resultFromScanner: String){
@@ -60,14 +63,16 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
 
 
-    private fun returnMain(text : String){
+    private fun returnMain(qrData : QrUserRestaurant){
         /**
          * TODO: refactorizar ya que se le envia al socket previamente el texto como parametro en el
          * canal
          * */
 
         var intent_result = Intent()
-        intent_result.putExtra("qrText", text)
+        intent_result.putExtra("qrText", qrData.username)
+        intent_result.putExtra("activity_id", 2)
+        intent_result.putExtra("restaurant",qrData.restaurant)
         setResult(Activity.RESULT_OK, intent_result)
         finish()
     }

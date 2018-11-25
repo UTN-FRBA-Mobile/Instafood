@@ -107,14 +107,30 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
-                restaurant = data!!.getExtras().getSerializable("restaurant") as Restaurant
-                var args = Bundle()
-                args.putSerializable("restaurant",restaurant)
-                menuFragment.setArguments(args)
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
-                transaction.commitAllowingStateLoss()
+                var id = data!!.getExtras().getSerializable("activity_id") as Int
+                //Id 1 es para cuando vuelve del activity restaurant search
+                if(id == 1) {
+                    restaurant = data!!.getExtras().getSerializable("restaurant") as Restaurant
+                    var args = Bundle()
+                    args.putSerializable("restaurant", restaurant)
+                    menuFragment.setArguments(args)
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+                    transaction.commitAllowingStateLoss()
+                }
+                //Id 2 es para cuando vuelve del activity scan
+                if(id == 2){
+                    //Aca vuelve del scanner.
+                    restaurant = data!!.getExtras().getSerializable("restaurant") as Restaurant
+                    var args = Bundle()
+                    args.putSerializable("restaurant", restaurant)
+                    menuFragment.setArguments(args)
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+                    transaction.commitAllowingStateLoss()
+                }
             }
         }
     }

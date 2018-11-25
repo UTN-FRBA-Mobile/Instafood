@@ -104,6 +104,9 @@ class MenuFragment : Fragment() {
             val transaction = activity!!.supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             var showQRFragment = ShowQRFragment()
+            var args = Bundle()
+            args.putSerializable("restaurant",restaurant)
+            showQRFragment.setArguments(args)
             transaction.replace(R.id.fragment_container, showQRFragment).addToBackStack(null)
             transaction.commit()
         }

@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.menuFragments.ProductDetailFragment
+import ar.com.instafood.models.QrUserRestaurant
+import ar.com.instafood.models.Restaurant
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -22,12 +24,15 @@ class ShowQRFragment : Fragment() {
 
     internal var bitmap: Bitmap? = null
     private lateinit var viewScan : View
-
+    var restaurant : Restaurant? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
+        val bundle = arguments
+        restaurant = bundle!!.getSerializable("restaurant") as Restaurant
+        var username = ProductDetailFragment.userName!!
+        var qrData  = QrUserRestaurant(username,restaurant!!)
         viewScan = inflater.inflate(R.layout.show_qr, container, false)
-        bitmap = textToImageEncode(ProductDetailFragment.userName!!)
+        bitmap = textToImageEncode(QrUserRestaurant.serialize(qrData))
         viewScan.iv.setImageBitmap(bitmap)
         //convertToImage();
         goToOrder()

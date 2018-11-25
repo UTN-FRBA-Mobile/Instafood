@@ -111,6 +111,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         var intent_result = Intent()
         var restaurant = searchRestaurants!![restoPosition]
         intent_result.putExtra("restaurant", restaurant)
+        intent_result.putExtra("activity_id", 1)
         activity!!.setResult(Activity.RESULT_OK, intent_result)
         activity.finish()
     }
