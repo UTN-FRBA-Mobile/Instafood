@@ -80,7 +80,7 @@ class ProductDetailFragment : Fragment() {
 
     companion object {
         var userName: String? = null
-        var userId: String? = null
+        var scanCode: String? = null
 
         @JvmStatic
         fun newInstance(product: String) =

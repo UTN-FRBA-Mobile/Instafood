@@ -1,6 +1,5 @@
 package ar.com.instafood.fragments
 
-
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -8,6 +7,7 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso
 import io.socket.client.Socket
 import kotlinx.android.synthetic.main.fragment_menu.*
 import org.w3c.dom.Text
-
+import kotlinx.android.synthetic.main.fragment_menu.view.*
 
 class MenuFragment : Fragment() {
     var listFragment = arrayListOf<Fragment>()
@@ -29,6 +29,8 @@ class MenuFragment : Fragment() {
     var menuTabLayout: TabLayout? = null
     var menuAdapter : MenuTabsAdapter? = null
     var restaurant : Restaurant? = null
+    private lateinit var viewMenu : View
+
     init {
         listFragment.clear()
         listTitle.clear()
@@ -37,16 +39,17 @@ class MenuFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
         val bundle = arguments
         restaurant = bundle!!.getSerializable("restaurant") as Restaurant
-        var view = inflater.inflate(R.layout.fragment_menu, container, false)
+        viewMenu = inflater.inflate(R.layout.fragment_menu, container, false)
         shareMenu()
         //initialise()
         prepareDataResource()
-        setBar(view)
+        setBar(viewMenu)
 
-        menuViewPager = view.findViewById(R.id.menuViewPager)
-        menuTabLayout = view.findViewById(R.id.menuTabs)
+        menuViewPager = viewMenu.findViewById(R.id.menuViewPager)
+        menuTabLayout = viewMenu.findViewById(R.id.menuTabs)
 
 
         if(menuAdapter == null) {
@@ -56,7 +59,7 @@ class MenuFragment : Fragment() {
 
         menuTabLayout!!.setupWithViewPager(menuViewPager)
 
-        return view
+        return viewMenu
     }
 
     private fun setBar(view: View) {
@@ -96,18 +99,14 @@ class MenuFragment : Fragment() {
     }
 
 
-
-
     private fun shareMenu(){
-        val btn_search = view?.findViewById<ImageButton>(R.id.searchImageButton)
-        btn_search?.setOnClickListener { _ ->
+        viewMenu.searchImageButton.setOnClickListener { _ ->
             val transaction = activity!!.supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             var showQRFragment = ShowQRFragment()
             transaction.replace(R.id.fragment_container, showQRFragment).addToBackStack(null)
-            transaction.commitAllowingStateLoss()
+            transaction.commit()
         }
-
     }
 
 

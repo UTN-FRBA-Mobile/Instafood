@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                         this.finish()
                         //action()
                     }
-                    else{
+                else{
                         progressBar.visibility=View.GONE
                         Toast.makeText(this,"Error al logear", Toast.LENGTH_LONG).show()
                     }

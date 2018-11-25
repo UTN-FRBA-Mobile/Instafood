@@ -140,7 +140,7 @@
                             android:background="@null"
                             android:src="@android:drawable/ic_menu_share"
                             android:tint="@color/colorPrimaryDark"
-                            />
+                            android:translationZ="50dp" />
 
                     </RelativeLayout>
 
