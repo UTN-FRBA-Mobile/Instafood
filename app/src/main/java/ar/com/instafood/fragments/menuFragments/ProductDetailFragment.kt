@@ -25,6 +25,7 @@ class ProductDetailFragment : Fragment() {
     private var tv_price: String? = null
     private var product_image_string: String? = null
     private var product_image: Int? = null
+    private var username : String ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +35,7 @@ class ProductDetailFragment : Fragment() {
             tv_price = it.getString("price")
             product_image = it.getInt("image")
             product_image_string = it.getString("image_string")
+            username = it.getString("username")
         }
 
     }
@@ -52,9 +54,10 @@ class ProductDetailFragment : Fragment() {
         val btn = view.findViewById<Button>(R.id.buttonflat)
 
         btn?.setOnClickListener {
-            if (userName == null){
+            if (userName == null || userName == ""){
                 activity?.startActivityForResult(Intent(activity, LoginActivity::class.java),1)
             } else {
+                username = userName
                 val gsonBuilder = GsonBuilder().create()
                 val app  = activity?.application as SocketApplication
                 val socket = app.socket
@@ -69,11 +72,11 @@ class ProductDetailFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        username = data!!.getExtras().getString("username_result")
         val gsonBuilder = GsonBuilder().create()
         val app  = activity?.application as SocketApplication
         val socket = app.socket
-        val json = gsonBuilder.toJson(Check(userName!!, arrayListOf(Product(tv_title ?: "", tv_description ?: "", tv_price?.toInt() ?: 0, product_image_string!!))))
-
+        val json = gsonBuilder.toJson(Check(username!!, arrayListOf(Product(tv_title ?: "", tv_description ?: "", tv_price?.toInt() ?: 0, product_image_string!!))))
         socket?.emit("productSelected", json)
     }
 
@@ -91,10 +94,11 @@ class ProductDetailFragment : Fragment() {
         var scanCode: String? = null
 
         @JvmStatic
-        fun newInstance(product: String) =
+        fun newInstance(product: String, username : String) =
                 ProductDetailFragment().apply {
                     arguments = Bundle().apply {
                        putString("title", product)
+                        putString("username",username)
                     }
                 }
     }

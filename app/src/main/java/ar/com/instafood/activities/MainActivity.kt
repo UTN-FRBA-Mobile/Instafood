@@ -123,8 +123,24 @@ class MainActivity : AppCompatActivity() {
                 if(id == 2){
                     //Aca vuelve del scanner.
                     restaurant = data!!.getExtras().getSerializable("restaurant") as Restaurant
+                    var username = data!!.getExtras().getSerializable("username") as String
                     var args = Bundle()
                     args.putSerializable("restaurant", restaurant)
+                    args.putSerializable("username",username)
+                    menuFragment.setArguments(args)
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
+                    transaction.commitAllowingStateLoss()
+                }
+
+                if(id == 3){
+                    //Aca vuelve del login.
+                    menuFragment = MenuFragment()
+                    var username = data!!.getExtras().getString("username_result")
+                    var args = Bundle()
+                    args!!.putSerializable("restaurant", restaurant)
+                    args!!.putSerializable("username",username)
                     menuFragment.setArguments(args)
                     val transaction = supportFragmentManager.beginTransaction()
                     transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)

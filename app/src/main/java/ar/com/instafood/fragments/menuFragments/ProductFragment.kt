@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.fragment_product.view.*
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val PRODUCT_LIST = "productList"
 private const val MENU_ID = "menuId"
+private const val USERNAME = "username"
 
 /**
  * A simple [Fragment] subclass.
@@ -45,6 +46,7 @@ class ProductFragment : Fragment() {
     private var adapter : MenuProductAdapter? = null
     private var menuId : String? = null
     private var menuView : View? = null
+    private var username : String? = null
     private val menuAPIServe by lazy {
         MenuService.create()
     }
@@ -53,6 +55,7 @@ class ProductFragment : Fragment() {
         arguments?.let {
             menuId = it.getString(MENU_ID)
             productList = it.getString(PRODUCT_LIST)
+            username = it.getString(USERNAME)
         }
     }
 
@@ -101,7 +104,7 @@ class ProductFragment : Fragment() {
                                             Log.d("Error in ProductFrag","no se cargo el menu en el product fragment.")
                                         }
                                     }
-                                    adapter = MenuProductAdapter(products)
+                                    adapter = MenuProductAdapter(products,username!!)
                                     view!!.recyclerViewSearchProduct!!.adapter = adapter
                                     adapter!!.notifyDataSetChanged()
                                 },
@@ -115,11 +118,12 @@ class ProductFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(product: String, id: String) =
+        fun newInstance(product: String, id: String, username: String) =
                 ProductFragment().apply {
                     arguments = Bundle().apply {
                         putString(PRODUCT_LIST, product)
                         putString(MENU_ID,id)
+                        putString(USERNAME,username)
                     }
                 }
     }

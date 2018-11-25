@@ -14,18 +14,20 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_product_card.view.*
 
 
-class MenuProductAdapter(val products : ArrayList<Product>?) : RecyclerView.Adapter<MenuProductAdapter.ProductViewHolder>(){
+class MenuProductAdapter(val products : ArrayList<Product>?,var username: String?) : RecyclerView.Adapter<MenuProductAdapter.ProductViewHolder>(){
 
     private var product_image : Int ? = null
     var items : List<Product> = ArrayList()
-
-    class ProductViewHolder(var card: View) : RecyclerView.ViewHolder(card) {
+    init{
+        this.username = username
+    }
+    class ProductViewHolder(var card: View, var username : String) : RecyclerView.ViewHolder(card) {
         init {
             card.setOnClickListener { v: View ->
                 var position: Int = adapterPosition
                 mContext = v.context
 
-                fragmentJump(card)
+                fragmentJump(card,username)
             }
         }
 
@@ -33,14 +35,14 @@ class MenuProductAdapter(val products : ArrayList<Product>?) : RecyclerView.Adap
         private var mBundle: Bundle ? = null
         private var mContext: Context? = null
 
-        private fun fragmentJump(card: View) {
+        private fun fragmentJump(card: View, username : String) {
             mBundle = Bundle()
             mBundle?.putString("title",card.tv_title.text.toString())
             mBundle?.putString("description",card.tv_description.text.toString())
             mBundle?.putString("price",card.tv_price.text.toString())
             mBundle?.putInt("image",card.iv_icon.id)
             mBundle?.putString("image_string",card.iv_icon_string.text.toString())
-
+            mBundle?.putString("username",username)
             mFragment!!.arguments = mBundle
 
             switchContent(R.id.fragment_container, mFragment)
@@ -73,7 +75,7 @@ class MenuProductAdapter(val products : ArrayList<Product>?) : RecyclerView.Adap
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
 
         val view  = LayoutInflater.from(parent.context).inflate(R.layout.single_product_card,parent,false)
-        return ProductViewHolder(view)
+        return ProductViewHolder(view,this.username!!)
     }
 
     override fun getItemCount() = products!!.size

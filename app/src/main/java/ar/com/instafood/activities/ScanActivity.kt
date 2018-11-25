@@ -26,6 +26,7 @@ import com.google.gson.GsonBuilder
 class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     private var mScannerView: ZXingScannerView? = null
     var qrData : QrUserRestaurant? = null
+    var username : String? = null
 
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -61,8 +62,8 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(resultCode == Activity.RESULT_OK){
-            var username = data!!.getExtras().getSerializable("username_result") as String
-            emitResultToSocket(username)
+            username = data!!.getExtras().getSerializable("username_result") as String
+            emitResultToSocket(username!!)
             returnMain(qrData!!)
         }
     }
@@ -87,6 +88,7 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
         var intent_result = Intent()
         intent_result.putExtra("qrText", qrData.username)
+        intent_result.putExtra("username",username)
         intent_result.putExtra("activity_id", 2)
         intent_result.putExtra("restaurant",qrData.restaurant)
         setResult(Activity.RESULT_OK, intent_result)
