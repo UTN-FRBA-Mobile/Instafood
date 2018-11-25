@@ -17,6 +17,10 @@ import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.order.OrderService
 import ar.com.instafood.fragments.order.PreferenceUtils
 import ar.com.instafood.fragments.order.TimerState
+import ar.com.instafood.models.Check
+import ar.com.instafood.models.Restaurant
+import ar.com.instafood.models.SingleOrder
+import com.google.android.gms.flags.impl.DataUtils
 import kotlinx.android.synthetic.main.fragment_order.view.*
 import java.lang.StringBuilder
 
@@ -29,9 +33,14 @@ class OrderFragment : Fragment() {
     private lateinit var viewOrder : View
     private var secondsRemaining: Long = 0
     private var orderService = OrderService()
+    private var checks: java.util.ArrayList<Check>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.viewOrder = inflater.inflate(R.layout.fragment_order, container, false)
+        val bundle = arguments
+        if (bundle != null && bundle.getSerializable("checks") != null) {
+            checks = bundle.getSerializable("checks") as java.util.ArrayList<Check>
+        }
         initTimer()
         if (timerState != TimerState.RUNNING) {
             startTimer()
@@ -48,6 +57,7 @@ class OrderFragment : Fragment() {
         initOrderDetail()
         setAddMenu()
         initWaiterButton()
+        initAccumulated()
         super.onResume()
         //initTimer()
     }
@@ -131,7 +141,7 @@ class OrderFragment : Fragment() {
         val builder = StringBuilder()
         builder.append(this.resources.getString(R.string.lbl_order_detail) + ":\n")
 
-        for (singleOrder in orderService.fetchLastOrder()) {
+        for (singleOrder in fetchLastOrder()) {
             builder
                     .append("\t- ")
                     .append(singleOrder.quantity)
@@ -177,5 +187,30 @@ class OrderFragment : Fragment() {
             alertDialog.show()
         }
     }
+
+    fun fetchLastOrder() : List<SingleOrder> {
+        if (checks != null) {
+            return checks?.flatMap { it.products }?.map {
+                var description : String = it.description
+                if (it.description.length > 10) {
+                    description = it.description.substring(0,10)
+                }
+                SingleOrder(description, 1)
+            }!!
+        } else {
+            return emptyList()
+        }
+    }
+
+
+    fun initAccumulated () {
+        val label = view?.findViewById<TextView>(R.id.out_accumulated)
+        if (checks != null) {
+            label?.text = "$ " + checks?.flatMap { it.products }?.sumBy { it.price }
+        } else {
+            label?.text = "$ 0"
+        }
+    }
+
 
 }

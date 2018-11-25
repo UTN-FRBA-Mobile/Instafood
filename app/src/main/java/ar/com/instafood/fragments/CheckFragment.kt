@@ -69,6 +69,9 @@ class CheckFragment : Fragment() {
             val transaction = activity!!.supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             var orderFragment = OrderFragment()
+            var args = Bundle()
+            args.putSerializable("checks",checks)
+            orderFragment.setArguments(args)
             transaction.replace(R.id.fragment_container, orderFragment).addToBackStack(null)
             transaction.commitAllowingStateLoss()
         }
