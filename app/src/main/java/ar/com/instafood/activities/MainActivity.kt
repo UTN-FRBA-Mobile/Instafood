@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId){
             R.id.navigation_home -> transaction.replace(R.id.fragment_container, mainFragment).addToBackStack(null)
             R.id.navigation_menu -> {
-                if(restaurant !== null){
+                if(restaurant != null){
                     var args = Bundle()
                     args.putSerializable("restaurant",restaurant)
                     menuFragment.setArguments(args)
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.navigation_check -> {
-                if(restaurant !== null) {
+                if(restaurant != null) {
                     transaction.replace(R.id.fragment_container, checkFragment).addToBackStack(null)
                 }
                 else{
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.navigation_order -> {
-                if(restaurant !== null) {
+                if(restaurant != null) {
                 transaction.replace(R.id.fragment_container, orderFragment).addToBackStack(null)
                 }
                 else{

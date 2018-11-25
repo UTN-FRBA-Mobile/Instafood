@@ -1,5 +1,6 @@
 package ar.com.instafood.activities.login
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -61,6 +62,9 @@ class LoginActivity : AppCompatActivity() {
                     if(task.isSuccessful){
                         ProductDetailFragment.userName = user
                         val app = application as SocketApplication
+                        var intent_result = Intent()
+                        intent_result.putExtra("username_result", user)
+                        this!!.setResult(Activity.RESULT_OK, intent_result)
                         app.socket?.emit("connectedSocket", user)
                         this.finish()
                         //action()

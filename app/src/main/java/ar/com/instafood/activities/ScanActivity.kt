@@ -11,10 +11,13 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView
 import ar.com.instafood.fragments.MenuFragment
 import android.graphics.Bitmap
 import android.widget.ImageView
+import ar.com.instafood.activities.login.LoginActivity
 import ar.com.instafood.fragments.menuFragments.ProductDetailFragment
 import ar.com.instafood.fragments.menuFragments.ProductDetailFragment.Companion.scanCode
+import ar.com.instafood.models.Check
 import ar.com.instafood.models.QrUserRestaurant
 import ar.com.instafood.models.Restaurant
+import com.google.gson.GsonBuilder
 
 
 /**
@@ -22,7 +25,7 @@ import ar.com.instafood.models.Restaurant
  */
 class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     private var mScannerView: ZXingScannerView? = null
-
+    var qrData : QrUserRestaurant? = null
 
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -45,10 +48,23 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     }
 
      override fun handleResult(rawResult: Result) {
-        var qrData = QrUserRestaurant.deserialize(rawResult.text)
+
         Log.i("SCAN RESULT", rawResult.text)
-         emitResultToSocket(qrData.username)
-         returnMain(qrData)
+         qrData = QrUserRestaurant.deserialize(rawResult.text)
+         if (ProductDetailFragment.userName == null){
+             this.startActivityForResult(Intent(this, LoginActivity::class.java),1)
+         }
+         else {
+             returnMain(qrData!!)
+         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(resultCode == Activity.RESULT_OK){
+            var username = data!!.getExtras().getSerializable("username_result") as String
+            emitResultToSocket(username)
+            returnMain(qrData!!)
+        }
     }
 
     private fun emitResultToSocket(resultFromScanner: String){
