@@ -14,13 +14,10 @@ import android.widget.TextView
 import android.widget.Toast
 import ar.com.instafood.activities.CloseActivity
 import ar.com.instafood.activities.R
-import ar.com.instafood.fragments.order.OrderService
 import ar.com.instafood.fragments.order.PreferenceUtils
 import ar.com.instafood.fragments.order.TimerState
 import ar.com.instafood.models.Check
-import ar.com.instafood.models.Restaurant
 import ar.com.instafood.models.SingleOrder
-import com.google.android.gms.flags.impl.DataUtils
 import kotlinx.android.synthetic.main.fragment_order.view.*
 import java.lang.StringBuilder
 
@@ -32,7 +29,6 @@ class OrderFragment : Fragment() {
     private var timerState = TimerState.STOPPED
     private lateinit var viewOrder : View
     private var secondsRemaining: Long = 0
-    private var orderService = OrderService()
     private var checks: java.util.ArrayList<Check>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -171,8 +167,11 @@ class OrderFragment : Fragment() {
 
             val alertDialog = AlertDialog.Builder(this.requireContext()).create()
             alertDialog.setMessage(this.resources.getString(R.string.lbl_order_popup_question))
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, this.resources.getString(R.string.lbl_order_yes))
-                { dialog, which -> activity?.startActivityForResult(Intent(activity, CloseActivity::class.java),1) }
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, this.resources.getString(R.string.lbl_order_yes)) {
+                dialog, which ->
+                    val intent = Intent(activity, CloseActivity::class.java)
+                    intent.putExtra("amount", getAccumulated().toString())
+                    activity?.startActivityForResult(intent,1) }
             alertDialog.show()
         }
     }
@@ -205,12 +204,15 @@ class OrderFragment : Fragment() {
 
     fun initAccumulated () {
         val label = view?.findViewById<TextView>(R.id.out_accumulated)
-        if (checks != null) {
-            label?.text = "$ " + checks?.flatMap { it.products }?.sumBy { it.price }
-        } else {
-            label?.text = "$ 0"
-        }
+        label?.text = "$ " + getAccumulated()
     }
 
+    fun getAccumulated() : Int? {
+        if (checks != null) {
+            return checks?.flatMap { it.products }?.sumBy { it.price }
+        } else {
+            return 0
+        }
+    }
 
 }

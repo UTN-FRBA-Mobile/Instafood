@@ -11,14 +11,20 @@ import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.order.StarService
 import android.widget.Toast
 import ar.com.instafood.fragments.order.PreferenceUtils
+import ar.com.instafood.models.Check
 
 
 class CloseFragment : Fragment() {
 
     private lateinit var viewOrder : View
+    private var amount: String = "0"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.viewOrder = inflater.inflate(R.layout.fragment_close, container, false)
+        val bundle = arguments
+        if (bundle != null && bundle.getSerializable("amount") != null) {
+            amount = bundle.getSerializable("amount") as String
+        }
         return this.viewOrder
     }
 
@@ -42,6 +48,11 @@ class CloseFragment : Fragment() {
             label?.text = "Puntuado: " + scoreDescription
             closeButton.visibility = View.INVISIBLE
         }
+    }
+
+    private fun initAmountLabel() {
+        val label = view?.findViewById<TextView>(R.id.lbl_close_amount)
+        label?.text = "$ " + amount
     }
 
 
