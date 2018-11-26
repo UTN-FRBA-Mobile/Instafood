@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser(){
-        val user:String = txtUser.text.toString()
+        var user:String = txtUser.text.toString()
         val password:String = txtPassword.text.toString()
 
         if (!TextUtils.isEmpty(user) && !TextUtils.isEmpty(password)){
@@ -60,7 +60,8 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this){
                     task ->
                     if(task.isSuccessful){
-                        ProductDetailFragment.userName = getUserWithoutMail(user)
+                        user = getUserWithoutMail(user)
+                        ProductDetailFragment.userName = user
                         val app = application as SocketApplication
                         var intent_result = Intent()
                         intent_result.putExtra("username_result", user)
