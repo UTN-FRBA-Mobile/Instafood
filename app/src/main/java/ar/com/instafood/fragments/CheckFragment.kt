@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import ar.com.instafood.activities.MainActivity
 import ar.com.instafood.activities.R
 import ar.com.instafood.activities.R.id.btn_confirmation
 import ar.com.instafood.adapters.CheckAdapter
 import ar.com.instafood.adapters.DynamicCheckAdapter
 import ar.com.instafood.application.SocketApplication
 import ar.com.instafood.models.Check
+import ar.com.instafood.models.Restaurant
 import ar.com.instafood.models.getSampleCheck
 import com.google.gson.Gson
 import com.google.gson.JsonParser
@@ -44,6 +46,8 @@ class CheckFragment : Fragment() {
                     if (args[0] != null ) {
                         val jsonElement = JsonParser().parse((args[0] as JSONArray).toString())
                         checks = Gson().fromJson(jsonElement, Array<Check>::class.java).toCollection(ArrayList())
+                        val myActivity = activity as MainActivity?
+                        myActivity!!.setChecksProp(checks!!)
                         var mDynamicListAdapter = DynamicCheckAdapter()
                         mDynamicListAdapter.setFirstList(checks!!)
                         view.cardList.setHasFixedSize(true)
@@ -54,8 +58,10 @@ class CheckFragment : Fragment() {
             )
 
         }})
+
         // Initialize the list
         //mDynamicListAdapter.setSecondList(checks!!.get(1))
+
         return view
     }
 

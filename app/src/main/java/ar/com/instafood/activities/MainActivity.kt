@@ -18,6 +18,7 @@ import ar.com.instafood.application.SocketApplication
 import io.socket.client.Socket
 import android.R.attr.data
 import android.widget.Toast
+import ar.com.instafood.models.Check
 import ar.com.instafood.models.Restaurant
 
 
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     val orderFragment : OrderFragment
     var restaurant : Restaurant? = null
     private val TAG = "Permisos"
+    private var checks: ArrayList<Check>? = null
     private val RECORD_REQUEST_CODE = 101
     init {
         mainFragment = MainFragment()
@@ -87,7 +89,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.navigation_order -> {
                 if(restaurant != null) {
-                transaction.replace(R.id.fragment_container, orderFragment).addToBackStack(null)
+                    var args = Bundle()
+                    args.putSerializable("checks",checks)
+                    orderFragment.setArguments(args)
+                    transaction.replace(R.id.fragment_container, orderFragment).addToBackStack(null)
                 }
                 else{
                     Toast.makeText(this, "¡Todavia no seleccionaste un restaurante!", Toast.LENGTH_LONG).show();
@@ -179,6 +184,10 @@ class MainActivity : AppCompatActivity() {
 
     fun setRestaurantProp(rest : Restaurant){
         this.restaurant = rest
+    }
+
+    fun setChecksProp(checks : ArrayList<Check>){
+        this.checks = checks
     }
 
     private fun makeRequest() {
