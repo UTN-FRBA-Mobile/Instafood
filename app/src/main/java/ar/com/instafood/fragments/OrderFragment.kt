@@ -84,7 +84,6 @@ class OrderFragment : Fragment() {
 //        updateCountdownUI()
         val label = view?.findViewById<TextView>(R.id.lbl_will_arrive_in)
         label?.text =this.resources.getString(R.string.lbl_order_title)
-        Toast.makeText(getActivity(), "Bon appetit!", Toast.LENGTH_LONG).show();
     }
 
     private fun startTimer(){
@@ -190,11 +189,11 @@ class OrderFragment : Fragment() {
     fun fetchLastOrder() : List<SingleOrder> {
         if (checks != null) {
             return checks?.flatMap { it.products }?.map {
-                var description : String = it.description
-                if (it.description.length > 20) {
-                    description = it.description.substring(0,10)
+                var title : String = it.title
+                if (it.title.length > 20) {
+                    title = it.title.substring(0,10)
                 }
-                SingleOrder(description, 1)
+                SingleOrder(title, 1)
             }!!
         } else {
             return emptyList()
