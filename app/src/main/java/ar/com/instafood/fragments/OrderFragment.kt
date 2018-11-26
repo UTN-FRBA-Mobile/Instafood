@@ -13,10 +13,12 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import ar.com.instafood.activities.CloseActivity
+import ar.com.instafood.activities.MainActivity
 import ar.com.instafood.activities.R
 import ar.com.instafood.fragments.order.PreferenceUtils
 import ar.com.instafood.fragments.order.TimerState
 import ar.com.instafood.models.Check
+import ar.com.instafood.models.Restaurant
 import ar.com.instafood.models.SingleOrder
 import kotlinx.android.synthetic.main.fragment_order.view.*
 import java.lang.StringBuilder
@@ -30,6 +32,7 @@ class OrderFragment : Fragment() {
     private lateinit var viewOrder : View
     private var secondsRemaining: Long = 0
     private var checks: java.util.ArrayList<Check>? = null
+    private var restaurant : Restaurant? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.viewOrder = inflater.inflate(R.layout.fragment_order, container, false)
@@ -156,6 +159,10 @@ class OrderFragment : Fragment() {
             val transaction = activity!!.supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             var menuFragment = MenuFragment()
+            var args = Bundle()
+            val myActivity = activity as MainActivity?
+            args.putSerializable("restaurant",myActivity!!.getRestaurantProp())
+            menuFragment.setArguments(args)
             transaction.replace(R.id.fragment_container, menuFragment).addToBackStack(null)
             transaction.commitAllowingStateLoss()
         }

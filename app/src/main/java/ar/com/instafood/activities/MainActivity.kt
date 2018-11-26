@@ -186,6 +186,10 @@ class MainActivity : AppCompatActivity() {
         this.restaurant = rest
     }
 
+    fun getRestaurantProp() : Restaurant? {
+        return this.restaurant
+    }
+
     fun setChecksProp(checks : ArrayList<Check>){
         this.checks = checks
     }
