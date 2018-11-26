@@ -61,7 +61,7 @@ class SearchRestaurantFragment : Fragment() , SeekBar.OnSeekBarChangeListener , 
         locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
         seekBar!!.setOnSeekBarChangeListener(this)
-            return view
+        return view
     }
 
     //define the listener

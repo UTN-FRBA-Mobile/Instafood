@@ -139,7 +139,12 @@ class MainActivity : AppCompatActivity() {
                     menuFragment = MenuFragment()
                     var username = data!!.getExtras().getString("username_result")
                     var args = Bundle()
-                    args!!.putSerializable("restaurant", restaurant)
+                    if(restaurant != null) {
+                        args!!.putSerializable("restaurant", restaurant)
+                    }
+                    else{
+
+                    }
                     args!!.putSerializable("username",username)
                     menuFragment.setArguments(args)
                     val transaction = supportFragmentManager.beginTransaction()
@@ -170,6 +175,10 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
+    }
+
+    fun setRestaurantProp(rest : Restaurant){
+        this.restaurant = rest
     }
 
     private fun makeRequest() {

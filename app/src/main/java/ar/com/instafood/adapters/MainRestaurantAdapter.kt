@@ -30,22 +30,20 @@ class MainRestaurantAdapter(val restaurants : List<Restaurant>?, var cb : adapte
 
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
         if (holder != null) {
-            val restaurant = restaurants!![position]
+            val restaurant = items[position]
             holder.card.tv_title.text = restaurant.title
             holder.card.tv_description.text = restaurant.description
             holder.card.tv_distance.text = restaurant.distance
             Picasso.get().load(restaurant.resource).into(holder.card.iv_icon)
         }
     }
-
     //Create a new view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantViewHolder {
-
         val view = LayoutInflater.from(parent.context).inflate(R.layout.main_restaurant_card, parent, false)
         return RestaurantViewHolder(view,cb)
     }
 
     override fun getItemCount(): Int {
-        return if (restaurants == null) 0 else restaurants!!.size;
+        return if(items !== null) items.size else 0
     }
 }

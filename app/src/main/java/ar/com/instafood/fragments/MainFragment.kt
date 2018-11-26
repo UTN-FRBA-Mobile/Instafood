@@ -15,8 +15,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
@@ -32,6 +31,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
+import ar.com.instafood.activities.MainActivity
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -44,6 +46,7 @@ class MainFragment : Fragment(), adapterCallback {
     private var currentLocation : Location? = null
     private var restaurants : List<Restaurant>? = null
     private var adapter : MainRestaurantAdapter? = null
+    private var recyclerViewMainRestaurant : RecyclerView? = null
     private var spinner : View? = null
     private var self = this
     private var disposable: Disposable? = null
@@ -54,9 +57,10 @@ class MainFragment : Fragment(), adapterCallback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_main, container, false)
+        recyclerViewMainRestaurant = view.findViewById(R.id.recyclerViewMainRestaurant)
+        spinner = view.findViewById(R.id.main_progress_bar_loading)
         locationManager = activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-
         return view
     }
 
@@ -67,15 +71,17 @@ class MainFragment : Fragment(), adapterCallback {
             if(restaurants !== null) {
                 setDistances(restaurants, currentLocation)
                 restaurants = restaurants!!.filter{it.distanceDouble <= 10}
-                restaurants!!.sortedBy { it.distanceDouble }
+                restaurants = restaurants!!.sortedWith(compareBy {it.distanceDouble})
+                adapter!!.items = restaurants!!
+                adapter!!.notifyDataSetChanged()
                 if(restaurants!!.isEmpty()){
                     closeMeNoData?.visibility = VISIBLE
                 }else{
-                    closeMeNoData?.visibility = INVISIBLE
+                    closeMeNoData?.visibility = GONE
+                    enableVisibility()
                 }
-                val recyclerViewMainRestaurant = getView()?.findViewById<RecyclerView>(R.id.recyclerViewMainRestaurant)
-                recyclerViewMainRestaurant?.adapter = MainRestaurantAdapter(restaurants,self)
-
+                //val recyclerViewMainRestaurant = getView()?.findViewById<RecyclerView>(R.id.recyclerViewMainRestaurant)
+                //recyclerViewMainRestaurant?.adapter = MainRestaurantAdapter(restaurants,self)
             }
         }
 
@@ -90,21 +96,20 @@ class MainFragment : Fragment(), adapterCallback {
         var menuFragment = MenuFragment()
         var args = Bundle()
         var rest : Restaurant = restaurants!![position]
+        val myActivity = activity as MainActivity?
+        myActivity!!.setRestaurantProp(rest)
         args.putSerializable("restaurant",rest)
         menuFragment.setArguments(args)
         transaction.replace(R.id.fragment_container, menuFragment, menuFragment.tag).addToBackStack(null)
-        transaction.commitAllowingStateLoss()
+        transaction.commit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recyclerViewMainRestaurant = getView()?.findViewById<RecyclerView>(R.id.recyclerViewMainRestaurant)
         switchSearchRestaurants()
         setQRscan()
         if(restaurants == null) {
-            spinner = view.findViewById(R.id.main_progress_bar_loading)
-            spinner!!.postInvalidateOnAnimation()
-            spinner!!.visibility = View.VISIBLE
+            disableVisibility()
             val handler = Handler()
             handler.postDelayed({
                 getRests()
@@ -137,14 +142,19 @@ class MainFragment : Fragment(), adapterCallback {
                 disposable = restaurantAPIServe.getRestaurants().subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                { result -> adapter!!.items = result.restaurants
-                                    adapter!!.notifyDataSetChanged()
+                                { result ->
                                     if(result.restaurants !== null){
-                                        restaurants = result.restaurants
-                                        spinner!!.visibility = View.GONE
-                                        if(currentLocation !== null) {
-                                            setDistances(result.restaurants, currentLocation)
-                                            restaurants!!.sortedBy { it.distanceDouble }
+                                    adapter!!.items = result.restaurants
+                                    adapter!!.notifyDataSetChanged()
+                                    restaurants = result.restaurants
+                                        if (currentLocation !== null) {
+                                            setDistances(restaurants, currentLocation)
+                                            restaurants = restaurants!!.sortedWith(compareBy {it.distanceDouble})
+                                            adapter!!.items = restaurants!!
+                                            adapter!!.notifyDataSetChanged()
+                                            enableVisibility()
+                                        } else {
+                                            disableVisibility()
                                         }
                                     }},
                                 { error -> Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show() }
@@ -152,5 +162,15 @@ class MainFragment : Fragment(), adapterCallback {
             }
         }
 
+    }
+
+    private fun enableVisibility(){
+        recyclerViewMainRestaurant!!.visibility = View.VISIBLE
+        spinner!!.visibility = View.GONE
+    }
+
+    private fun disableVisibility(){
+        recyclerViewMainRestaurant!!.visibility = View.GONE
+        spinner!!.visibility = View.VISIBLE
     }
 }
