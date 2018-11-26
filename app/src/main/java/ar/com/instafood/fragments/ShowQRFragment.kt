@@ -89,7 +89,7 @@ class ShowQRFragment : Fragment() {
         viewScan.btn.setOnClickListener { _ ->
             val transaction = activity!!.supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-            var orderFragment = OrderFragment()
+            var orderFragment = MainFragment()
             transaction.replace(R.id.fragment_container, orderFragment).addToBackStack(null)
             transaction.commitAllowingStateLoss()
         }

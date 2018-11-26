@@ -60,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this){
                     task ->
                     if(task.isSuccessful){
-                        ProductDetailFragment.userName = user
+                        ProductDetailFragment.userName = getUserWithoutMail(user)
                         val app = application as SocketApplication
                         var intent_result = Intent()
                         intent_result.putExtra("username_result", user)
@@ -76,6 +76,15 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    private fun getUserWithoutMail(username: String): String
+    {
+        // Return substring containing all characters before a string.
+        if (username.indexOf("@") == -1) {
+            return ""
+        }
+        return username.substring(0, username.indexOf("@"))
     }
 
     private fun action(){
